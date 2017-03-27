@@ -2,6 +2,7 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  srcDir: 'views/',
   head: {
     title: 'starter',
     meta: [
