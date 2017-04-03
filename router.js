@@ -1,13 +1,13 @@
 const router = require('koa-router')()
+const User = require('./controllers/user')
 
 router.get('/123', async (ctx, next) => {
   ctx.response.body = '<h1>Index</h1>'
 })
 
-router.post('/admin/signin', async (ctx, next) => {
-  console.log('post signin info')
-  console.log(ctx.request.body)
-  ctx.status = 200
-})
+router.post('/admin/login', User.login)
+
+router.get('/createAdmin', User.createUser)
+
 
 module.exports = router

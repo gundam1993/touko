@@ -23,13 +23,13 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#3B8070' },
+  loading: false,
   /*
   ** Build configuration
   */
   plugins: ['~plugins/vuetify'],
   build: {
-    vendor: ['axios'],
+    vendor: ['axios','md5'],
     /*
     ** Run ESLINT on save
     */
