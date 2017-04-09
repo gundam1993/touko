@@ -7,6 +7,8 @@ const nuxt_config = require('./nuxt.config.js')
 
 const app = new Koa()
 
+app.keys = ['the suicidal mime']
+
 const isProduction = (app.env === 'production')
 
 // Init Nuxt.js

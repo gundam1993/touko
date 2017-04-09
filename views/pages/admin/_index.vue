@@ -4,6 +4,9 @@
 <script>
   export default {
     name: 'AdminIndex',
-    layout: 'admin'
+    layout: 'admin',
+    head: () => ({
+      title: '管理后台'
+    })
   }
 </script>

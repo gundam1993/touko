@@ -28,6 +28,9 @@ module.exports = {
   ** Build configuration
   */
   plugins: ['~plugins/vuetify'],
+  router: {
+    middleware: 'loginCheck'
+  },
   build: {
     vendor: ['axios','md5'],
     /*

@@ -55,6 +55,9 @@ export default {
       timeout: 2000
     }
   },
+  head: () => ({
+    title: '登录'
+  }),
   methods: {
     login () {
       this.loading = true
@@ -73,8 +76,7 @@ export default {
       )
     },
     loginSuccess (res) {
-      let sessionData = JSON.stringify(res.data)
-      sessionStorage.setItem('blog-login-info', sessionData)
+      localStorage['touko-blog-token'] = res.token
       this.$router.push('/admin')
     },
     loginFail (data) {
