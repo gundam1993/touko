@@ -4,7 +4,7 @@ const config = require('config-lite')
 var loginCheck = async(ctx, next) => {
   let token = ctx.headers['x-access-token']
   try {
-    let user = jwt.verify(token, config.jwt_key)
+    let user = jwt.verify(token, config.jwt.key)
     ctx.userInfo = user
      await next()
   }

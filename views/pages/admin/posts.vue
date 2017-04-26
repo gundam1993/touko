@@ -14,7 +14,7 @@
                 <v-progress-circular :size="70" :width="7" indeterminate class="red--text" />
               </td>
             </tr>
-            <template v-if="ready" v-for="(info, index) in table_info">
+            <template v-if="ready" v-for="(info, index) in tableInfo">
               <tr>
                 <td class="info_title" @click="$router.push(`/post/${info._id}`)">{{info.title}}</td>
                 <td>{{info.created_at}}</td>
@@ -65,7 +65,7 @@
       title: '文章列表'
     }),
     data: () => ({
-      table_info: [],
+      tableInfo: [],
       chosenId: '',
       chosenIndex: 0,
       modal: false,
@@ -81,7 +81,7 @@
     methods: {
       getTableInfo (pageSize, page) {
         this.$awtGet(`/api/admin/posts?pageSize=${pageSize}&page=${page}`).then((res) => {
-          this.table_info = res.data.posts
+          this.tableInfo = res.data.posts
           this.total = res.data.total
           this.ready = true
         })

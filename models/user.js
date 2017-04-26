@@ -1,5 +1,6 @@
 var sequelize = require('./database')
 const Sequelize = require('sequelize')
+const Post = require('./post.js')
 
 var User = sequelize.define('user', {
   id: {
@@ -18,5 +19,5 @@ var User = sequelize.define('user', {
 }, {
   timestamp: true
 })
-
+User.hasMany(Post, {as: 'Posts'})
 module.exports = User

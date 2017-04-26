@@ -20,12 +20,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: User,
-        //   key: 'id'
-        // }
+        references: {
+          model: User,
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

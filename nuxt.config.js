@@ -27,7 +27,7 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/vuetify'],
+  plugins: ['~plugins/vuetify', '~plugins/ajaxWithToken'],
   router: {
     middleware: 'loginCheck'
   },

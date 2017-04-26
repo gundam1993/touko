@@ -20,7 +20,7 @@ var Post = sequelize.define('post', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
-  user_id: {
+  userId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,

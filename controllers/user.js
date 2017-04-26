@@ -31,7 +31,8 @@ exports.login = async (ctx, next) => {
       let expires = Date.now() + (60 * 60 * 1000 * config.cookieExpires )
       if (passwordCheck) {
         var token = jwt.sign({
-            iss: user.id,
+            iss: 'touko',
+            userId: user.id,
             exp: expires
           }, config.jwt.key)
         ctx.status = 200

@@ -68,7 +68,7 @@
         this.sidebar_display = !this.sidebar_display
       },
       logout: function () {
-        sessionStorage.removeItem('blog-login-info')
+        localStorage.removeItem('touko-blog-token')
         this.$router.push('/admin/login')
       }
     }
