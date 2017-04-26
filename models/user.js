@@ -1,17 +1,22 @@
-var sequlize = require('./database')
+var sequelize = require('./database')
 const Sequelize = require('sequelize')
 
-var User = sequlize.define('user', {
+var User = sequelize.define('user', {
   id: {
-    type: Sequelize.STRING(50),
-    primaryKey: true
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  username: Sequelize.STRING(100),
-  password: Sequelize.STRING(100),
+  username: {
+    type: Sequelize.STRING(100),
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING(100),
+    allowNull: false
+  },
 }, {
-  timestamp: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  timestamp: true
 })
 
 module.exports = User

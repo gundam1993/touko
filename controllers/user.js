@@ -9,7 +9,6 @@ exports.createUser =  async (ctx, next) => {
   var password = await bcrypt.hash(md5('021911'), config.bcrypt.saltRounds)
   console.log(password)
   var admin = await User.create({
-    id: 'd-' + now,
     username: 'gundam1993',
     password: password,
   })

@@ -1,9 +1,11 @@
 const router = require('koa-router')()
-const User = require('./controllers/user')
+const UserController = require('./controllers/user')
+const PostController = require('./controllers/post')
 
-router.post('/admin/login', User.login)
+router.post('/admin/login', UserController.login)
 
-router.get('/createAdmin', User.createUser)
+// router.get('/createAdmin', UserController.createUser)
 
+router.get('/api/admin/posts', PostController.getPosts)
 
 module.exports = router

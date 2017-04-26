@@ -69,7 +69,7 @@
       },
       logout: function () {
         sessionStorage.removeItem('blog-login-info')
-        this.$router.push('/login')
+        this.$router.push('/admin/login')
       }
     }
   }

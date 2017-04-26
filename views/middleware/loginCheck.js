@@ -1,14 +1,10 @@
 export default function (context) {
   let jwt = (context.isClient ? getTokenFromLocalStorage(context) : getTokenFromCookie(context))
-  if (context.route.name !== 'admin-login') {
-    if (!jwt) {
-      context.redirect('/admin/login')
-    }
+  if (context.route.name !== 'admin-login' && !jwt) {
+    context.redirect('/admin/login')
   }
-  if (context.route.name === 'admin-login') {
-    if (jwt) {
-      context.redirect('/admin')
-    }
+  if (context.route.name === 'admin-login' && jwt) {
+    context.redirect('/admin')
   }
 }
 

@@ -41,7 +41,7 @@
           </tbody>
         </table>
       </v-card>
-      <v-modal v-model="modal" title="Alert Dialog">
+      <v-dialog v-model="modal" title="Alert Dialog">
           <v-card>
             <v-card-text>
               <h2 class="title">确认要删除文章吗？</h2>
@@ -52,7 +52,7 @@
               <v-btn flat v-on:click.native="deletePost()" class="primary--text">确认</v-btn>
             </v-card-row>
           </v-card>
-      </v-modal>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -76,7 +76,7 @@
       ready: false
     }),
     mounted: function () {
-      // this.getTableInfo(this.pageSize, 1)
+      this.getTableInfo(this.pageSize, 1)
     },
     methods: {
       getTableInfo (pageSize, page) {
@@ -114,6 +114,7 @@
     height: 100%;
     table {
       height: 98%;
+      width: 100%;
     }
     thead tr th {
       padding: 15px;
