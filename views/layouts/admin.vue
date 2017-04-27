@@ -39,7 +39,7 @@
         }, {
           title: '发表文章',
           avatar: 'add',
-          route: '/admin/post/new'
+          route: '/admin/posts/new'
         }, {
           title: '分类管理',
           avatar: 'class',
@@ -68,8 +68,12 @@
         this.sidebar_display = !this.sidebar_display
       },
       logout: function () {
-        localStorage.removeItem('touko-blog-token')
-        this.$router.push('/admin/login')
+        this.$awtGet('/admin/logout').then((res) => {
+          if (res.data.success) {
+            localStorage.removeItem('touko-blog-token')
+            this.$router.push('/admin/login')
+          }
+        })
       }
     }
   }
@@ -79,12 +83,20 @@
   #main-page {
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';
-  }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s
+    main {
+      height: 100%;
+    }
+    .page-enter-active {
+      transition: all .3s ease;
+    }
+    .page-leave-active {
+      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .page-enter, .page-leave-to {
+      transform: translateX(10px);
+      opacity: 0;
+    }
   }
-  .fade-enter, .fade-leave-active {
-    opacity: 0
-  }
+  
 </style>

@@ -5,7 +5,7 @@ const PostController = require('./controllers/post')
 
 router.post('/admin/login', UserController.login)
 
-// router.get('/createAdmin', UserController.createUser)
+router.get('/admin/logout', loginCheck, UserController.logout)
 
 router.get('/api/admin/posts', loginCheck, PostController.getPosts)
 

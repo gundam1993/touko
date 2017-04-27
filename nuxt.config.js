@@ -28,11 +28,15 @@ module.exports = {
   ** Build configuration
   */
   plugins: ['~plugins/vuetify', '~plugins/ajaxWithToken'],
+  transition: {
+    name: 'page',
+    mode: 'out-in'
+  },
   router: {
     middleware: 'loginCheck'
   },
   build: {
-    vendor: ['axios','md5'],
+    vendor: ['axios', 'md5', 'simplemde'],
     /*
     ** Run ESLINT on save
     */

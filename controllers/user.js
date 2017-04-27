@@ -59,5 +59,9 @@ exports.login = async (ctx, next) => {
       desc: e.toString()
     }
   }
-  
+}
+
+exports.logout = async (ctx, next) => {
+  ctx.cookies.set('touko-blog-token', null)
+  ctx.response.body = {success: 1}
 }

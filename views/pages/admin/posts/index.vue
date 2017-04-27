@@ -2,44 +2,37 @@
   <div id="post-list-page">
     <div id="table-block">
       <v-card class="paper-block">
-        <table>
-          <thead>
-            <tr>
-              <th v-for="header in headers" v-text="header"></th>
-            </tr>
-          </thead>
-          <tbody >
-            <tr class="loading" v-if="!ready">
-              <td :colspan="this.headers.length" class="loading">
-                <v-progress-circular :size="70" :width="7" indeterminate class="red--text" />
-              </td>
-            </tr>
-            <template v-if="ready" v-for="(info, index) in tableInfo">
-              <tr>
-                <td class="info_title" @click="$router.push(`/post/${info._id}`)">{{info.title}}</td>
-                <td>{{info.created_at}}</td>
-                <td>{{info.pv}}</td>
-                <td>{{info.commentCount}}</td>
-                <td>
-                  <v-btn icon="icon" class="success--text" @click.native="$router.push(`/post/${info._id}`)">
-                    <v-icon>pageview</v-icon>
-                  </v-btn>
-                  <v-btn icon="icon" class="info--text" @click.native="$router.push(`/post/edit/${info._id}`)">
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                  <v-btn icon="icon" class="error--text" @click.native.stop="showDeleteDialog(info._id, index)">
-                    <v-icon>delete_forever</v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </template>
-            <tr>
-              <td class="pagination-block" :colspan="this.headers.length">
-                <v-pagination :length.number="Math.ceil(total / pageSize)" v-model="page" @input="pageChange"></v-pagination>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <v-card-title>
+            文章列表
+            <v-spacer></v-spacer>
+            <v-text-field
+              append-icon="search"
+              label="搜索"
+              single-line
+              hide-details
+              v-model="search"
+            ></v-text-field>
+          </v-card-title>
+        <v-data-table
+          :headers="headers"
+          v-model="tableInfo"
+          :search="search"
+          no-data-text="暂无文章"
+          no-results-text="无相似文章">
+          <template slot="items" scope="props">
+            <td class="text-xs-middle">{{ props.item.title }}</td>
+            <td class="text-xs-right">{{ props.item.createdAt }}</td>
+            <td class="text-xs-right">{{ props.item.pv }}</td>
+            <td class="text-xs-right">
+              <v-btn icon class="blue--text text--lighten-2">
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn icon class="red--text text--lighten-2">
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </td>
+          </template>
+        </v-data-table>
       </v-card>
       <v-dialog v-model="modal" title="Alert Dialog">
           <v-card>
@@ -72,7 +65,11 @@
       total: 0,
       page: 1,
       pageSize: 10,
-      headers: ['标题', '日期', '阅读', '评论', '操作'],
+      headers: [{text: '标题', value: 'title', left: true, sortable: false},
+                {text: '日期', value: 'createdAt'},
+                {text: '阅读', value: 'pv'},
+                {text: '操作', sortable: false}],
+      search: '',
       ready: false
     }),
     mounted: function () {
@@ -112,26 +109,10 @@
   #post-list-page {
     padding: 1rem;
     height: 100%;
-    table {
-      height: 98%;
-      width: 100%;
+
+    #table-block {
+      height: 100%;
     }
-    thead tr th {
-      padding: 15px;
-    }
-    tbody tr td {
-      padding: 4px;
-    }
-  }
-  th {
-    text-align: center;
-  }
-  td {
-    cursor: pointer;
-    text-align: center;
-  }
-  td.pagination-block {
-    text-align: left;
   }
   h2 {
     text-align: center;
