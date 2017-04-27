@@ -1,4 +1,4 @@
-# toko
+# touko
 
 > a blog system based on koa and vue
 
