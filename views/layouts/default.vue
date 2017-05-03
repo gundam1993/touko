@@ -18,7 +18,6 @@ export default {
   margin: 0;
   height: 100%;
   width: 100%;
-  text-align: center;
 }
 #__nuxt {
   height: 100%;

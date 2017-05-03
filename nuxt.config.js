@@ -19,7 +19,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['~assets/css/main.css'],
+  css: ['~assets/css/main.css', '~assets/css/highlight.min.css'],
   /*
   ** Customize the progress-bar color
   */
@@ -36,7 +36,7 @@ module.exports = {
     middleware: 'loginCheck'
   },
   build: {
-    vendor: ['axios', 'md5', 'simplemde'],
+    vendor: ['axios', 'md5', 'marked'],
     /*
     ** Run ESLINT on save
     */
