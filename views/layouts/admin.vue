@@ -3,7 +3,7 @@
     <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout"></tool-bar>
     <main>
       <side-bar :display='sidebar_display' :items="sidebar_item"></side-bar>
-      <v-content class='grey lighten-2'>
+      <v-content class='grey lighten-2 main-container'>
         <v-container fluid class='grey lighten-2'>
           <transition name="fade" mode="out-in">
             <nuxt/>
@@ -96,6 +96,9 @@
     .page-enter, .page-leave-to {
       transform: translateX(10px);
       opacity: 0;
+    }
+    .main-container {
+      overflow: auto;
     }
   }
   
