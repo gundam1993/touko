@@ -1,7 +1,7 @@
 <template>
   <div id="markdown-editor" :class="fullscreen ? 'fullscreen' : ''"  @keyup.esc="fullscreen = false">
     <div class="textarea-container">
-      <textarea class="pt-1" :class="column ? 'two-column' : ''" name="main-content" :placeholder="placeholder" id="main-content" v-model='content' :rows="rows"></textarea>
+      <textarea class="pt-1" :class="column ? 'two-column' : ''" name="main-content" :placeholder="placeholder" id="main-content" v-model='content' :rows="rows" @input="handleInput"></textarea>
       <div class="preview-block" :class="column ? 'two-column' : ''" v-if="preview" v-html="mark(content)">
       </div>
     </div>
@@ -24,17 +24,12 @@
   import marked from 'marked'
   export default {
     data: () => ({
-      content: '',
+      content: this.value,
       mark: {},
       preview: false,
       column: false,
       fullscreen: false
     }),
-    watch: {
-      content: function (newValue, oldValue) {
-        this.$emit('contentChange', newValue)
-      }
-    },
     props: {
       rows: {
         type: Number,
@@ -43,7 +38,8 @@
       placeholder: {
         type: String,
         default: '有什么想说的吗？'
-      }
+      },
+      value: [String, Number]
     },
     created () {
       this.mark = marked.setOptions({
@@ -61,6 +57,10 @@
       })
     },
     methods: {
+      handleInput (event) {
+        let value = event.target.value
+        this.$emit('input', value)
+      },
       showPreview () {
         this.preview = !this.preview
         this.column = false

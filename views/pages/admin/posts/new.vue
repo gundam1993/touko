@@ -12,6 +12,7 @@
       <v-card-text class='pt-0'>
         <markdownEditor 
           :rows="19"
+          v-model="post.content"
           @contentChange="contentChange"></markdownEditor>
       </v-card-text>
       <v-divider />
@@ -43,7 +44,7 @@
     },
     methods: {
       contentChange (value) {
-        this.post.content = value
+        // this.post.content = value
       }
     }
   }
