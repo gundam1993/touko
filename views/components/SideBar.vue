@@ -1,5 +1,5 @@
 <template>
-  <v-sidebar id="side-bar" class="white"  left fixed  v-model="display">
+  <v-sidebar id="side-bar" class="white"  left fixed  v-model="sideBarDisplay">
     <v-list>
       <template v-for="item in items">
         <v-list-group v-if="item.items" :key="item.title">
@@ -41,6 +41,9 @@
 <script>
   export default {
     name: 'SideBar',
+    data: () => ({
+      sideBarDisplay: this.display
+    }),
     props: {
       display: {
         type: Boolean,
@@ -49,6 +52,14 @@
       items: {
         type: Array,
         required: true
+      }
+    },
+    watch: {
+      sideBarDisplay (newVal, oldVal) {
+        this.$emit('barChange', newVal)
+      },
+      display (newVal, oldVal) {
+        this.sideBarDisplay = newVal
       }
     }
   }

@@ -13,6 +13,7 @@
         <markdownEditor 
           :rows="19"
           v-model="post.content"
+          imgUploadUrl="/api/imgUpload"
           @contentChange="contentChange"></markdownEditor>
       </v-card-text>
       <v-divider />

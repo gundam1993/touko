@@ -2,7 +2,7 @@
   <v-app class='grey lighten-2' id="main-page" top-fixed-toolbar :left-fixed-sidebar="sidebar_display" sidebar-under-toolbar>
     <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout"></tool-bar>
     <main>
-      <side-bar :display='sidebar_display' :items="sidebar_item"></side-bar>
+      <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
       <v-content class='grey lighten-2 main-container'>
         <v-container fluid class='grey lighten-2'>
           <transition name="fade" mode="out-in">
@@ -64,10 +64,15 @@
       }]
     }),
     methods: {
-      toggleSidebar: function () {
+      toggleSidebar () {
         this.sidebar_display = !this.sidebar_display
       },
-      logout: function () {
+      barChange (e) {
+        if (this.sidebar_display !== e) {
+          this.sidebar_display = e
+        }
+      },
+      logout () {
         this.$awtGet('/admin/logout').then((res) => {
           if (res.data.success) {
             localStorage.removeItem('touko-blog-token')

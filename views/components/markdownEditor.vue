@@ -1,7 +1,15 @@
 <template>
   <div id="markdown-editor" :class="fullscreen ? 'fullscreen' : ''"  @keyup.esc="fullscreen = false">
     <div class="textarea-container">
-      <textarea class="pt-1" :class="column ? 'two-column' : ''" name="main-content" :placeholder="placeholder" id="main-content" v-model='content' :rows="rows" @input="handleInput"></textarea>
+      <textarea class="pt-1" 
+                :class="column ? 'two-column' : ''" 
+                name="main-content" 
+                :placeholder="placeholder" 
+                id="main-content" 
+                v-model='content' 
+                :rows="rows" 
+                @input="handleInput"
+                @paste="handlePaste"></textarea>
       <div class="preview-block" :class="column ? 'two-column' : ''" v-if="preview" v-html="mark(content)">
       </div>
     </div>
@@ -39,6 +47,11 @@
         type: String,
         default: '有什么想说的吗？'
       },
+      imgUpload: {
+        type: Boolean,
+        default: true
+      },
+      imgUploadUrl: String,
       value: [String, Number]
     },
     created () {
@@ -60,6 +73,9 @@
       handleInput (event) {
         let value = event.target.value
         this.$emit('input', value)
+      },
+      handlePaste (event) {
+        console.log(event)
       },
       showPreview () {
         this.preview = !this.preview
