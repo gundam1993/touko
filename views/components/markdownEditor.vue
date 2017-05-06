@@ -4,6 +4,7 @@
       <textarea class="pt-1" 
                 :class="column ? 'two-column' : ''" 
                 name="main-content" 
+                ref="mainContent"
                 :placeholder="placeholder" 
                 id="main-content" 
                 v-model='content' 
@@ -32,7 +33,7 @@
   import marked from 'marked'
   export default {
     data: () => ({
-      content: this.value,
+      content: this.value || '',
       mark: {},
       preview: false,
       column: false,
@@ -75,12 +76,16 @@
         this.$emit('input', value)
       },
       handlePaste (event) {
-        console.log(event)
+        let file = event.clipboardData.files[event.clipboardData.files.length - 1]
+        if (file && /^image/.test(file.type)) {
+          event.preventDefault()
+          console.log(file)
+          this.buildFileReader(file)
+        }
       },
       showPreview () {
         this.preview = !this.preview
         this.column = false
-        console.log(this.preview)
       },
       setColumn () {
         this.preview = !this.column
@@ -88,6 +93,33 @@
       },
       setFullscreen () {
         this.fullscreen = !this.fullscreen
+      },
+      buildFileReader (file) {
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = (e) => {
+          this.uploadImg(e.target.result)
+        }
+      },
+      uploadImg (img) {
+        this.$awtPost('/api/admin/upload_img', {img: img}).then((res) => {
+          if (res.data.success) {
+            this.pasteImg(res.data.src)
+          }
+        })
+      },
+      pasteImg (src) {
+        let start = this.$refs.mainContent.selectionStart
+        let end = this.$refs.mainContent.selectionEnd
+        let insert = `![](${src})`
+        let content = this.content.substring(0, start) + insert + this.content.substring(end, this.content.length)
+        this.content = content
+        // 修改内容赋值时不可以直接赋给绑定的变量，否则之后光标位置调整的步骤会失效
+        this.$refs.mainContent.value = content
+        this.$refs.mainContent.focus()
+        this.$refs.mainContent.setSelectionRange(start + 2, start + 2)
+        // 手动触发input事件，让外层绑定的变量更新
+        this.$emit('input', content)
       }
     }
   }
