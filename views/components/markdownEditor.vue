@@ -55,6 +55,13 @@
       imgUploadUrl: String,
       value: [String, Number]
     },
+    watch: {
+      value (newVal, oldVal) {
+        if (this.content !== this.value) {
+          this.content = this.value
+        }
+      }
+    },
     created () {
       this.mark = marked.setOptions({
         renderer: new marked.Renderer(),
@@ -98,11 +105,21 @@
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = (e) => {
-          this.uploadImg(e.target.result)
+          let data = e.target.result.split(',')[1]
+          data = window.atob(data)
+          let ia = new Uint8Array(data.length)
+          for (var i = 0; i < data.length; i++) {
+            ia[i] = data.charCodeAt(i)
+          }
+          const blob = new Blob([ia], {type: 'image/png'})
+          console.log(blob)
+          this.uploadImg(blob)
         }
       },
       uploadImg (img) {
-        this.$awtPost('/api/admin/upload_img', {img: img}).then((res) => {
+        let fd = new FormData()
+        fd.append('file', img)
+        this.$awtPost(this.imgUploadUrl, fd).then((res) => {
           if (res.data.success) {
             this.pasteImg(res.data.src)
           }

@@ -13,16 +13,24 @@
         <markdownEditor 
           :rows="19"
           v-model="post.content"
-          imgUploadUrl="/api/imgUpload"
-          @contentChange="contentChange"></markdownEditor>
+          imgUploadUrl="/api/admin/upload_img"></markdownEditor>
       </v-card-text>
       <v-divider />
       <v-card-row actions >
-        <v-btn class="mr-3" default dark large>重置</v-btn>
-
-        <v-btn  error dark large>发布</v-btn>
+        <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
+        <v-btn  error dark large @click.native="submitPost">发布</v-btn>
       </v-card-row>
     </v-card>
+    <v-dialog v-model="alert">
+      <v-card>
+        <v-card-row>
+          <v-card-text>{{msg}}</v-card-text>
+        </v-card-row>
+        <v-card-row actions>
+          <v-btn class="red--text darken-1" flat="flat" @click.native="alert = false">确认</v-btn>
+        </v-card-row>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -38,14 +46,30 @@
       post: {
         title: '',
         content: ''
-      }
+      },
+      msg: '',
+      alert: false,
+      token: ''
     }),
     components: {
       markdownEditor
     },
     methods: {
-      contentChange (value) {
-        // this.post.content = value
+      resetPost () {
+        this.post.title = ''
+        this.post.content = ''
+      },
+      submitPost () {
+        this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
+          if (res.data.success) {
+            this.post.title = ''
+            this.post.content = ''
+            this.$router.push('/admin/posts')
+          } else {
+            this.msg = res.data.msg
+            this.alert = true
+          }
+        })
       }
     }
   }
@@ -55,5 +79,9 @@
   #new-post-page {
     padding: 1rem;
     height: 100%;
+
+    .dialog__container {
+      display: block;
+    }
   }
 </style>

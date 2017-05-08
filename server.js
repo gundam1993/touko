@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const server_config = require('config-lite')
 const router = require('./router')
-var bodyParser = require('koa-bodyparser')
+var koaBody = require('koa-body')
 const Nuxt = require('nuxt')
 const nuxt_config = require('./nuxt.config.js')
 
@@ -22,7 +22,7 @@ app.use(async (ctx, next) => {
   await next();
 })
 //bodyparser
-app.use(bodyParser())
+app.use(koaBody({multipart: true}))
 // add router middleware:
 app.use(router.routes());
 // Build only in dev mode
