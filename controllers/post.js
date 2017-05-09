@@ -2,22 +2,38 @@ const config = require('config-lite')
 const Post = require('../models/post')
 const qiniu = require('qiniu')
 const axios = require('axios')
-const FormData = require('form-data')
-const fs = require('fs')
 
-//获取所有文章，续登录
+//按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
-  console.log(ctx.userInfo)
   const pageSize = ctx.query.pageSize
   const page = ctx.query.page
+  const search = ctx.query.search || ''
   const userId = ctx.userInfo.userId
-  let posts = await Post.findAll({ where: {userId: userId}})
-  const total = posts.length
-  const tableInfo = posts.slice(pageSize * (page - 1), pageSize* page)
-  ctx.response.body = {success: 1, total: total, posts: tableInfo}
+  let posts
+  let total
+  if (search === '') {
+    [total, posts] =  await Promise.all([
+      Post.count({where: {userId: userId}}),
+      Post.findAll({ where: {userId: userId},
+                     attributes: {exclude: ['content', 'updatedAt'] },
+                     order: [['id', 'DESC']],
+                     limit: pageSize,
+                     offset: pageSize * page})
+    ])
+  } else {
+    [total, posts] =  await Promise.all([
+      Post.count({where: {userId: userId, title:{$like: `%${search}%`}}}),
+      Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
+                     attributes: {exclude: ['content', 'updatedAt'] },
+                     order: [['id', 'DESC']],
+                     limit: pageSize,
+                     offset: pageSize * page})
+    ])
+  }
+  ctx.response.body = {success: 1, total: total, posts: posts}
 }
 
-// markdown编辑器粘贴图片自动上传
+// 生成上传图片用token
 exports.getQiNiuToken = async (ctx, next) => {
   let data = ctx.request.body
   qiniu.conf.ACCESS_KEY = config.qiniu.AccessKey

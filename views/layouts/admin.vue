@@ -41,10 +41,6 @@
           avatar: 'add',
           route: '/admin/posts/new'
         }, {
-          title: '分类管理',
-          avatar: 'class',
-          route: '/admin/post/new'
-        }, {
           title: '草稿箱',
           avatar: 'backup',
           route: '/admin/post/new'

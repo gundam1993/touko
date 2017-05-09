@@ -36,7 +36,7 @@ module.exports = {
     middleware: 'loginCheck'
   },
   build: {
-    vendor: ['axios', 'md5', 'marked'],
+    vendor: ['axios', 'md5', 'marked', 'highlight.js', 'moment'],
     /*
     ** Run ESLINT on save
     */

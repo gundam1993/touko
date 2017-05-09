@@ -2,37 +2,79 @@
   <div id="post-list-page">
     <div id="table-block">
       <v-card class="paper-block">
-          <v-card-title>
-            文章列表
-            <v-spacer></v-spacer>
-            <v-text-field
-              append-icon="search"
-              label="搜索"
-              single-line
-              hide-details
-              v-model="search"
-            ></v-text-field>
-          </v-card-title>
-        <v-data-table
-          :headers="headers"
-          v-model="tableInfo"
-          :search="search"
-          no-data-text="暂无文章"
-          no-results-text="无相似文章">
-          <template slot="items" scope="props">
-            <td class="text-xs-middle">{{ props.item.title }}</td>
-            <td class="text-xs-right">{{ props.item.createdAt }}</td>
-            <td class="text-xs-right">{{ props.item.pv }}</td>
-            <td class="text-xs-right">
-              <v-btn icon class="blue--text text--lighten-2">
-                <v-icon>edit</v-icon>
-              </v-btn>
-              <v-btn icon class="red--text text--lighten-2">
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </td>
-          </template>
-        </v-data-table>
+        <v-card-title>
+          文章列表
+          <v-spacer></v-spacer>
+          <v-text-field
+            append-icon="search"
+            label="搜索"
+            single-line
+            hide-details
+            v-model="search"
+          ></v-text-field>
+        </v-card-title>
+        <v-card-row>
+          <table class="datatable table">
+            <thead>
+              <tr>
+                <th class='column sortable text-xs-center' v-for="item in headers">{{item.text}}</th>
+              </tr> 
+            </thead>
+            <tbody>
+              <tr v-for="item in tableInfo">
+                <td class="text-xs-center title">{{ item.title }}</td>
+                <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
+                <td class="text-xs-center">{{ item.pv }}</td>
+                <td class="text-xs-right">
+                  <v-btn icon class="blue--text text--lighten-2">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn icon class="red--text text--lighten-2">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </td>
+              </tr>
+              <tr v-if="search === '' && tableInfo.length === 0 && ready">
+                <td  class="text-xs-center" colspan="100%">暂无文章</td>
+              </tr>
+              <tr v-if="search !== '' && tableInfo.length === 0 && ready">
+                <td  class="text-xs-center" colspan="100%">无相似文章</td>
+              </tr>
+              <tr v-if="!ready">
+                <td class="text-xs-center" style="height:29rem" colspan="100%">
+                  <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="red--text" />
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%">
+                  <div class="datatable__actions">
+                    <div class="datatable__actions__select">
+                      Rows per page:
+                      <v-menu offset-y>
+                        <div class="input-group input-group--dirty input-group--light input-group--append-icon input-group--hide-details input-group--text-field input-group--select" slot="activator">
+                          <div class="input-group__selections__comma">{{pageSize}}</div>
+                          <i class="material-icons icon input-group__append-icon">arrow_drop_down</i>
+                        </div>
+                        <v-list>
+                          <v-list-item v-for="item in pageSizeList" :key="item" @click="pageSizeChange(item)">
+                            <v-list-tile>
+                              <v-list-tile-title>{{ item }}</v-list-tile-title>
+                            </v-list-tile>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </div>
+                    <div v-if="tableInfo.length > 0" class="datatable__actions__pagination">{{1 + pageSize * page}}-{{pageSize * page + tableInfo.length}} of {{total}}</div>
+                    <div v-else class="datatable__actions__pagination">0-0 of 0</div>
+                    <v-pagination class="pagination" v-bind:length.number="paginationLength" v-model="paginationPage" @input="pageChange" />
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </v-card-row>
       </v-card>
       <v-dialog v-model="modal" title="Alert Dialog">
           <v-card>
@@ -63,25 +105,44 @@
       chosenIndex: 0,
       modal: false,
       total: 0,
-      page: 1,
+      page: 0,
       pageSize: 10,
-      headers: [{text: '标题', value: 'title', left: true, sortable: false},
-                {text: '日期', value: 'createdAt'},
-                {text: '阅读', value: 'pv'},
-                {text: '操作', sortable: false}],
+      pageSizeList: [5, 10, 15, 20, 25, 30, 'All'],
+      headers: [{text: '标题'}, {text: '日期'}, {text: '阅读'}, {text: '操作'}],
       search: '',
       ready: false
     }),
+    computed: {
+      paginationPage () {
+        return this.page + 1
+      },
+      paginationLength () {
+        if (this.pageSize !== 'All') {
+          return parseInt(this.total / this.pageSize) + 1
+        } else {
+          return 1
+        }
+      }
+    },
+    watch: {
+      search (newVal, oldVal) {
+        this.getTableInfo(this.pageSize, 0, newVal)
+      }
+    },
     mounted: function () {
-      this.getTableInfo(this.pageSize, 1)
+      this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
-      getTableInfo (pageSize, page) {
-        this.$awtGet(`/api/admin/posts?pageSize=${pageSize}&page=${page}`).then((res) => {
+      getTableInfo (pageSize, page, search) {
+        this.$awtGet(`/api/admin/posts?pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
           this.tableInfo = res.data.posts
           this.total = res.data.total
           this.ready = true
         })
+      },
+      dateTransform (date) {
+        let newDate = new Date(date)
+        return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
         this.$awtGet(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
@@ -96,10 +157,16 @@
         this.chosenIndex = index
         this.modal = true
       },
+      pageSizeChange (item) {
+        this.ready = false
+        this.pageSize = item
+        this.page = 0
+        this.getTableInfo(this.pageSize, this.page, this.search)
+      },
       pageChange (event) {
         this.ready = false
-        this.getTableInfo(this.pageSize, event)
-        this.page = event
+        this.page = event - 1
+        this.getTableInfo(this.pageSize, event - 1, this.search)
       }
     }
   }
@@ -112,6 +179,23 @@
 
     #table-block {
       height: 100%;
+
+      .datatable.table {
+        tbody tr td.title {
+          width: 50%;
+          cursor: pointer;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .pagination {
+        float: right;
+        .pagination__item--active {
+          background-color: #e57373 !important;
+        }
+      }
     }
   }
   h2 {
