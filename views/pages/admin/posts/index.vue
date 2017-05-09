@@ -15,22 +15,22 @@
         </v-card-title>
         <v-card-row>
           <table class="datatable table">
-            <thead>
+            <thead style="border-bottom: 1px solid #e0e0e0">
               <tr>
                 <th class='column sortable text-xs-center' v-for="item in headers">{{item.text}}</th>
               </tr> 
             </thead>
             <tbody>
-              <tr v-for="item in tableInfo">
-                <td class="text-xs-center title">{{ item.title }}</td>
+              <tr v-for="(item, index) in tableInfo">
+                <td class="text-xs-center title" @click="$router.push(`/admin/post/edit/${item.id}`)">{{ item.title }}</td>
                 <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
                   <v-btn icon class="blue--text text--lighten-2">
                     <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn icon class="red--text text--lighten-2">
-                    <v-icon>delete</v-icon>
+                  <v-btn icon class="red--text text--lighten-2" >
+                    <v-icon @click.native="showDeleteDialog()">delete</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -58,7 +58,7 @@
                           <i class="material-icons icon input-group__append-icon">arrow_drop_down</i>
                         </div>
                         <v-list>
-                          <v-list-item v-for="item in pageSizeList" :key="item" @click="pageSizeChange(item)">
+                          <v-list-item v-for="item in pageSizeList" :key="item" @click="pageSizeChange(item, item.id, index)">
                             <v-list-tile>
                               <v-list-tile-title>{{ item }}</v-list-tile-title>
                             </v-list-tile>
@@ -152,19 +152,18 @@
           }
         })
       },
-      showDeleteDialog (id, index) {
+      showDeleteDialog (e, id, index) {
+        event.cancelBubble = true
         this.chosenId = id
         this.chosenIndex = index
         this.modal = true
       },
       pageSizeChange (item) {
-        this.ready = false
         this.pageSize = item
         this.page = 0
         this.getTableInfo(this.pageSize, this.page, this.search)
       },
       pageChange (event) {
-        this.ready = false
         this.page = event - 1
         this.getTableInfo(this.pageSize, event - 1, this.search)
       }
@@ -184,6 +183,11 @@
         tbody tr td.title {
           width: 50%;
           cursor: pointer;
+
+          a {
+            color: rgba(0,0,0,.87);
+            text-decoration: none;
+          }
           
           &:hover {
             text-decoration: underline;

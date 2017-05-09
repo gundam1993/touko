@@ -5,8 +5,9 @@ const axios = require('axios')
 
 //按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
-  const pageSize = ctx.query.pageSize
-  const page = ctx.query.page
+  let pageSize = ctx.query.pageSize
+  if (pageSize ==='All') pageSize = 999999
+  const page = parseInt(ctx.query.page)
   const search = ctx.query.search || ''
   const userId = ctx.userInfo.userId
   let posts
@@ -60,4 +61,8 @@ exports.createPost = async (ctx, next) => {
   } else {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   }
+}
+
+exports.deletePost = async (ctx, next) => {
+  
 }

@@ -1,3 +1,5 @@
+const resolve = require('path').resolve
+
 module.exports = {
   /*
   ** Headers of the page
@@ -33,7 +35,14 @@ module.exports = {
     mode: 'out-in'
   },
   router: {
-    middleware: 'loginCheck'
+    middleware: 'loginCheck',
+    extendRoutes (routes) {
+      routes.push({
+        name: 'editPost',
+        path: '/posts/edit/:postId',
+        component: resolve(__dirname, 'views/pages/admin/posts/edit')
+      })
+    }
   },
   build: {
     vendor: ['axios', 'md5', 'marked', 'highlight.js', 'moment'],
