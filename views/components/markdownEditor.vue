@@ -53,7 +53,9 @@
         default: true
       },
       imgUploadUrl: String,
-      value: [String, Number]
+      imgBaseUrl: String,
+      value: [String, Number],
+      token: [String, Number]
     },
     watch: {
       value (newVal, oldVal) {
@@ -119,16 +121,15 @@
       uploadImg (img) {
         let fd = new FormData()
         fd.append('file', img)
+        fd.append('token', this.token)
         this.$awtPost(this.imgUploadUrl, fd).then((res) => {
-          if (res.data.success) {
-            this.pasteImg(res.data.src)
-          }
+          this.pasteImg(res.data.key)
         })
       },
       pasteImg (src) {
         let start = this.$refs.mainContent.selectionStart
         let end = this.$refs.mainContent.selectionEnd
-        let insert = `![](${src})`
+        let insert = `![](${this.imgBaseUrl}${src})`
         let content = this.content.substring(0, start) + insert + this.content.substring(end, this.content.length)
         this.content = content
         // 修改内容赋值时不可以直接赋给绑定的变量，否则之后光标位置调整的步骤会失效

@@ -10,7 +10,7 @@ router.get('/admin/logout', loginCheck, UserController.logout)
 router.get('/api/admin/posts', loginCheck, PostController.getPosts)
 // 发布文章
 router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
-// markdown编辑器粘贴图片自动上传
-router.post('/api/admin/upload_img', loginCheck, PostController.uploadImg)
+// 获取七牛云token
+router.get('/api/admin/get_qi_niu_token', loginCheck, PostController.getQiNiuToken)
 
 module.exports = router

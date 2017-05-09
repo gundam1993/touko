@@ -2,6 +2,8 @@ const config = require('config-lite')
 const Post = require('../models/post')
 const qiniu = require('qiniu')
 const axios = require('axios')
+const FormData = require('form-data')
+const fs = require('fs')
 
 //获取所有文章，续登录
 exports.getPosts = async (ctx, next) => {
@@ -16,18 +18,15 @@ exports.getPosts = async (ctx, next) => {
 }
 
 // markdown编辑器粘贴图片自动上传
-exports.uploadImg = async (ctx, next) => {
+exports.getQiNiuToken = async (ctx, next) => {
+  let data = ctx.request.body
   qiniu.conf.ACCESS_KEY = config.qiniu.AccessKey
   qiniu.conf.SECRET_KEY = config.qiniu.SecretKey
   //要上传的空间
   bucket = config.qiniu.bucket
   //生成上传 Token
-  const token = uptoken(bucket)
-  //生成七牛云token
-  function uptoken(bucket) {
-    let putPolicy = new qiniu.rs.PutPolicy(bucket)
-    return putPolicy.token()
-  }
+  let putPolicy = new qiniu.rs.PutPolicy(bucket)
+  const token = putPolicy.token()
   ctx.response.body = {success: 1, token: token}
 }
 

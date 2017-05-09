@@ -13,7 +13,9 @@
         <markdownEditor 
           :rows="19"
           v-model="post.content"
-          imgUploadUrl="/api/admin/upload_img"></markdownEditor>
+          :token="token"
+          imgUploadUrl="http://up.qiniu.com"
+          imgBaseUrl="http://oph4exrt7.bkt.clouddn.com/"></markdownEditor>
       </v-card-text>
       <v-divider />
       <v-card-row actions >
@@ -54,7 +56,17 @@
     components: {
       markdownEditor
     },
+    mounted () {
+      this.getQiNiuToken()
+    },
     methods: {
+      getQiNiuToken () {
+        this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
+          if (res.data.success) {
+            this.token = res.data.token
+          }
+        })
+      },
       resetPost () {
         this.post.title = ''
         this.post.content = ''

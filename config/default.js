@@ -15,6 +15,7 @@ module.exports = {
   },
   cookieExpires: 7,
   qiniu: {
+    uploadUrl: 'http://up.qiniu.com',
     AccessKey: 'n074yJ94NCNU2JiyHm528874gwtWD7ozVdI198Zh',
     SecretKey: '_uGwmseJXcNkpBMXSNyvWIj5UtvBnX964_xIu13A',
     bucket: 'blog',
