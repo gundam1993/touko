@@ -8,9 +8,10 @@
           <transition name="fade" mode="out-in">
             <nuxt @notification="showNotification" />
           </transition>
-          <v-snackbar :timeout="3000" :bottom="true" :right="true" v-model="notification">
-            {{notificationInfo}}
-            <v-btn flat class="red--text" @click.native="notification = false">关闭</v-btn>
+          <v-snackbar :timeout="3000" :bottom="true" :right="true" 
+                      v-model="$store.state.noticeDisplay" @input="noticeToggle">
+            {{$store.state.noticeInfo}}
+            <v-btn flat class="red--text" @click.native="">关闭</v-btn>
           </v-snackbar>
         </v-container>
       </v-content>
@@ -57,15 +58,8 @@
         title: '评论',
         avatar: 'comment',
         route: '/admin'
-      }],
-      notification: false,
-      notificationInfo: ''
+      }]
     }),
-    mounted () {
-      // this.$on('notification', function (msg) {
-      //   console.log(msg)
-      // })
-    },
     methods: {
       toggleSidebar () {
         this.sidebar_display = !this.sidebar_display
@@ -87,6 +81,11 @@
         console.log(event)
         this.notificationInfo = event
         this.notification = true
+      },
+      noticeToggle (event) {
+        if (event === false) {
+          this.$store.commit('noticeOff')
+        }
       }
     }
   }

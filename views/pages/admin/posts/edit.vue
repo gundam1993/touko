@@ -86,10 +86,9 @@
         this.$awtPost(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
           if (res.data.success) {
             console.log(res.data)
-            this.post.title = ''
-            this.post.content = ''
-            this.$emit('notification', '编辑成功')
-            // this.$router.push('/admin/posts')
+            this.$store.commit('noticeChange', { msg: '修改成功' })
+            this.$store.commit('noticeOn')
+            this.$router.push('/admin/posts')
           } else {
             this.msg = res.data.msg
             this.alert = true

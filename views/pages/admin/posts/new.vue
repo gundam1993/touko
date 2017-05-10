@@ -58,6 +58,10 @@
     mounted () {
       this.getQiNiuToken()
     },
+    beforeDestroy () {
+      this.post.title = ''
+      this.post.content = ''
+    },
     methods: {
       getQiNiuToken () {
         this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
@@ -73,8 +77,8 @@
       submitPost () {
         this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
           if (res.data.success) {
-            this.post.title = ''
-            this.post.content = ''
+            this.$store.commit('noticeChange', { msg: '发布成功' })
+            this.$store.commit('noticeOn')
             this.$router.push('/admin/posts')
           } else {
             this.msg = res.data.msg
