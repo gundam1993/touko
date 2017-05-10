@@ -19,7 +19,7 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn  error dark large @click.native="submitPost">发布</v-btn>
+        <v-btn  error light large :disabled="post.title===''" @click.native="submitPost">发布</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">

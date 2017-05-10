@@ -14,5 +14,8 @@ router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
 router.get('/api/admin/post/delete/:postId', loginCheck, PostController.deletePost)
 // 获取七牛云token
 router.get('/api/admin/get_qi_niu_token', loginCheck, PostController.getQiNiuToken)
-
+//获取文章详细信息
+router.get('/api/admin/post/:postId', loginCheck, PostController.getPostById)
+//修改文章
+router.post('/api/admin/post/:postId', loginCheck, PostController.editPost)
 module.exports = router

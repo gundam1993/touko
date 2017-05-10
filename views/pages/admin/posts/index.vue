@@ -22,15 +22,15 @@
             </thead>
             <tbody>
               <tr v-for="(item, index) in tableInfo">
-                <td class="text-xs-center title" @click="$router.push(`/admin/post/edit/${item.id}`)">{{ item.title }}</td>
+                <td class="text-xs-center title" @click="$router.push(`/admin/post/${item.id}`)">{{ item.title }}</td>
                 <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
                   <v-btn icon class="blue--text text--lighten-2">
-                    <v-icon>edit</v-icon>
+                    <v-icon @click.native="$router.push(`/admin/post/${item.id}/edit`)">edit</v-icon>
                   </v-btn>
                   <v-btn icon class="red--text text--lighten-2" >
-                    <v-icon @click.native="showDeleteDialog()">delete</v-icon>
+                    <v-icon @click.native="showDeleteDialog(item.id, index)">delete</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -39,11 +39,6 @@
               </tr>
               <tr v-if="search !== '' && tableInfo.length === 0 && ready">
                 <td  class="text-xs-center" colspan="100%">无相似文章</td>
-              </tr>
-              <tr v-if="!ready">
-                <td class="text-xs-center" style="height:29rem" colspan="100%">
-                  <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="red--text" />
-                </td>
               </tr>
             </tbody>
             <tfoot>
@@ -147,12 +142,12 @@
       deletePost () {
         this.$awtGet(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
           if (res.data.success) {
-            this.table_info.splice(this.chosenIndex, 1)
+            this.tableInfo.splice(this.chosenIndex, 1)
             this.modal = false
           }
         })
       },
-      showDeleteDialog (e, id, index) {
+      showDeleteDialog (id, index) {
         event.cancelBubble = true
         this.chosenId = id
         this.chosenIndex = index
@@ -178,6 +173,12 @@
 
     #table-block {
       height: 100%;
+
+      .loading {
+        height: 550px;
+        width: 100%;
+        text-align: center;
+      }
 
       .datatable.table {
         tbody tr td.title {
@@ -208,7 +209,5 @@
   .info_title:hover {
     text-decoration: underline;
   }
-  .loading {
-    height: 550px;
-  }
+
 </style>

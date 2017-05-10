@@ -6,8 +6,12 @@
       <v-content class='grey lighten-2 main-container'>
         <v-container fluid class='grey lighten-2'>
           <transition name="fade" mode="out-in">
-            <nuxt/>
+            <nuxt @notification="showNotification" />
           </transition>
+          <v-snackbar :timeout="3000" :bottom="true" :right="true" v-model="notification">
+            {{notificationInfo}}
+            <v-btn flat class="red--text" @click.native="notification = false">关闭</v-btn>
+          </v-snackbar>
         </v-container>
       </v-content>
     </main>
@@ -50,15 +54,18 @@
         avatar: 'photo',
         route: '/admin'
       }, {
-        title: '标签',
-        avatar: 'label',
-        route: '/admin'
-      }, {
         title: '评论',
         avatar: 'comment',
         route: '/admin'
-      }]
+      }],
+      notification: false,
+      notificationInfo: ''
     }),
+    mounted () {
+      // this.$on('notification', function (msg) {
+      //   console.log(msg)
+      // })
+    },
     methods: {
       toggleSidebar () {
         this.sidebar_display = !this.sidebar_display
@@ -75,6 +82,11 @@
             this.$router.push('/admin/login')
           }
         })
+      },
+      showNotification (event) {
+        console.log(event)
+        this.notificationInfo = event
+        this.notification = true
       }
     }
   }

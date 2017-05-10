@@ -19,7 +19,7 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn  error light large :disabled="post.title===''" @click.native="submitEdit">修改</v-btn>
+        <v-btn  error dark large @click.native="submitPost">发布</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">
@@ -38,16 +38,15 @@
 <script>
   import markdownEditor from '~components/markdownEditor'
   export default {
-    name: 'editPostPage',
+    name: 'NewPostPage',
     layout: 'admin',
     head: () => ({
-      title: '修改文章'
+      title: '发表文章'
     }),
     data: () => ({
       post: {
         title: '',
-        content: '',
-        id: ''
+        content: ''
       },
       msg: '',
       alert: false,
@@ -57,7 +56,6 @@
       markdownEditor
     },
     mounted () {
-      this.getPost()
       this.getQiNiuToken()
     },
     methods: {
@@ -72,24 +70,12 @@
         this.post.title = ''
         this.post.content = ''
       },
-      getPost () {
-        let id = this.$route.params.postId
-        this.$awtGet(`/api/admin/post/${id}`).then((res) => {
+      submitPost () {
+        this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
           if (res.data.success) {
-            this.post.title = res.data.post.title
-            this.post.content = res.data.post.content
-            this.post.id = res.data.post.id
-          }
-        })
-      },
-      submitEdit () {
-        this.$awtPost(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
-          if (res.data.success) {
-            console.log(res.data)
             this.post.title = ''
             this.post.content = ''
-            this.$emit('notification', '编辑成功')
-            // this.$router.push('/admin/posts')
+            this.$router.push('/admin/posts')
           } else {
             this.msg = res.data.msg
             this.alert = true

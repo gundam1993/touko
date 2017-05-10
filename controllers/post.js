@@ -3,7 +3,7 @@ const Post = require('../models/post')
 const qiniu = require('qiniu')
 const axios = require('axios')
 
-//按条件获取文章列表，需登录
+// 按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
   let pageSize = ctx.query.pageSize
   if (pageSize ==='All') pageSize = 999999
@@ -46,11 +46,10 @@ exports.getQiNiuToken = async (ctx, next) => {
   const token = putPolicy.token()
   ctx.response.body = {success: 1, token: token}
 }
-
+// 新建文章
 exports.createPost = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const post = ctx.request.body
-  console.log(userId)
   if (post.title && post.content) {
     let newPost = await Post.create({
       title: post.title,
@@ -62,7 +61,33 @@ exports.createPost = async (ctx, next) => {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   }
 }
-
+// 删除文章
 exports.deletePost = async (ctx, next) => {
-  
+  const userId = ctx.userInfo.userId
+  const postId = ctx.params.postId
+  let res = await Post.destroy({ where: {userId: userId, id: postId}})
+  ctx.response.body = {success: 1, msg: '删除成功'}
 }
+// 按id获取文章详细信息
+exports.getPostById = async (ctx, next) => {
+  const userId = ctx.userInfo.userId
+  const postId = ctx.params.postId
+  let post = await Post.findOne({ where: {userId: userId, id: postId},
+                                  attributes: {exclude: ['createdAt', 'updatedAt'] }})
+  ctx.response.body = {success: 1, post: post, msg: '查询成功'}
+}
+// 修改文章
+exports.editPost = async (ctx, next) => {
+  const userId = ctx.userInfo.userId
+  const postId = ctx.params.postId
+  const post = ctx.request.body
+  if (post.title === '') {
+    ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
+  } else {
+    let  newPost = await Post.update({ title: post.title, content: post.content},
+                                     { where: {userId: userId, id: postId},
+                                       fields: ['title', 'content']})
+    ctx.response.body = {success: 1, msg: '编辑成功'}
+  }
+}
+
