@@ -10,12 +10,14 @@ router.get('/admin/logout', loginCheck, UserController.logout)
 router.get('/api/admin/posts', loginCheck, PostController.getPosts)
 // 发布文章
 router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
-//删除文章
+// 删除文章
 router.get('/api/admin/post/delete/:postId', loginCheck, PostController.deletePost)
 // 获取七牛云token
 router.get('/api/admin/get_qi_niu_token', loginCheck, PostController.getQiNiuToken)
-//获取文章详细信息
+// 获取文章详细信息
 router.get('/api/admin/post/:postId', loginCheck, PostController.getPostById)
-//修改文章
+// 修改文章
 router.post('/api/admin/post/:postId', loginCheck, PostController.editPost)
+// 获取文章内容（无需登录)
+router.get('/api/post/:postId', PostController.getPostById)
 module.exports = router

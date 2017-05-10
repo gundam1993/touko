@@ -5,9 +5,7 @@
       <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
       <v-content class='grey lighten-2 main-container'>
         <v-container fluid class='grey lighten-2'>
-          <transition name="fade" mode="out-in">
-            <nuxt @notification="showNotification" />
-          </transition>
+          <nuxt />
           <v-snackbar :timeout="3000" :bottom="true" :right="true" 
                       v-model="$store.state.noticeDisplay" @input="noticeToggle">
             {{$store.state.noticeInfo}}
@@ -77,11 +75,6 @@
           }
         })
       },
-      showNotification (event) {
-        console.log(event)
-        this.notificationInfo = event
-        this.notification = true
-      },
       noticeToggle (event) {
         if (event === false) {
           this.$store.commit('noticeOff')
@@ -99,19 +92,14 @@
     main {
       height: 100%;
     }
-    .page-enter-active {
-      transition: all .3s ease;
-    }
-    .page-leave-active {
-      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-    .page-enter, .page-leave-to {
-      transform: translateX(10px);
-      opacity: 0;
-    }
     .main-container {
       overflow: auto;
     }
   }
-  
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
 </style>

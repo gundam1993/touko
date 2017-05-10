@@ -70,10 +70,10 @@ exports.deletePost = async (ctx, next) => {
 }
 // 按id获取文章详细信息
 exports.getPostById = async (ctx, next) => {
-  const userId = ctx.userInfo.userId
+  // const userId = ctx.userInfo.userId
   const postId = ctx.params.postId
-  let post = await Post.findOne({ where: {userId: userId, id: postId},
-                                  attributes: {exclude: ['createdAt', 'updatedAt'] }})
+  let post = await Post.findOne({ where: {id: postId},
+                                  attributes: {exclude: ['updatedAt'] }})
   ctx.response.body = {success: 1, post: post, msg: '查询成功'}
 }
 // 修改文章

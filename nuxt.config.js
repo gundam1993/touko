@@ -31,7 +31,7 @@ module.exports = {
   */
   plugins: ['~plugins/vuetify', '~plugins/ajaxWithToken'],
   transition: {
-    name: 'page',
+    name: 'fade',
     mode: 'out-in'
   },
   router: {

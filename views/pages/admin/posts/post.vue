@@ -1,84 +1,51 @@
 <template>
-  <div id="new-post-page">
-    <v-card class="paper-block">
-      <v-card-title class="pb-1">
-        <v-text-field
-          label="标题"
-          hide-details
-          v-model="post.title"
-        ></v-text-field>
-      </v-card-title>
-      <v-card-text class='pt-0'>
-        <markdownEditor 
-          :rows="19"
-          v-model="post.content"
-          :token="token"
-          imgUploadUrl="http://up.qiniu.com"
-          imgBaseUrl="http://oph4exrt7.bkt.clouddn.com/"></markdownEditor>
-      </v-card-text>
-      <v-divider />
-      <v-card-row actions >
-        <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn  error dark large @click.native="submitPost">发布</v-btn>
-      </v-card-row>
-    </v-card>
-    <v-dialog v-model="alert">
-      <v-card>
+  <div id="post-preview-page">
+    <div id="preview-block">
+      <v-card class="paper-block">
         <v-card-row>
-          <v-card-text>{{msg}}</v-card-text>
+          <div class="createdAt">
+            {{this.post.createdAt}}
+          </div>
         </v-card-row>
-        <v-card-row actions>
-          <v-btn class="red--text darken-1" flat="flat" @click.native="alert = false">确认</v-btn>
+        <v-card-title>
+          {{this.post.title}}
+        </v-card-title>
+        <v-card-row>
+         
         </v-card-row>
       </v-card>
-    </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-  import markdownEditor from '~components/markdownEditor'
+  import axios from 'axios'
   export default {
-    name: 'NewPostPage',
+    name: 'PostPreviewtPage',
     layout: 'admin',
-    head: () => ({
-      title: '发表文章'
-    }),
+    head () {
+      return {
+        title: this.post.title
+      }
+    },
     data: () => ({
       post: {
         title: '',
-        content: ''
-      },
-      msg: '',
-      alert: false,
-      token: ''
+        content: '',
+        createdAt: '',
+        pv: '',
+        id: ''
+      }
     }),
-    components: {
-      markdownEditor
-    },
-    mounted () {
-      this.getQiNiuToken()
+    created: function () {
+      this.getPost()
     },
     methods: {
-      getQiNiuToken () {
-        this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
+      getPost () {
+        let id = this.$route.params.postId
+        axios.get(`/api/post/${id}`).then((res) => {
           if (res.data.success) {
-            this.token = res.data.token
-          }
-        })
-      },
-      resetPost () {
-        this.post.title = ''
-        this.post.content = ''
-      },
-      submitPost () {
-        this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
-          if (res.data.success) {
-            this.post.title = ''
-            this.post.content = ''
-            this.$router.push('/admin/posts')
-          } else {
-            this.msg = res.data.msg
-            this.alert = true
+            this.post = res.data.post
           }
         })
       }
@@ -87,12 +54,32 @@
 </script>
 
 <style lang='scss' scoped>
-  #new-post-page {
+  #post-preview-page {
     padding: 1rem;
     height: 100%;
+    
+    .paper-block {
+      margin: auto;
+      padding: 1rem;
+      @media screen and (min-width: 768px) {
+        padding: 1rem 2rem;
+      }
+      @media screen and (min-width: 960px) {
+        padding: 2rem 4rem;
+      }
+      @media screen and (min-width: 1200px) {
+        padding: 3rem 6rem;
+        max-width: 1100px;
+      }
 
-    .dialog__container {
-      display: block;
     }
+    
   }
+  h2 {
+    text-align: center;
+  }
+  .info_title:hover {
+    text-decoration: underline;
+  }
+
 </style>

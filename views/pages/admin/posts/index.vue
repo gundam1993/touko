@@ -171,6 +171,15 @@
     padding: 1rem;
     height: 100%;
 
+    .paper-block {
+      margin: auto;
+
+      @media screen and (min-width: 1200px) {
+        max-width: 1100px;
+      }
+
+    }
+
     #table-block {
       height: 100%;
 
