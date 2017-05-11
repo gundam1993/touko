@@ -5,7 +5,7 @@
         <v-card-title>
           文章列表
           <v-spacer></v-spacer>
-          <v-text-field
+          <v-text-field class='search'
             append-icon="search"
             label="搜索"
             single-line
@@ -30,7 +30,7 @@
                     <v-icon @click.native="$router.push(`/admin/post/${item.id}/edit`)">edit</v-icon>
                   </v-btn>
                   <v-btn v-tooltip:bottom="{ html: '移至草稿箱' }"  icon class="amber--text text--lighten-2" >
-                    <v-icon @click.native="showDeleteDialog(item.id, index)">move_to_inbox</v-icon>
+                    <v-icon @click.native="moveToDraftBox(item.id, index)">move_to_inbox</v-icon>
                   </v-btn>
                   <v-btn v-tooltip:bottom="{ html: '删除' }"  icon class="red--text text--lighten-2" >
                     <v-icon @click.native="showDeleteDialog(item.id, index)">delete_forever</v-icon>
@@ -146,7 +146,19 @@
         this.$awtGet(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
           if (res.data.success) {
             this.tableInfo.splice(this.chosenIndex, 1)
+            this.total --
             this.modal = false
+            this.$store.commit('noticeChange', { msg: '删除成功' })
+            this.$store.commit('noticeOn')
+          }
+        })
+      },
+      moveToDraftBox (id, index) {
+        this.$awtGet(`/api/admin/post/move_to_draft/${id}`).then((res) => {
+          if (res.data.success) {
+            this.$store.commit('noticeChange', { msg: '移动成功' })
+            this.$store.commit('noticeOn')
+            this.tableInfo.splice(index, 1)
           }
         })
       },
@@ -214,6 +226,9 @@
         }
       }
     }
+  }
+  .search {
+    margin: 0.3rem 0;
   }
   h2 {
     text-align: center;

@@ -19,7 +19,8 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn  error light large :disabled="post.title===''" @click.native="submitPost">发布</v-btn>
+        <v-btn class='mr-3'  warning light large :disabled="post.title===''" @click.native="submitPost(false)">存草稿</v-btn>
+        <v-btn  error light large :disabled="post.title===''" @click.native="submitPost(true)">发布</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">
@@ -46,7 +47,8 @@
     data: () => ({
       post: {
         title: '',
-        content: ''
+        content: '',
+        display: true
       },
       msg: '',
       alert: false,
@@ -74,12 +76,18 @@
         this.post.title = ''
         this.post.content = ''
       },
-      submitPost () {
+      submitPost (display) {
+        this.post.display = display
         this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
           if (res.data.success) {
-            this.$store.commit('noticeChange', { msg: '发布成功' })
-            this.$store.commit('noticeOn')
-            this.$router.push('/admin/posts')
+            if (display) {
+              this.$store.commit('noticeChange', { msg: '发布成功' })
+              this.$store.commit('noticeOn')
+              this.$router.push('/admin/posts')
+            } else {
+              this.$store.commit('noticeChange', { msg: '保存成功' })
+              this.$store.commit('noticeOn')
+            }
           } else {
             this.msg = res.data.msg
             this.alert = true

@@ -3,8 +3,9 @@ const Post = require('../models/post')
 const qiniu = require('qiniu')
 const axios = require('axios')
 
-// 按条件获取已发布文章列表，需登录
+// 按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
+  let display = !(ctx.query.display === 'false')
   let pageSize = ctx.query.pageSize
   if (pageSize ==='All') pageSize = 999999
   const page = parseInt(ctx.query.page)
@@ -14,8 +15,8 @@ exports.getPosts = async (ctx, next) => {
   let total
   if (search === '') {
     [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId, display: true}}),
-      Post.findAll({ where: {userId: userId, display: true},
+      Post.count({where: {userId: userId, display: display}}),
+      Post.findAll({ where: {userId: userId, display: display},
                      attributes: {exclude: ['content', 'updatedAt'] },
                      order: [['id', 'DESC']],
                      limit: pageSize,
@@ -23,8 +24,8 @@ exports.getPosts = async (ctx, next) => {
     ])
   } else {
     [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId, display: true, title:{$like: `%${search}%`}}}),
-      Post.findAll({ where: {userId: userId, display: true, title:{$like: `%${search}%`}},
+      Post.count({where: {userId: userId, display: display, title:{$like: `%${search}%`}}}),
+      Post.findAll({ where: {userId: userId, display: display, title:{$like: `%${search}%`}},
                      attributes: {exclude: ['content', 'updatedAt'] },
                      order: [['id', 'DESC']],
                      limit: pageSize,
@@ -50,10 +51,12 @@ exports.getQiNiuToken = async (ctx, next) => {
 exports.createPost = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const post = ctx.request.body
+  console.log(post.display)
   if (post.title && post.content) {
     let newPost = await Post.create({
       title: post.title,
       content: post.content,
+      display: post.display,
       userId: userId
     })
     ctx.response.body = {success: 1, msg: '发布成功'}
@@ -70,7 +73,6 @@ exports.deletePost = async (ctx, next) => {
 }
 // 按id获取文章详细信息
 exports.getPostById = async (ctx, next) => {
-  // const userId = ctx.userInfo.userId
   const postId = ctx.params.postId
   let post = await Post.findOne({ where: {id: postId},
                                   attributes: {exclude: ['updatedAt'] }})
@@ -85,10 +87,28 @@ exports.editPost = async (ctx, next) => {
   if (post.title === '') {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   } else {
-    let  newPost = await Post.update({ title: post.title, content: post.content},
+    let  newPost = await Post.update({ title: post.title, content: post.content, display: post.display},
                                      { where: {userId: userId, id: postId},
-                                       fields: ['title', 'content']})
+                                       fields: ['title', 'content', 'display']})
     ctx.response.body = {success: 1, msg: '编辑成功'}
   }
+}
+
+// 将已发布的文章移到草稿箱
+exports.moveToDraft = async (ctx, next) => {
+  const userId = ctx.userInfo.userId
+  const postId = ctx.params.postId
+  await Post.update({ display: false },
+                    { where: { userId: userId, id: postId }})
+  ctx.response.body = {success: 1, msg: '移动成功'}
+}
+
+// 从草稿箱发布文章
+exports.publishPost = async (ctx, next) => {
+  const userId = ctx.userInfo.userId
+  const postId = ctx.params.postId
+  await Post.update({ display: true },
+                    { where: { userId: userId, id: postId }})
+  ctx.response.body = {success: 1, msg: '发布成功'}
 }
 
