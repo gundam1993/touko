@@ -20,7 +20,7 @@
                   <v-text-field v-model="form.username" refs="username_input" label="用户名" single-line prepend-icon="account_circle" :rules="username_rules" required></v-text-field>
                 </v-row>
                 <v-row>
-                  <v-text-field v-model="form.password" name="password-input" label="密码" type="password" single-line prepend-icon="vpn_key" :rules="password_rules" required></v-text-field>
+                  <v-text-field v-model="form.password" name="password-input" label="密码" type="password" single-line prepend-icon="vpn_key" :rules="password_rules" @keyup.enter.native="login" required></v-text-field>
                 </v-row>
                 <v-row class="login-button-area">
                   <v-btn error v-bind:loading="loading"  v-on:click.native="login"  v-bind:disabled="loading">登录</v-btn>

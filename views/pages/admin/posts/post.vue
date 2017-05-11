@@ -4,14 +4,15 @@
       <v-card class="paper-block">
         <v-card-row>
           <div class="createdAt">
-            {{this.post.createdAt}}
+            {{dateTransform(this.post.createdAt)}}
           </div>
         </v-card-row>
         <v-card-title>
-          {{this.post.title}}
+          <h3>{{this.post.title}}</h3>
         </v-card-title>
         <v-card-row>
-         
+          <div class="main-content" v-html="mainContent">
+          </div>
         </v-card-row>
       </v-card>
     </div>
@@ -20,6 +21,8 @@
 
 <script>
   import axios from 'axios'
+  import moment from 'moment'
+  import marked from 'marked'
   export default {
     name: 'PostPreviewtPage',
     layout: 'admin',
@@ -37,6 +40,11 @@
         id: ''
       }
     }),
+    computed: {
+      mainContent () {
+        return marked(this.post.content)
+      }
+    },
     created: function () {
       this.getPost()
     },
@@ -48,6 +56,9 @@
             this.post = res.data.post
           }
         })
+      },
+      dateTransform (date) {
+        return moment(date).format('MMMM Do YYYY')
       }
     }
   }
@@ -72,6 +83,17 @@
         max-width: 1100px;
       }
 
+    }
+
+    .createdAt {
+      color: #979797;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .main-content  {
+      padding: 0 16px;
+      width: 100%;
     }
     
   }

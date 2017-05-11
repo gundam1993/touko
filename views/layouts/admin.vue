@@ -45,7 +45,7 @@
           route: '/admin/posts/new'
         }, {
           title: '草稿箱',
-          avatar: 'backup',
+          avatar: 'inbox',
           route: '/admin/post/new'
         }]
       }, {
@@ -55,6 +55,10 @@
       }, {
         title: '评论',
         avatar: 'comment',
+        route: '/admin'
+      }, {
+        title: '设置',
+        avatar: 'settings',
         route: '/admin'
       }]
     }),

@@ -50,7 +50,7 @@ module.exports = {
     }
   },
   build: {
-    vendor: ['axios', 'md5', 'marked', 'highlight.js'],
+    vendor: ['axios', 'md5', 'marked', 'highlight.js', 'moment'],
     /*
     ** Run ESLINT on save
     */

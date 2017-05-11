@@ -4,7 +4,7 @@
     <v-toolbar-title class="hidden-sm-and-down">Blog</v-toolbar-title>
     <v-spacer />
     <v-btn icon dark>
-      <v-icon>account_circle</v-icon>
+      <v-icon>home</v-icon>
     </v-btn>
     <v-btn icon dark @click.native.stop="powerIconCilck">
       <v-icon>power_settings_new</v-icon>

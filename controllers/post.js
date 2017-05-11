@@ -74,6 +74,7 @@ exports.getPostById = async (ctx, next) => {
   const postId = ctx.params.postId
   let post = await Post.findOne({ where: {id: postId},
                                   attributes: {exclude: ['updatedAt'] }})
+  post.update({pv: post.pv + 1})
   ctx.response.body = {success: 1, post: post, msg: '查询成功'}
 }
 // 修改文章
