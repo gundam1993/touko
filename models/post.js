@@ -20,6 +20,10 @@ var Post = sequelize.define('post', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
+  display: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
   userId: {
     type: Sequelize.INTEGER,
     references: {

@@ -46,7 +46,7 @@
         }, {
           title: '草稿箱',
           avatar: 'inbox',
-          route: '/admin/post/new'
+          route: '/admin/posts/draftbox'
         }]
       }, {
         title: '图片',

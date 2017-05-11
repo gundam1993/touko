@@ -3,7 +3,7 @@ const Post = require('../models/post')
 const qiniu = require('qiniu')
 const axios = require('axios')
 
-// 按条件获取文章列表，需登录
+// 按条件获取已发布文章列表，需登录
 exports.getPosts = async (ctx, next) => {
   let pageSize = ctx.query.pageSize
   if (pageSize ==='All') pageSize = 999999
@@ -14,8 +14,8 @@ exports.getPosts = async (ctx, next) => {
   let total
   if (search === '') {
     [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId}}),
-      Post.findAll({ where: {userId: userId},
+      Post.count({where: {userId: userId, display: true}}),
+      Post.findAll({ where: {userId: userId, display: true},
                      attributes: {exclude: ['content', 'updatedAt'] },
                      order: [['id', 'DESC']],
                      limit: pageSize,
@@ -23,8 +23,8 @@ exports.getPosts = async (ctx, next) => {
     ])
   } else {
     [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId, title:{$like: `%${search}%`}}}),
-      Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
+      Post.count({where: {userId: userId, display: true, title:{$like: `%${search}%`}}}),
+      Post.findAll({ where: {userId: userId, display: true, title:{$like: `%${search}%`}},
                      attributes: {exclude: ['content', 'updatedAt'] },
                      order: [['id', 'DESC']],
                      limit: pageSize,
