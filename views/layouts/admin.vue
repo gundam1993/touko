@@ -1,10 +1,10 @@
 <template>
-  <v-app class='grey lighten-2' id="main-page" top-fixed-toolbar :left-fixed-sidebar="sidebar_display" sidebar-under-toolbar>
+  <v-app class='grey lighten-3' id="main-page" top-fixed-toolbar :left-fixed-sidebar="sidebar_display" sidebar-under-toolbar>
     <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout"></tool-bar>
     <main>
       <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
-      <v-content class='grey lighten-2 main-container'>
-        <v-container fluid class='grey lighten-2'>
+      <v-content class='grey lighten-3 main-container'>
+        <v-container fluid class='grey lighten-3'>
           <nuxt />
           <v-snackbar :timeout="3000" :bottom="true" :right="true" 
                       v-model="$store.state.noticeDisplay" @input="noticeToggle">
@@ -51,11 +51,23 @@
       }, {
         title: '图片',
         avatar: 'photo',
-        route: '/admin'
+        items: [{
+          title: '相册管理',
+          avatar: 'photo_album',
+          route: '/admin/photography'
+        }, {
+          title: '文章插图管理',
+          avatar: 'picture_in_picture',
+          route: '/admin/post_picture'
+        }]
       }, {
         title: '评论',
         avatar: 'comment',
         route: '/admin'
+      }, {
+        title: '编辑关于页面',
+        avatar: 'face',
+        route: '/admin/about'
       }, {
         title: '设置',
         avatar: 'settings',
@@ -98,6 +110,7 @@
     }
     .main-container {
       overflow: auto;
+      min-height: 100%;
     }
   }
   .fade-enter-active, .fade-leave-active {

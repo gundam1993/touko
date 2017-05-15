@@ -36,12 +36,11 @@ exports.getPosts = async (ctx, next) => {
 }
 
 // 生成上传图片用token
-exports.getQiNiuToken = async (ctx, next) => {
-  let data = ctx.request.body
+exports.getPostQiNiuToken = async (ctx, next) => {
   qiniu.conf.ACCESS_KEY = config.qiniu.AccessKey
   qiniu.conf.SECRET_KEY = config.qiniu.SecretKey
   //要上传的空间
-  bucket = config.qiniu.bucket
+  const bucket = config.qiniu.postBucket
   //生成上传 Token
   let putPolicy = new qiniu.rs.PutPolicy(bucket)
   const token = putPolicy.token()

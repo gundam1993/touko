@@ -26,10 +26,10 @@
                 <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
-                  <v-btn v-tooltip:bottom="{ html: '编辑' }" icon class="blue--text text--lighten-2">
+                  <v-btn v-tooltip:bottom="{ html: '编辑' }" icon class="blue--text text--darken-2">
                     <v-icon @click.native="$router.push(`/admin/post/${item.id}/edit`)">edit</v-icon>
                   </v-btn>
-                  <v-btn v-tooltip:bottom="{ html: '移至草稿箱' }"  icon class="amber--text text--lighten-2" >
+                  <v-btn v-tooltip:bottom="{ html: '移至草稿箱' }"  icon class="amber--text text--lighten-1" >
                     <v-icon @click.native="moveToDraftBox(item.id, index)">move_to_inbox</v-icon>
                   </v-btn>
                   <v-btn v-tooltip:bottom="{ html: '删除' }"  icon class="red--text text--lighten-2" >

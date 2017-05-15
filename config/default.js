@@ -18,7 +18,9 @@ module.exports = {
     uploadUrl: 'http://up.qiniu.com',
     AccessKey: 'n074yJ94NCNU2JiyHm528874gwtWD7ozVdI198Zh',
     SecretKey: '_uGwmseJXcNkpBMXSNyvWIj5UtvBnX964_xIu13A',
-    bucket: 'blog',
-    outSourceHost: 'http://oph4exrt7.bkt.clouddn.com/'
+    postBucket: 'blog',
+    postOutSourceHost: 'http://oph4exrt7.bkt.clouddn.com/',
+    photoBucket: 'photography',
+    photoOutSourceHost: 'optjur92b.bkt.clouddn.com'
   }
 }
