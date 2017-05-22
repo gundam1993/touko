@@ -100,7 +100,6 @@
 
 <style lang='scss' scoped>
   #new-post-page {
-    padding: 1rem;
     height: 100%;
 
     .dialog__container {

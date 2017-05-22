@@ -34,7 +34,7 @@
       modal: false
     }),
     mounted: function () {
-      this.getTableInfo(this.pageSize, 0, '')
+      // this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
       getPhotographyInfo () {

@@ -1,18 +1,16 @@
 <template>
-  <v-app class='grey lighten-3' id="main-page" top-fixed-toolbar :left-fixed-sidebar="sidebar_display" sidebar-under-toolbar>
+  <v-app id="main-page">
+    <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
     <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout"></tool-bar>
-    <main>
-      <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
-      <v-content class='grey lighten-3 main-container'>
-        <v-container fluid class='grey lighten-3'>
-          <nuxt />
-          <v-snackbar :timeout="3000" :bottom="true" :right="true" 
-                      v-model="$store.state.noticeDisplay" @input="noticeToggle">
-            {{$store.state.noticeInfo}}
-            <v-btn flat class="red--text" @click.native="">关闭</v-btn>
-          </v-snackbar>
-        </v-container>
-      </v-content>
+    <main class='main-container'>
+      <v-container>
+        <nuxt />
+        <v-snackbar :timeout="3000" :bottom="true" :right="true" 
+                    v-model="$store.state.noticeDisplay" @input="noticeToggle">
+          {{$store.state.noticeInfo}}
+          <v-btn flat class="red--text" @click.native="">关闭</v-btn>
+        </v-snackbar>
+      </v-container>
     </main>
   </v-app> 
 </template>
@@ -101,20 +99,20 @@
 </script>
 
 <style lang='scss' scoped>
+  @import url('~assets/css/admin.css');
   #main-page {
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';
+    background-color: #eee;
 
-    main {
-      height: 100%;
-    }
     .main-container {
       overflow: auto;
-      min-height: 100%;
+      height: 100%;
+      width: 100%;
     }
   }
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
+    transition: opacity .3s
   }
   .fade-enter, .fade-leave-active {
     opacity: 0

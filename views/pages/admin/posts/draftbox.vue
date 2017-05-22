@@ -26,14 +26,26 @@
                 <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
-                  <v-btn v-tooltip:bottom="{ html: '编辑' }" icon class="blue--text text--darken-2">
-                    <v-icon @click.native="$router.push(`/admin/post/${item.id}/edit`)">edit</v-icon>
+                  <v-btn
+                    @click.native="$router.push(`/admin/post/${item.id}/edit`)"
+                    v-tooltip:bottom="{ html: '编辑' }"
+                    icon class="blue--text text--darken-2"
+                  >
+                    <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn v-tooltip:bottom="{ html: '发布文章' }"  icon class="amber--text text--lighten-1" >
-                    <v-icon @click.native="publish(item.id, index)">publish</v-icon>
+                  <v-btn
+                    @click.native="publish(item.id, index)"
+                    v-tooltip:bottom="{ html: '发布文章' }"
+                    icon class="amber--text text--lighten-1"
+                  >
+                    <v-icon>publish</v-icon>
                   </v-btn>
-                  <v-btn v-tooltip:bottom="{ html: '删除' }"  icon class="red--text text--lighten-2" >
-                    <v-icon @click.native="showDeleteDialog(item.id, index)">delete_forever</v-icon>
+                  <v-btn
+                    @click.native="showDeleteDialog(item.id, index)"
+                    v-tooltip:bottom="{ html: '删除' }"
+                    icon class="red--text text--lighten-2"
+                  >
+                    <v-icon>delete_forever</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -183,16 +195,10 @@
 
 <style lang='scss' scoped>
   #post-list-page {
-    padding: 1rem;
     height: 100%;
 
     .paper-block {
       margin: auto;
-
-      @media screen and (min-width: 1200px) {
-        max-width: 1100px;
-      }
-
     }
 
     #table-block {

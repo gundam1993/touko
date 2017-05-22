@@ -66,23 +66,11 @@
 
 <style lang='scss' scoped>
   #post-preview-page {
-    padding: 1rem;
     height: 100%;
     
     .paper-block {
       margin: auto;
       padding: 1rem;
-      @media screen and (min-width: 768px) {
-        padding: 1rem 2rem;
-      }
-      @media screen and (min-width: 960px) {
-        padding: 2rem 4rem;
-      }
-      @media screen and (min-width: 1200px) {
-        padding: 3rem 6rem;
-        max-width: 1100px;
-      }
-
     }
 
     .createdAt {
