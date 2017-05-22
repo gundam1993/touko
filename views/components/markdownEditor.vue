@@ -88,7 +88,6 @@
         let file = event.clipboardData.files[event.clipboardData.files.length - 1]
         if (file && /^image/.test(file.type)) {
           event.preventDefault()
-          console.log(file)
           this.buildFileReader(file)
         }
       },
@@ -114,7 +113,6 @@
             ia[i] = data.charCodeAt(i)
           }
           const blob = new Blob([ia], {type: 'image/png'})
-          console.log(blob)
           this.uploadImg(blob)
         }
       },

@@ -22,5 +22,6 @@ module.exports = {
     postOutSourceHost: 'http://oph4exrt7.bkt.clouddn.com/',
     photoBucket: 'photography',
     photoOutSourceHost: 'optjur92b.bkt.clouddn.com'
-  }
+  },
+  baseUrl: 'http://localhost:3000'
 }

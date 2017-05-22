@@ -1,5 +1,5 @@
 export default function (context) {
-  let jwt = (context.isClient ? getTokenFromLocalStorage(context) : getTokenFromCookie(context))
+  let jwt = getTokenFromCookie(context)
   if (context.route.name !== 'admin-login' && !jwt) {
     context.redirect('/admin/login')
   }
@@ -9,14 +9,10 @@ export default function (context) {
 }
 
 function getTokenFromCookie (context) {
-  let cookie = context.req.headers.cookie
+  let cookie = (context.isClient ? document.cookie : context.req.headers.cookie)
   if (cookie) {
     return cookie.split(';').find(c => c.trim().startsWith('touko-blog-token='))
   } else {
     return undefined
   }
-}
-
-function getTokenFromLocalStorage (context) {
-  return localStorage['touko-blog-token']
 }

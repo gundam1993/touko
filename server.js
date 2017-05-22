@@ -11,6 +11,8 @@ app.keys = ['the suicidal mime']
 
 const isProduction = (app.env === 'production')
 
+process.env.BASE_URL = server_config.baseUrl
+
 // Init Nuxt.js
 const nuxt = new Nuxt(nuxt_config)
 

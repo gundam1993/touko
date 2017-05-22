@@ -1,26 +1,14 @@
-import Vue from 'vue'
 import axios from 'axios'
 
-var AjaxWithToken = {}
+// var AjaxWithToken = {}
 
-AjaxWithToken.install = function (Vue, options) {
-  Vue.prototype.$awtGet = function (path) {
-    let token = localStorage['touko-blog-token']
-    return axios({
-      method: 'get',
-      url: path,
-      headers: {'x-access-token': token}
-    })
-  }
-  Vue.prototype.$awtPost = function (path, data) {
-    let token = localStorage['touko-blog-token']
-    return axios({
-      method: 'post',
-      url: path,
-      headers: {'x-access-token': token},
-      data: data
-    })
-  }
-}
+const http = axios.create({
+  baseURL: process.env.BASE_URL,
+  timeout: 5000
+})
 
-Vue.use(AjaxWithToken)
+// AjaxWithToken.install = function (Vue, options) {
+//   Vue.prototype.$http = http
+// }
+
+export default http

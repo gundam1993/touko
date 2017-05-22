@@ -72,11 +72,9 @@ export default {
       )
     },
     loginSuccess (res) {
-      localStorage['touko-blog-token'] = res.token
       this.$router.push('/admin')
     },
     loginFail (data) {
-      console.log(data)
       this.loginMessage = data.desc
       this.form.password = ''
       this.alerts = true

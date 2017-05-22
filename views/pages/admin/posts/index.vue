@@ -103,6 +103,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'PostListPage',
     layout: 'admin',
@@ -122,6 +123,12 @@
       search: '',
       ready: false
     }),
+    asyncData (context) {
+      return axios.get('/api/admin/posts?pageSize=10&page=0&search=')
+        .then((res) => (
+          {tableInfo: res.data.posts}
+        ))
+    },
     computed: {
       paginationPage () {
         return this.page + 1
@@ -139,12 +146,12 @@
         this.getTableInfo(this.pageSize, 0, newVal)
       }
     },
-    mounted: function () {
-      this.getTableInfo(this.pageSize, 0, '')
+    created: function () {
+      // this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        this.$awtGet(`/api/admin/posts?pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
+        this.$http.get(`/api/admin/posts?pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
           this.tableInfo = res.data.posts
           this.total = res.data.total
           this.ready = true
@@ -155,7 +162,7 @@
         return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
-        this.$awtGet(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
+        this.$http.get(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
           if (res.data.success) {
             this.tableInfo.splice(this.chosenIndex, 1)
             this.total --
@@ -166,7 +173,7 @@
         })
       },
       moveToDraftBox (id, index) {
-        this.$awtGet(`/api/admin/post/move_to_draft/${id}`).then((res) => {
+        this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {
           if (res.data.success) {
             this.$store.commit('noticeChange', { msg: '移动成功' })
             this.$store.commit('noticeOn')

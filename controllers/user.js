@@ -9,8 +9,8 @@ exports.createUser =  async (ctx, next) => {
   var password = await bcrypt.hash(md5('021911'), config.bcrypt.saltRounds)
   console.log(password)
   var admin = await User.create({
-    username: 'gundam1993',
-    password: password,
+    username: 'admin',
+    password: admin,
   })
   console.log('created: ' + JSON.stringify(admin));
   ctx.status = 200
@@ -36,7 +36,7 @@ exports.login = async (ctx, next) => {
             exp: expires
           }, config.jwt.key)
         ctx.status = 200
-        ctx.cookies.set('touko-blog-token', token, {expires: new Date(expires), signed: true})
+        ctx.cookies.set('touko-blog-token', token, {expires: new Date(expires), signed: true, httpOnly: false})
         ctx.response.body = {
           success: 1,
           desc: 'success',

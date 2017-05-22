@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 const config = require('config-lite')
 
 var loginCheck = async(ctx, next) => {
-  let token = ctx.headers['x-access-token']
+  let token = ctx.cookies.get('touko-blog-token')
+  console.log(token)
   try {
     let user = jwt.verify(token, config.jwt.key)
     ctx.userInfo = user
