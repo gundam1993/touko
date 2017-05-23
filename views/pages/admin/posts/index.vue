@@ -103,7 +103,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
+  // import Http from '~plugins/http'
   export default {
     name: 'PostListPage',
     layout: 'admin',
@@ -123,12 +124,6 @@
       search: '',
       ready: false
     }),
-    asyncData (context) {
-      return axios.get('/api/admin/posts?pageSize=10&page=0&search=')
-        .then((res) => (
-          {tableInfo: res.data.posts}
-        ))
-    },
     computed: {
       paginationPage () {
         return this.page + 1
@@ -147,7 +142,7 @@
       }
     },
     created: function () {
-      // this.getTableInfo(this.pageSize, 0, '')
+      this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
       getTableInfo (pageSize, page, search) {

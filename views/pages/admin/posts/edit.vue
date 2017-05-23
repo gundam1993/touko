@@ -64,7 +64,7 @@
     },
     methods: {
       getQiNiuToken () {
-        this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
+        this.$http.get('/api/admin/get_qi_niu_token').then((res) => {
           if (res.data.success) {
             this.token = res.data.token
           }
@@ -76,7 +76,7 @@
       },
       getPost () {
         let id = this.$route.params.postId
-        this.$awtGet(`/api/admin/post/${id}`).then((res) => {
+        this.$http.get(`/api/admin/post/${id}`).then((res) => {
           if (res.data.success) {
             this.post.title = res.data.post.title
             this.post.content = res.data.post.content
@@ -87,7 +87,7 @@
       },
       submitEdit (display) {
         this.post.display = display
-        this.$awtPost(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
+        this.$http.post(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
           if (res.data.success) {
             if (display) {
               this.$store.commit('noticeChange', { msg: '修改成功' })

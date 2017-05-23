@@ -38,7 +38,7 @@
     },
     methods: {
       getPhotographyInfo () {
-        this.$awtGet('/api/admin/photography').then((res) => {
+        this.$http.get('/api/admin/photography').then((res) => {
           console.log(res.data)
         })
       }

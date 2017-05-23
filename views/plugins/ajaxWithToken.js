@@ -1,14 +1,15 @@
 import axios from 'axios'
+import Vue from 'vue'
 
-// var AjaxWithToken = {}
+var Http = {}
 
 const http = axios.create({
   baseURL: process.env.BASE_URL,
   timeout: 5000
 })
 
-// AjaxWithToken.install = function (Vue, options) {
-//   Vue.prototype.$http = http
-// }
+Http.install = function (Vue, options) {
+  Vue.prototype.$http = http
+}
 
-export default http
+Vue.use(Http)

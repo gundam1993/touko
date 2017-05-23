@@ -7,7 +7,7 @@
       <v-card-text class='pt-0'>
         <markdownEditor 
           :rows="19"
-          v-model="content"
+          v-model="about.content"
           :token="token"
           imgUploadUrl="http://up.qiniu.com"
           imgBaseUrl="http://oph4exrt7.bkt.clouddn.com/"></markdownEditor>
@@ -40,7 +40,9 @@
       title: '编辑关于页面'
     }),
     data: () => ({
-      content: '',
+      about: {
+        content: ''
+      },
       msg: '',
       alert: false,
       token: ''
@@ -48,30 +50,30 @@
     components: {
       markdownEditor
     },
-    mounted () {
+    created () {
       this.getAboutInfo()
       this.getQiNiuToken()
     },
     methods: {
       getQiNiuToken () {
-        this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
+        this.$http.get('/api/admin/get_qi_niu_token').then((res) => {
           if (res.data.success) {
             this.token = res.data.token
           }
         })
       },
       resetPost () {
-        this.content = ''
+        this.about.content = ''
       },
       getAboutInfo () {
-        this.$awtGet(`/api/admin/about`).then((res) => {
+        this.$http.get(`/api/admin/about`).then((res) => {
           if (res.data.success) {
-            this.content = res.data.content
+            this.about.content = res.data.content
           }
         })
       },
       submitAbout () {
-        this.$awtPost(`/api/admin/about`, {content: this.content}).then((res) => {
+        this.$http.post(`/api/admin/about`, this.about).then((res) => {
           if (res.data.success) {
             this.$store.commit('noticeChange', { msg: '保存成功' })
             this.$store.commit('noticeOn')

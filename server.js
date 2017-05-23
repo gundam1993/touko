@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const server_config = require('config-lite')
 const router = require('./router')
-var koaBody = require('koa-body')
+const koaBody = require('koa-body')
 const Nuxt = require('nuxt')
 const nuxt_config = require('./nuxt.config.js')
 

@@ -66,7 +66,7 @@
     },
     methods: {
       getQiNiuToken () {
-        this.$awtGet('/api/admin/get_qi_niu_token').then((res) => {
+        this.$http.get('/api/admin/get_qi_niu_token').then((res) => {
           if (res.data.success) {
             this.token = res.data.token
           }
@@ -78,7 +78,7 @@
       },
       submitPost (display) {
         this.post.display = display
-        this.$awtPost('/api/admin/posts/new', this.post).then((res) => {
+        this.$http.post('/api/admin/posts/new', this.post).then((res) => {
           if (res.data.success) {
             if (display) {
               this.$store.commit('noticeChange', { msg: '发布成功' })
