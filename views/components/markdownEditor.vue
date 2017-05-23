@@ -65,6 +65,7 @@
       }
     },
     created () {
+      this.content = this.value
       this.mark = marked.setOptions({
         renderer: new marked.Renderer(),
         gfm: true,

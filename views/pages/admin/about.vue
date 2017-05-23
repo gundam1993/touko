@@ -15,7 +15,7 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn  error light large :disabled="content===''" @click.native="submitAbout()">保存</v-btn>
+        <v-btn  error light large :disabled="about.content===''" @click.native="submitAbout()">保存</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">
@@ -68,7 +68,7 @@
       getAboutInfo () {
         this.$http.get(`/api/admin/about`).then((res) => {
           if (res.data.success) {
-            this.about.content = res.data.content
+            this.about = {content: res.data.content}
           }
         })
       },
