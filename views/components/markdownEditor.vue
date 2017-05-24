@@ -55,7 +55,8 @@
       imgUploadUrl: String,
       imgBaseUrl: String,
       value: [String, Number],
-      token: [String, Number]
+      token: [String, Number],
+      policy: [String, Number]
     },
     watch: {
       value (newVal, oldVal) {
@@ -120,9 +121,12 @@
       uploadImg (img) {
         let fd = new FormData()
         fd.append('file', img)
-        fd.append('token', this.token)
-        this.$awtPost(this.imgUploadUrl, fd).then((res) => {
-          this.pasteImg(res.data.key)
+        fd.append('policy', this.policy)
+        fd.append('signature', this.token)
+        this.$http.post(this.imgUploadUrl, fd).then((res) => {
+          if (res.data.code === 200) {
+            this.pasteImg(res.data.url)
+          }
         })
       },
       pasteImg (src) {

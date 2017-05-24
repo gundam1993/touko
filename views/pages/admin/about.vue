@@ -9,8 +9,9 @@
           :rows="19"
           v-model="about.content"
           :token="token"
-          imgUploadUrl="http://up.qiniu.com"
-          imgBaseUrl="http://oph4exrt7.bkt.clouddn.com/"></markdownEditor>
+          :policy="policy"
+          imgUploadUrl="http://v0.api.upyun.com/touko-blog-img"
+          imgBaseUrl="http://touko-blog-img.b0.upaiyun.com/"></markdownEditor>
       </v-card-text>
       <v-divider />
       <v-card-row actions >
@@ -45,20 +46,22 @@
       },
       msg: '',
       alert: false,
-      token: ''
+      token: '',
+      policy: ''
     }),
     components: {
       markdownEditor
     },
     mounted () {
       this.getAboutInfo()
-      this.getQiNiuToken()
+      this.getImgToken()
     },
     methods: {
-      getQiNiuToken () {
-        this.$http.get('/api/admin/get_qi_niu_token').then((res) => {
+      getImgToken () {
+        this.$http.get('/api/admin/get_img_token').then((res) => {
           if (res.data.success) {
             this.token = res.data.token
+            this.policy = res.data.policy
           }
         })
       },

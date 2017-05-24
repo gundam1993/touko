@@ -14,14 +14,13 @@ module.exports = {
     key: 'I am the Alpha and the Omega, the First and the Last, the Beginning and the End.'
   },
   cookieExpires: 7,
-  qiniu: {
-    uploadUrl: 'http://up.qiniu.com',
-    AccessKey: 'n074yJ94NCNU2JiyHm528874gwtWD7ozVdI198Zh',
-    SecretKey: '_uGwmseJXcNkpBMXSNyvWIj5UtvBnX964_xIu13A',
-    postBucket: 'blog',
-    postOutSourceHost: 'http://oph4exrt7.bkt.clouddn.com/',
-    photoBucket: 'photography',
-    photoOutSourceHost: 'optjur92b.bkt.clouddn.com'
-  },
-  baseUrl: 'http://localhost:3000'
+  baseUrl: 'http://localhost:3000',
+  upyun: {
+    operator: 'gundam1993',
+    password: '211993007gundam',
+    imgBucket: 'touko-blog-img',
+    imgUrl: 'touko-blog-img.b0.upaiyun.com',
+    imgSecret: '+oZjgSf18qnc0PaP+qZFUM7D+aM=',
+    imgSaveKey: '/img_{random}{.suffix}'
+  }
 }

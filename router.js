@@ -16,8 +16,8 @@ router.get('/api/admin/drafts', loginCheck, PostController.getPosts)
 router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
 // 删除文章
 router.get('/api/admin/post/delete/:postId', loginCheck, PostController.deletePost)
-// 获取七牛云token
-router.get('/api/admin/get_qi_niu_token', loginCheck, PostController.getPostQiNiuToken)
+// 获取图片上传token
+router.get('/api/admin/get_img_token', loginCheck, PostController.getImgToken)
 // 获取文章详细信息
 router.get('/api/admin/post/:postId', loginCheck, PostController.getPostById)
 // 修改文章

@@ -18,9 +18,9 @@
     "md5": "^2.2.1",
     "moment": "^2.18.1",
     "nuxt": "0.10.5",
-    "qiniu": "^6.1.13",
     "sequelize": "^3.30.0",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "upyun": "^2.0.4"
   },
   "scripts": {
     "dev": "nodemon -w server.js -w router.js -w config -w controllers -w models -w nuxt.config.js server.js",
