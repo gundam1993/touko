@@ -68,7 +68,7 @@
     },
     methods: {
       getImgToken () {
-        this.$http.get('/api/admin/get_img_token').then((res) => {
+        this.$http.get('/api/admin/get_img_token/image').then((res) => {
           if (res.data.success) {
             this.token = res.data.token
             this.policy = res.data.policy

@@ -16,8 +16,6 @@ router.get('/api/admin/drafts', loginCheck, PostController.getPosts)
 router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
 // 删除文章
 router.get('/api/admin/post/delete/:postId', loginCheck, PostController.deletePost)
-// 获取图片上传token
-router.get('/api/admin/get_img_token', loginCheck, PostController.getImgToken)
 // 获取文章详细信息
 router.get('/api/admin/post/:postId', loginCheck, PostController.getPostById)
 // 修改文章
@@ -26,13 +24,14 @@ router.post('/api/admin/post/:postId', loginCheck, PostController.editPost)
 router.get('/api/admin/post/move_to_draft/:postId', loginCheck, PostController.moveToDraft)
 // 从草稿箱发布
 router.get('/api/admin/post/publish/:postId', loginCheck, PostController.publishPost)
-// 获取相册图片信息及TOKEN 
-router.get('/api/admin/photography', loginCheck, PhotoController.getPhotographyInfo)
 // 获取关于页面信息
 router.get('/api/admin/about', loginCheck, AboutController.getAboutInfo)
 // 修改关于页面信息
 router.post('/api/admin/about', loginCheck, AboutController.updateAboutInfo)
 // 获取文章内容（无需登录)
 router.get('/api/post/:postId', PostController.getPostById)
-
+// 获取图片上传token
+router.get('/api/admin/get_img_token/:type', loginCheck, PhotoController.getImgToken)
+//获取又拍云空间使用情况
+router.get('/api/photo/spaceUsage/:type', loginCheck, PhotoController.getSpaceUsage)
 module.exports = router

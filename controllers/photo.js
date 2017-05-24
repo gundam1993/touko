@@ -1,21 +1,47 @@
 const config = require('config-lite')
 const qiniu = require('qiniu')
 const axios = require('axios')
+const tools = require('upyun/tools')
+const utils = require('upyun/upyun/utils')
+const crypto = require('crypto')
 
 // 获取相册图片信息及TOKEN 
-exports.getPhotographyInfo = async (ctx, next) => {
-  qiniu.conf.ACCESS_KEY = config.qiniu.AccessKey
-  qiniu.conf.SECRET_KEY = config.qiniu.SecretKey
-  //构建bucketmanager对象
-  const client = new qiniu.rs.Client()
-  //你要测试的空间， 并且这个key在你空间中存在
-  const bucket = config.qiniu.photoBucket
-  //获取文件信息
-  client.stat(bucket, key, function(err, ret) {
-    if (!err) {
-      console.log(ret.hash, ret.fsize, ret.putTime, ret.mimeType)
-    } else {
-      console.log(err)
-    }
-  })
+exports.getImgToken = async (ctx, next) => {
+  const type = ctx.params.type
+  const operator = config.upyun.operator
+  const password = config.upyun.password
+  const secret = config.upyun[type].secret
+  const saveKey = config.upyun[type].saveKey
+  const bucket = config.upyun[type].bucket
+  let opts = {
+    'save-key': saveKey,
+    'bucket': bucket,
+    'expiration': Math.round(new Date().getTime() / 1000) + 3600
+  }
+  let policy = tools.policy(opts)
+  let token = utils.md5sum(policy + '&' + secret)
+  ctx.response.body = {success: 1, token: token, policy: policy}
+}
+
+exports.getSpaceUsage = async (ctx, next) => {
+  const type = ctx.params.type
+  const bucket = config.upyun[type].bucket
+  let url = `${config.upyun.requestUrl}/${bucket}/?usage`
+  let date = (new Date()).toGMTString()
+  const req = axios.create({
+    headers: {
+              'Authorization': getUpSign('GET', `/${bucket}/?usage`, date),
+              'Date': date
+             }
+  });
+  let res = await req.get(url)
+  ctx.response.body = {success: 1, data: res.data}
+}
+
+function getUpSign(method, remotePath, date) {
+  const operator = config.upyun.operator
+  const password = config.upyun.password
+  let str = `${method}&${remotePath}&${date}`
+  let sign = crypto.createHmac('sha1', utils.md5sum(password)).update(str, 'utf8').digest().toString('base64')
+  return `UpYun ${operator}:${sign}`
 }

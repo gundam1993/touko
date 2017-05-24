@@ -16,11 +16,20 @@ module.exports = {
   cookieExpires: 7,
   baseUrl: 'http://localhost:3000',
   upyun: {
+    requestUrl: 'http://v0.api.upyun.com',
     operator: 'gundam1993',
     password: '211993007gundam',
-    imgBucket: 'touko-blog-img',
-    imgUrl: 'touko-blog-img.b0.upaiyun.com',
-    imgSecret: '+oZjgSf18qnc0PaP+qZFUM7D+aM=',
-    imgSaveKey: '/img_{random}{.suffix}'
+    image: {
+      bucket: 'touko-blog-img',
+      url: 'touko-blog-img.b0.upaiyun.com',
+      secret: '+oZjgSf18qnc0PaP+qZFUM7D+aM=',
+      saveKey: '/img_{random}{.suffix}'
+    },
+    photo: {
+      bucket: 'touko-blog-photo',
+      url: '  touko-blog-photo.b0.upaiyun.com',
+      secret: '34SO/SXtrPrMv00zYdk+KIOOd2Y=',
+      saveKey: '/photo_{random}{.suffix}'
+    }
   }
 }

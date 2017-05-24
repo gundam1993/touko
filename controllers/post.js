@@ -2,7 +2,7 @@ const config = require('config-lite')
 const Post = require('../models/post')
 const axios = require('axios')
 const tools = require('upyun/tools')
-var utils = require('upyun/upyun/utils');
+const utils = require('upyun/upyun/utils')
 
 // 按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
@@ -36,22 +36,6 @@ exports.getPosts = async (ctx, next) => {
   ctx.response.body = {success: 1, total: total, posts: posts}
 }
 
-// 生成上传图片用token
-exports.getImgToken = async (ctx, next) => {
-  const operator = config.upyun.operator
-  const password = config.upyun.password
-  const secret = config.upyun.imgSecret
-  const saveKey = config.upyun.imgSaveKey
-  const bucket = config.upyun.imgBucket
-  let opts = {
-    'save-key': saveKey,
-    'bucket': bucket,
-    'expiration': Math.round(new Date().getTime() / 1000) + 3600
-  }
-  let policy = tools.policy(opts)
-  let token = utils.md5sum(policy + '&' + secret)
-  ctx.response.body = {success: 1, token: token, policy: policy}
-}
 // 新建文章
 exports.createPost = async (ctx, next) => {
   const userId = ctx.userInfo.userId

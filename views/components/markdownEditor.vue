@@ -177,7 +177,7 @@
         left: 0;
         right: 0;
         background-color: #eee;
-        z-index: 100;
+        z-index: 2;
         box-sizing: border-box;
         padding: 1rem;
         overflow: auto;

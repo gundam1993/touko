@@ -1,13 +1,11 @@
 <template>
-  <div id="photography">
-    <v-card class="photography-block">
+  <div id="post_picture" class="masonry">
+    <v-card class="title-block item">
       <v-card-title>
-        相册管理
+        插图管理
       </v-card-title>
-      <v-card-row>
-       
-      </v-card-row>
     </v-card>
+    
     <v-dialog v-model="modal" title="Alert Dialog">
         <v-card>
           <v-card-text>
@@ -37,18 +35,40 @@
       // this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
-      // getPhotographyInfo () {
-      //   this.$http.get('/api/admin/photography').then((res) => {
-      //     console.log(res.data)
-      //   })
-      // }
+      getPhotographyInfo () {
+        this.$http.get('/api/admin/photography').then((res) => {
+          console.log(res.data)
+        })
+      }
     }
   }
 </script>
 
 <style lang='scss' scoped>
-  #photography {
+  #post_picture {
     height: 100%;
   }
+  .masonry {
+    column-gap: 1.5rem;
+    column-count: 3;
 
+    .item {
+      display: inline-block;
+      background: #fff;
+      margin: 0 0 .5em;
+      width: 100%;
+    }
+  }
+
+  @media all and (max-width: 960px) {
+    .masonry {
+      column-count: 2;
+    }
+  }
+
+  @media all and (max-width: 921.6px) {
+    .masonry {
+      column-count: 1;
+    }
+  }
 </style>
