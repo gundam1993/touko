@@ -31,27 +31,28 @@
         title: this.post.title
       }
     },
-    data: () => ({
-      post: {
-        title: '',
-        content: '',
-        createdAt: '',
-        pv: '',
-        id: ''
-      }
-    }),
+    asyncData: (context) => {
+      return axios.get(`${context.env.baseUrl}/api/post/${context.route.params.postId}`).then((res) => {
+        let post = {
+          title: '',
+          content: '',
+          createdAt: '',
+          pv: '',
+          id: ''
+        }
+        post = res.data.post
+        return {post: post}
+      })
+    },
     computed: {
       mainContent () {
         return marked(this.post.content)
       }
     },
-    created: function () {
-      this.getPost()
-    },
     methods: {
       getPost () {
         let id = this.$route.params.postId
-        axios.get(`/api/post/${id}`).then((res) => {
+        this.$http.get(`/api/post/${id}`).then((res) => {
           if (res.data.success) {
             this.post = res.data.post
           }

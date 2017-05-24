@@ -50,7 +50,7 @@
     components: {
       markdownEditor
     },
-    created () {
+    mounted () {
       this.getAboutInfo()
       this.getQiNiuToken()
     },

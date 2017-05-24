@@ -19,8 +19,8 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn class='mr-3'  warning light large :disabled="post.title===''" @click.native="submitEdit(false)">存草稿</v-btn>
-        <v-btn  error light large :disabled="post.title===''" @click.native="submitEdit(true)">修改</v-btn>
+        <v-btn class='mr-3 white--text'  warning dark large :disabled="post.title===''" @click.native="submitEdit(false)">存草稿</v-btn>
+        <v-btn class='white--text' error dark large :disabled="post.title===''" @click.native="submitEdit(true)">修改</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">

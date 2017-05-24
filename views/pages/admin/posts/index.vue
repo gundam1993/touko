@@ -103,8 +103,6 @@
 </template>
 
 <script>
-  // import axios from 'axios'
-  // import Http from '~plugins/http'
   export default {
     name: 'PostListPage',
     layout: 'admin',
@@ -141,7 +139,7 @@
         this.getTableInfo(this.pageSize, 0, newVal)
       }
     },
-    created: function () {
+    mounted: function () {
       this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {

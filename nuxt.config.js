@@ -18,6 +18,9 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://unpkg.com/vuetify/dist/vuetify.min.css' }
     ]
   },
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+  },
   /*
   ** Global CSS
   */
@@ -50,7 +53,7 @@ module.exports = {
     }
   },
   build: {
-    vendor: ['axios', 'md5', 'marked', 'highlight.js', 'moment', '~plugins/http'],
+    vendor: ['axios', 'md5', 'marked', 'highlight.js', 'moment'],
     /*
     ** Run ESLINT on save
     */

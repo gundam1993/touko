@@ -144,7 +144,7 @@
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        this.$awtGet(`/api/admin/posts?display=false&pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
+        this.$http.get(`/api/admin/posts?display=false&pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
           this.tableInfo = res.data.posts
           this.total = res.data.total
           this.ready = true
@@ -155,7 +155,7 @@
         return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
-        this.$awtGet(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
+        this.$http.get(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
           if (res.data.success) {
             this.tableInfo.splice(this.chosenIndex, 1)
             this.total --
@@ -166,7 +166,7 @@
         })
       },
       publish (id, index) {
-        this.$awtGet(`/api/admin/post/publish/${id}`).then((res) => {
+        this.$http.get(`/api/admin/post/publish/${id}`).then((res) => {
           if (res.data.success) {
             this.$store.commit('noticeChange', { msg: '发布成功' })
             this.$store.commit('noticeOn')
