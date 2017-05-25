@@ -3,9 +3,23 @@
     <v-card class="title-block item">
       <v-card-title>
         插图管理
+        <v-subheader v-text="`已用空间: ${(this.usage / 1024 / 1024).toFixed(3)}M`"></v-subheader>
       </v-card-title>
     </v-card>
-    
+    <v-card class="item"v-for="(file, index) in fileList" :key="index">
+      <v-card-row class="title-picture">
+        <img :src="`http://touko-blog-img.b0.upaiyun.com/${file.name}!preview`" alt="">
+      </v-card-row>
+      <v-divider></v-divider>
+      <v-card-row actions>
+        <v-btn class="blue--text text--lighten-2" icon>
+          <v-icon>search</v-icon>
+        </v-btn>
+        <v-btn class="red--text text--lighten-2" icon>
+          <v-icon>delete_forever</v-icon>
+        </v-btn>
+      </v-card-row>
+    </v-card>
     <v-dialog v-model="modal" title="Alert Dialog">
         <v-card>
           <v-card-text>
@@ -26,18 +40,44 @@
     name: 'Photography',
     layout: 'admin',
     head: () => ({
-      title: '相册管理'
+      title: '插图管理'
     }),
     data: () => ({
-      modal: false
+      modal: false,
+      usage: 0,
+      fileList: []
     }),
     mounted: function () {
-      // this.getTableInfo(this.pageSize, 0, '')
+      this.getImgUsage()
+      this.getImgInfo()
     },
     methods: {
-      getPhotographyInfo () {
-        this.$http.get('/api/admin/photography').then((res) => {
+      getImgUsage () {
+        this.$http.get('/api/photo/spaceUsage/image').then((res) => {
+          if (res.data.success) {
+            this.usage = res.data.usage
+          }
+        })
+      },
+      getImgInfo () {
+        this.$http.get('/api/photo/list/image').then((res) => {
           console.log(res.data)
+          if (res.data.success) {
+            let fileListRaw = res.data.fileList
+            let arr = fileListRaw.split('\n')
+            console.log(arr)
+            let len = arr.length
+            for (let i = 0; i < len; i++) {
+              let file = arr[i].split('\t')
+              this.fileList.push({
+                name: file[0],
+                type: file[1],
+                size: file[2],
+                updatedAt: file[3]
+              })
+            }
+            console.log(this.fileList)
+          }
         })
       }
     }
@@ -69,6 +109,12 @@
   @media all and (max-width: 921.6px) {
     .masonry {
       column-count: 1;
+    }
+  }
+  .title-picture {
+    img {
+      width: 100%;
+      vertical-align: bottom;
     }
   }
 </style>

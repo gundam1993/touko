@@ -34,4 +34,6 @@ router.get('/api/post/:postId', PostController.getPostById)
 router.get('/api/admin/get_img_token/:type', loginCheck, PhotoController.getImgToken)
 //获取又拍云空间使用情况
 router.get('/api/photo/spaceUsage/:type', loginCheck, PhotoController.getSpaceUsage)
+//获取又拍云空间使用情况
+router.get('/api/photo/list/:type', loginCheck, PhotoController.getPhotoList)
 module.exports = router

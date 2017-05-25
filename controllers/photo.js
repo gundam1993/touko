@@ -34,7 +34,22 @@ exports.getSpaceUsage = async (ctx, next) => {
              }
   });
   let res = await req.get(url)
-  ctx.response.body = {success: 1, data: res.data}
+  ctx.response.body = {success: 1, usage: res.data}
+}
+
+exports.getPhotoList = async (ctx, next) => {
+  const type = ctx.params.type
+  const bucket = config.upyun[type].bucket
+  let url = `${config.upyun.requestUrl}/${bucket}/`
+  let date = (new Date()).toGMTString()
+  const req = axios.create({
+    headers: {
+              'Authorization': getUpSign('GET', `/${bucket}/`, date),
+              'Date': date
+             }
+  });
+  let res = await req.get(url)
+  ctx.response.body = {success: 1, fileList: res.data}
 }
 
 function getUpSign(method, remotePath, date) {
