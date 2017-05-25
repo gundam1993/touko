@@ -1,5 +1,4 @@
 const config = require('config-lite')
-const qiniu = require('qiniu')
 const axios = require('axios')
 const tools = require('upyun/tools')
 const utils = require('upyun/upyun/utils')

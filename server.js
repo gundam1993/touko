@@ -3,7 +3,6 @@ const server_config = require('config-lite')
 const router = require('./router')
 const koaBody = require('koa-body')
 const Nuxt = require('nuxt')
-const nuxt_config = require('./nuxt.config.js')
 
 const app = new Koa()
 
@@ -12,9 +11,6 @@ app.keys = ['the suicidal mime']
 const isProduction = (app.env === 'production')
 
 process.env.BASE_URL = server_config.baseUrl
-
-// Init Nuxt.js
-const nuxt = new Nuxt(nuxt_config)
 
 //connect database
 var sequlize = require('./models/database')
@@ -27,19 +23,32 @@ app.use(async (ctx, next) => {
 app.use(koaBody({multipart: true}))
 // add router middleware:
 app.use(router.routes());
-// Build only in dev mode
-if (!isProduction) {
-  nuxt.build()
-    .catch((err) => {
-      console.error(err)
+
+// Start nuxt.js
+async function start () {
+  // Import and Set Nuxt.js options
+  const nuxt_config = require('./nuxt.config.js')
+  // Instanciate nuxt.js
+  const nuxt = await new Nuxt(nuxt_config)
+  // Build in development
+  if (!isProduction) {
+    try {
+      await nuxt.build()
+    } catch (e) {
+      console.error(e) // eslint-disable-line no-console
       process.exit(1)
-    })
+    }
+  }
+
+  app.use(async (ctx, next) => {
+  ctx.status = 200 // koa defaults to 404 when it sees that status is unset
+    await nuxt.render(ctx.req, ctx.res)
+  })
+
+  app.listen(server_config.port)
+  console.log(`app started at port ${server_config.port}...`)
 }
 
-app.use( async (ctx, next) => {
-  ctx.status = 200
-  await nuxt.render(ctx.req, ctx.res)
-})
+start()
 
-app.listen(server_config.port)
-console.log(`app started at port ${server_config.port}...`)
+
