@@ -3,17 +3,20 @@
     <v-card>
       <v-card-title>上传图片</v-card-title>
       <v-card-row>
-        <div class="upload-block">
+        <div class="upload-block" @click="showImgChoose">
+          <div class="upload-preview">
+            <img src="" alt="">
+          </div>
           <div class="upload-button">
             <v-icon class="upload-icon">file_upload</v-icon>
           </div>
-
+          <input ref="imgUploader" v-show='false' class="img-uploader" type="file" id="file-input" name="image" accept="image/*" @change="loadImg">
         </div>
       </v-card-row>
       <v-divider></v-divider>
       <v-card-row actions>
         <v-spacer></v-spacer>
-        <v-btn flat v-on:click.native="show = false" class="primary--text">取消</v-btn>
+        <v-btn flat v-on:click.native="show = false" class="error--text">取消</v-btn>
         <v-btn flat v-on:click.native="" class="primary--text">确认</v-btn>
       </v-card-row>
     </v-card>
@@ -24,7 +27,8 @@
   export default {
     name: 'UploadDialog',
     data: () => ({
-      show: this.display
+      show: this.display,
+      img: {}
     }),
     props: {
       display: {
@@ -44,6 +48,40 @@
         if (newVal === true) {
           this.show = true
         }
+      }
+    },
+    methods: {
+      showImgChoose () {
+        this.$refs.imgUploader.click()
+      },
+      loadImg (e) {
+        this.buildFileReader(e.target.files[0])
+      },
+      buildFileReader (file) {
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = (e) => {
+          let data = e.target.result.split(',')[1]
+          data = window.atob(data)
+          let ia = new Uint8Array(data.length)
+          for (var i = 0; i < data.length; i++) {
+            ia[i] = data.charCodeAt(i)
+          }
+          const blob = new Blob([ia], {type: 'image/png'})
+          // this.uploadImg(blob)
+          this.img = blob
+        }
+      },
+      uploadImg (img) {
+        let fd = new FormData()
+        fd.append('file', img)
+        fd.append('policy', this.policy)
+        fd.append('signature', this.token)
+        this.$http.post(this.imgUploadUrl, fd).then((res) => {
+          if (res.data.code === 200) {
+            this.pasteImg(res.data.url)
+          }
+        })
       }
     }
   }
