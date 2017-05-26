@@ -37,7 +37,7 @@ exports.getSpaceUsage = async (ctx, next) => {
   ctx.response.body = {success: 1, usage: res.data}
 }
 
-exports.getPhotoList = async (ctx, next) => {
+exports.getImgList = async (ctx, next) => {
   const type = ctx.params.type
   const bucket = config.upyun[type].bucket
   let url = `${config.upyun.requestUrl}/${bucket}/`
@@ -50,6 +50,26 @@ exports.getPhotoList = async (ctx, next) => {
   });
   let res = await req.get(url)
   ctx.response.body = {success: 1, fileList: res.data}
+}
+
+exports.deleteImg = async (ctx, next) => {
+  const type = ctx.params.type
+  const image = ctx.params.image
+  const bucket = config.upyun[type].bucket
+  let url = `${config.upyun.requestUrl}/${bucket}/${image}`
+  let date = (new Date()).toGMTString()
+  const req = axios.create({
+    headers: {
+              'Authorization': getUpSign('DELETE', `/${bucket}/${image}`, date),
+              'Date': date
+             }
+  });
+  let res = await req.delete(url)
+  if (res.status === 200) {
+    ctx.response.body = { success: 1 }
+  } else {
+    ctx.response.body = { success: 0, msg: '删除失败' }
+  }
 }
 
 function getUpSign(method, remotePath, date) {

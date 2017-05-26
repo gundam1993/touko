@@ -88,8 +88,8 @@
       </v-card>
       <v-dialog v-model="modal" title="Alert Dialog">
           <v-card>
+            <v-card-title>确认要删除文章吗？</v-card-title>
             <v-card-text>
-              <h2 class="title">确认要删除文章吗？</h2>
             </v-card-text>
             <v-card-row actions>
               <v-spacer></v-spacer>

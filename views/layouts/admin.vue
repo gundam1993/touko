@@ -82,7 +82,7 @@
         }
       },
       logout () {
-        this.$awtGet('/admin/logout').then((res) => {
+        this.$http.get('/admin/logout').then((res) => {
           if (res.data.success) {
             localStorage.removeItem('touko-blog-token')
             this.$router.push('/admin/login')
