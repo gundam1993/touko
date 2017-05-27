@@ -4,10 +4,10 @@
       <v-card-title>上传图片</v-card-title>
       <v-card-row>
         <div class="upload-block" @click="showImgChoose">
-          <div class="upload-preview">
-            <img src="" alt="">
+          <div v-if="displayPreview" class="upload-preview">
+            <img :src="imgPreview" alt="UploadPreview">
           </div>
-          <div class="upload-button">
+          <div v-if="!displayPreview" class="upload-button">
             <v-icon class="upload-icon">file_upload</v-icon>
           </div>
           <input ref="imgUploader" v-show='false' class="img-uploader" type="file" id="file-input" name="image" accept="image/*" @change="loadImg">
@@ -17,7 +17,7 @@
       <v-card-row actions>
         <v-spacer></v-spacer>
         <v-btn flat v-on:click.native="show = false" class="error--text">取消</v-btn>
-        <v-btn flat v-on:click.native="" class="primary--text">确认</v-btn>
+        <v-btn flat v-on:click.native="uploadImg" :disabled="Object.keys(img) === []" class="primary--text">确认</v-btn>
       </v-card-row>
     </v-card>
   </v-dialog>
@@ -28,7 +28,9 @@
     name: 'UploadDialog',
     data: () => ({
       show: this.display,
-      img: {}
+      img: {},
+      imgPreview: '',
+      displayPreview: false
     }),
     props: {
       display: {
@@ -36,11 +38,15 @@
         default: false
       },
       token: [String, Number],
-      policy: [String, Number]
+      policy: [String, Number],
+      imgUploadUrl: String
     },
     watch: {
       show (newVal, oldVal) {
         if (newVal === false) {
+          this.img = {}
+          this.imgPreview = ''
+          this.displayPreview = false
           this.$emit('displayOff')
         }
       },
@@ -61,6 +67,7 @@
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = (e) => {
+          this.imgPreview = e.target.result
           let data = e.target.result.split(',')[1]
           data = window.atob(data)
           let ia = new Uint8Array(data.length)
@@ -68,18 +75,24 @@
             ia[i] = data.charCodeAt(i)
           }
           const blob = new Blob([ia], {type: 'image/png'})
-          // this.uploadImg(blob)
           this.img = blob
+          this.displayPreview = true
+          console.log(this.img)
         }
       },
-      uploadImg (img) {
+      uploadImg () {
         let fd = new FormData()
-        fd.append('file', img)
+        fd.append('file', this.img)
         fd.append('policy', this.policy)
         fd.append('signature', this.token)
         this.$http.post(this.imgUploadUrl, fd).then((res) => {
           if (res.data.code === 200) {
-            this.pasteImg(res.data.url)
+            this.show = false
+            this.$store.commit('noticeChange', { msg: '上传成功' })
+            this.$store.commit('noticeOn')
+          } else {
+            this.$store.commit('noticeChange', { msg: '上传失败' })
+            this.$store.commit('noticeOn')
           }
         })
       }
@@ -104,6 +117,22 @@
       .upload-icon {
         font-size: 10rem;
         margin-top: 10%;
+      }
+    }
+
+    .upload-preview {
+      height: 100%;
+      text-align: center;
+      background-color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        vertical-align: bottom;
+        display: block;
       }
     }
   }

@@ -11,3 +11,7 @@ body #__nuxt {
   height: 100%;
   background-color: #ccc;
 }
+
+#photography .dialog:not(.dialog--fullscreen) {
+    height: 100%;
+}
