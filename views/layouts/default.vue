@@ -1,13 +1,15 @@
 <template>
   <div>
+    <IndexMenu></IndexMenu>
     <nuxt class="nuxt_container" />
   </div>
 </template>
 
 <script>
-
+import IndexMenu from '~components/Menu'
 export default {
   components: {
+    IndexMenu
   }
 }
 </script>
