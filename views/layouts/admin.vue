@@ -1,7 +1,7 @@
 <template>
-  <v-app id="main-page">
+  <v-app id="admin-page">
     <side-bar :display='sidebar_display' :items="sidebar_item" @barChange="barChange"></side-bar>
-    <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout"></tool-bar>
+    <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout" :homeIconCilck="toHome"></tool-bar>
     <main class='main-container'>
       <v-container>
         <nuxt />
@@ -61,7 +61,7 @@
       }, {
         title: '评论',
         avatar: 'comment',
-        route: '/admin'
+        route: '/admin/comments'
       }, {
         title: '编辑关于页面',
         avatar: 'face',
@@ -89,6 +89,9 @@
           }
         })
       },
+      toHome () {
+        this.$router.push('/')
+      },
       noticeToggle (event) {
         if (event === false) {
           this.$store.commit('noticeOff')
@@ -100,7 +103,7 @@
 
 <style lang='scss' scoped>
   @import url('~assets/css/admin.css');
-  #main-page {
+  #admin-page {
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';
     background-color: #eee;

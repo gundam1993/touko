@@ -3,7 +3,7 @@
     <v-toolbar-side-icon light @click.native.stop="sideIconCilck"/>
     <v-toolbar-title class="hidden-sm-and-down">Blog</v-toolbar-title>
     <v-spacer />
-    <v-btn icon light>
+    <v-btn icon light @click.native.stop="homeIconCilck">
       <v-icon>home</v-icon>
     </v-btn>
     <v-btn icon light @click.native.stop="powerIconCilck">
@@ -19,7 +19,7 @@
   export default {
     name: 'ToolBar',
     props: {
-      sideIconCilck: {
+      homeIconCilck: {
         type: Function
       },
       powerIconCilck: {
