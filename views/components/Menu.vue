@@ -7,7 +7,6 @@
       <ul class="menu-list">
         <li>BLOG</li>
         <li>PHOTOGRAPHY</li>
-        <li>.</li>
         <li>ABOUT</li>
       </ul>
     </header>

@@ -24,6 +24,9 @@
       },
       powerIconCilck: {
         type: Function
+      },
+      sideIconCilck: {
+        type: Function
       }
     }
   }

@@ -15,3 +15,8 @@ body #admin-page #__nuxt {
 #photography .dialog:not(.dialog--fullscreen) {
     height: 100%;
 }
+
+#__nuxt {
+  background-color: #ccc;
+  height: 100%;
+}

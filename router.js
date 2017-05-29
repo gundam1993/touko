@@ -4,6 +4,7 @@ const UserController = require('./controllers/user')
 const PostController = require('./controllers/post')
 const PhotoController = require('./controllers/photo')
 const AboutController = require('./controllers/about')
+const HomePageController = require('./controllers/homepage')
 
 router.post('/admin/login', UserController.login)
 
@@ -38,4 +39,6 @@ router.get('/api/photo/spaceUsage/:type', loginCheck, PhotoController.getSpaceUs
 router.get('/api/photo/list/:type', loginCheck, PhotoController.getImgList)
 //删除又拍云图片
 router.get('/api/photo/delete/:type/:image', loginCheck, PhotoController.deleteImg)
+// 获取所有文章(无需登录)
+router.get('/api/posts', HomePageController.getPosts)
 module.exports = router
