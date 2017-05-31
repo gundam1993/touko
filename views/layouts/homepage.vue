@@ -21,6 +21,7 @@ export default {
 <style>
 .homepage-container {
   margin-top: 4rem;
+  margin-left: 15rem;
 }
 .container
 {
