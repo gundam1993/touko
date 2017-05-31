@@ -8,7 +8,7 @@ exports.getPosts = async (ctx, next) => {
     let end = ctx.query.end
     const limit = end - start
     let posts = await Post.findAll({where: {display: true},
-                                    attributes: {exclude: ['content', 'createdAt'] },
+                                    attributes: {exclude: ['createdAt'] },
                                     order: [['createdAt', 'DESC']],
                                     limit: limit,
                                     offset: start}) 

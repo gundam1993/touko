@@ -88,6 +88,7 @@
       width: 100%;
       height: 4rem;
       box-sizing: border-box;
+      background-color: #FFF;
 
       .logo  {
         height: 100%;
@@ -118,15 +119,19 @@
           display: block;
           width: 100%;
           text-align: center;
-          height: 2rem;
-          line-height: 2rem;
+          height: 2.5rem;
+          line-height: 2.5rem;
+          color: #fff;
+          background-color: #ccc;
+          cursor: pointer;
+          font-size: 2rem;
         }
       }
     }
   }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
+  transition: opacity .3s
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0

@@ -19,9 +19,14 @@ export default {
 </script>
 
 <style>
+@media only screen and (min-width: 1024px) {
+  .homepage-container {
+    margin-left: 15rem !important;
+  }
+} 
+
 .homepage-container {
   margin-top: 4rem;
-  margin-left: 15rem;
 }
 .container
 {
