@@ -19,7 +19,7 @@
       posts: []
     }),
     asyncData: (context) => {
-      return axios.get(`${context.env.baseUrl}/api/posts?start=0&end=5`).then((res) => {
+      return axios.get(`${context.env.baseUrl}/api/posts`).then((res) => {
         if (res.data.success) {
           return {posts: res.data.posts}
         } else {

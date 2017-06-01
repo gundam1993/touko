@@ -1,87 +1,57 @@
 <template>
   <div id="post-list">
     <div class="post" v-for="post in posts">
-      <h1 class="post-title">{{post.title}}</h1>
-      <div class="post-content" v-html="getContent(post.content)"></div>
+      <nuxt-link :to="`/post/${post.id}`">
+        <h2 class="post-title">{{post.title}}</h2>
+        <span class="post-date">{{getDate(post.createdAt)}}</span>
+      </nuxt-link>
     </div>
   </div>
 </template>
 
 <script>
-  import marked from 'marked'
   export default {
     name: 'PostList',
-    data: () => ({
-      marked: {}
-    }),
     props: {
       posts: {
         type: Array,
         required: true
       }
     },
-    created () {
-      this.marked = marked.setOptions({
-        renderer: new marked.Renderer(),
-        gfm: true,
-        tables: true,
-        breaks: false,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        langPrefix: 'hljs ',
-        highlight: function (code) {
-          return require('highlight.js').highlightAuto(code).value
-        }
-      })
-    },
     methods: {
-      getContent (content) {
-        return this.marked(content)
+      getDate (str) {
+        let date = new Date(str)
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       }
     }
   }
 </script>
 
 <style lang='scss' >
-@import url("~assets/css/highlight.min.css");
 #post-list {
-  .post-title {
-    font-size: 5rem;
-  }
-  .post-content {
-    padding-left: 3rem;
-    h1 {
-      font-size: 4rem;
-      font-weight: bold;
-    }
+  font-family: sans-serif;
+  .post {
+    a {
+      color: #555;
+      text-decoration: none;
+      height: 1rem;
+      line-height: 1rem;
+      
+      &:hover h2 {
+        color: #08c;
+      }
 
-    h2 {
-      font-size: 3rem;
-      font-weight: bold;
-    }
-
-    p {
-      font-size: 20px;
-      margin-bottom: 0;
-      line-height: 30px;
-    }
-
-    pre {
-      width: 100%;
-
-      code {
-        padding: 1rem;
-        font-size: 14px; 
-        margin: 0 2rem;
+      h2 {
+        font-size: 1.1rem;
+        font-weight: normal;
+        display: inline-block;
+      }
+      .post-date {
+        font-size: 0.7rem;
+        margin-left: 0.2rem;
+        color: #aaa;
       }
     }
-  }
-  
-  .post {
-    margin: 1rem 0;
-    border-bottom: 1px dashed #ccc;
   }
 }
 </style>

@@ -107,7 +107,8 @@
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';
     background-color: #eee;
-
+    @import url('~assets/css/vuetify.css');
+    
     .main-container {
       overflow: auto;
       height: 100%;
