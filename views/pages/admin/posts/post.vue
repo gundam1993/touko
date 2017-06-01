@@ -41,13 +41,29 @@
           id: ''
         }
         post = res.data.post
-        return {post: post}
+        return {post: post, marked: {}}
       })
     },
     computed: {
       mainContent () {
-        return marked(this.post.content)
+        return this.marked(this.post.content)
       }
+    },
+    created () {
+      this.marked = marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        langPrefix: 'hljs ',
+        highlight: function (code) {
+          return require('highlight.js').highlightAuto(code).value
+        }
+      })
     },
     methods: {
       getPost () {

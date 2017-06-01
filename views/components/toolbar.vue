@@ -1,7 +1,7 @@
 <template>
   <v-toolbar fixed class="grey darken-3">
     <v-toolbar-side-icon light @click.native.stop="sideIconCilck"/>
-    <v-toolbar-title class="hidden-sm-and-down">Blog</v-toolbar-title>
+    <v-toolbar-title class="hidden-sm-and-down white--text">Blog Admin</v-toolbar-title>
     <v-spacer />
     <v-btn icon light @click.native.stop="homeIconCilck">
       <v-icon>home</v-icon>

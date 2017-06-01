@@ -12,7 +12,7 @@
   export default {
     name: 'PostList',
     data: () => ({
-      mark: {}
+      marked: {}
     }),
     props: {
       posts: {
@@ -21,7 +21,7 @@
       }
     },
     created () {
-      this.mark = marked.setOptions({
+      this.marked = marked.setOptions({
         renderer: new marked.Renderer(),
         gfm: true,
         tables: true,
@@ -30,6 +30,7 @@
         sanitize: false,
         smartLists: true,
         smartypants: false,
+        langPrefix: 'hljs ',
         highlight: function (code) {
           return require('highlight.js').highlightAuto(code).value
         }
@@ -37,7 +38,7 @@
     },
     methods: {
       getContent (content) {
-        return marked(content)
+        return this.marked(content)
       }
     }
   }
@@ -71,8 +72,9 @@
       width: 100%;
 
       code {
-        width: 100%;
         padding: 1rem;
+        font-size: 14px; 
+        margin: 0 2rem;
       }
     }
   }
