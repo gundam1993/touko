@@ -1,19 +1,20 @@
 <template>
   <div class="index">
-    <PostList :posts="posts"></PostList>
+    <h1>photography</h1>
+    <Photography></Photography>
   </div>
 </template>
 
 <script>
-  import PostList from '~components/PostList'
   import axios from 'axios'
+  import Photography from '~components/Photography'
   export default {
     layout: 'homepage',
     head: {
       title: 'Tommy.H'
     },
     components: {
-      PostList
+      Photography
     },
     asyncData: (context) => {
       return axios.get(`${context.env.baseUrl}/api/posts`).then((res) => {

@@ -9,7 +9,7 @@
           <nuxt-link to="/">BLOG</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/">PHOTOGRAPHY</nuxt-link>
+          <nuxt-link to="/photography">PHOTOGRAPHY</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/">ABOUT</nuxt-link>
