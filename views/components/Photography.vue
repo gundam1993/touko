@@ -21,6 +21,9 @@
       photoIndex: 0,
       photoDisplay: true
     }),
+    head: () => ({
+      title: 'Photography — Tommy. H'
+    }),
     props: {
       photos: {
         type: Array
