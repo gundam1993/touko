@@ -44,6 +44,11 @@
 </script>
 
 <style lang='scss' scoped>
+  @media (max-width: 450px) {
+  #Photography .photo-preview {
+    height: 300px !important;
+  }
+}
   #Photography {
     width: 100%;
 
@@ -56,6 +61,7 @@
 
       img {
         max-width: 100%;
+        max-height: 100%;
         vertical-align: center;
       }
     }
