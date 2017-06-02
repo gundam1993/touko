@@ -49,7 +49,21 @@ exports.getImgList = async (ctx, next) => {
              }
   });
   let res = await req.get(url)
-  ctx.response.body = {success: 1, fileList: res.data}
+  let fileList = []
+  let fileListRaw = res.data
+  let arr = fileListRaw.split('\n')
+  let len = arr.length
+  for (let i = 0; i < len; i++) {
+    let file = arr[i].split('\t')
+    if (file[0] === '') { continue }
+    fileList.push({
+      name: file[0],
+      type: file[1],
+      size: file[2],
+      updatedAt: file[3]
+    })
+  }
+  ctx.response.body = {success: 1, fileList: fileList}
 }
 
 exports.deleteImg = async (ctx, next) => {

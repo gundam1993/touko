@@ -92,6 +92,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+  @import url('~assets/css/vuetify.css');
   #login-page {
     height: 100%;
     width: 100%;

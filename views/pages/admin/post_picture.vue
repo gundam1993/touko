@@ -79,18 +79,7 @@
       getImgInfo () {
         this.$http.get('/api/photo/list/image').then((res) => {
           if (res.data.success) {
-            let fileListRaw = res.data.fileList
-            let arr = fileListRaw.split('\n')
-            let len = arr.length
-            for (let i = 0; i < len; i++) {
-              let file = arr[i].split('\t')
-              this.fileList.push({
-                name: file[0],
-                type: file[1],
-                size: file[2],
-                updatedAt: file[3]
-              })
-            }
+            this.fileList = res.data.fileList
           }
         })
       },
