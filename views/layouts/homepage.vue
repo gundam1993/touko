@@ -45,7 +45,7 @@ body {
   height: 100%;
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .3s
+  transition: opacity .2s
 }
 .fade-enter, .fade-leave-active {
   opacity: 0

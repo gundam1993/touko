@@ -1,7 +1,6 @@
 <template>
   <div class="index">
-    <h1>photography</h1>
-    <Photography></Photography>
+    <Photography :photos="photos"></Photography>
   </div>
 </template>
 
@@ -17,11 +16,11 @@
       Photography
     },
     asyncData: (context) => {
-      return axios.get(`${context.env.baseUrl}/api/posts`).then((res) => {
+      return axios.get(`${context.env.baseUrl}/api/photo/list/photo`).then((res) => {
         if (res.data.success) {
-          return {posts: res.data.posts}
+          return {photos: res.data.fileList}
         } else {
-          return {posts: []}
+          return {photos: []}
         }
       })
     }
