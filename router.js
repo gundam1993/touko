@@ -26,7 +26,7 @@ router.get('/api/admin/post/move_to_draft/:postId', loginCheck, PostController.m
 // 从草稿箱发布
 router.get('/api/admin/post/publish/:postId', loginCheck, PostController.publishPost)
 // 获取关于页面信息
-router.get('/api/admin/about', loginCheck, AboutController.getAboutInfo)
+router.get('/api/about', AboutController.getAboutInfo)
 // 修改关于页面信息
 router.post('/api/admin/about', loginCheck, AboutController.updateAboutInfo)
 // 获取文章内容（无需登录)

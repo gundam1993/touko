@@ -2,14 +2,18 @@ const config = require('config-lite')
 const Introduction = require('../models/introduction')
 
 exports.getAboutInfo = async (ctx, next) => {
-  const userId = ctx.userInfo.userId
-  let about = await Introduction.findOne({ where: { userId: userId }})
-  if (about.content) {
-    ctx.response.body = { success: 1, content: about.content }
-  } else {
-    ctx.response.body = { success: 1, content: '' }
+  try {
+    let about = await Introduction.findOne({attributes: ['content']})
+    console.log(about.content)
+    if (about) {
+      ctx.response.body = { success: 1, content: about.content }
+    } else {
+      ctx.response.body = { success: 1, content: '' }
+    }
+  } catch(e) {
+    ctx.response.body = {success: 0, msg: e}
   }
-}
+ }
 
 exports.updateAboutInfo = async (ctx, next) => {
   const userId = ctx.userInfo.userId
