@@ -1,6 +1,6 @@
 <template>
   <div id="post-displayer">
-    <section class="post-view" v-html="marked(content)"></section>
+    <article class="post-view" v-html="marked(content)"></article>
   </div>
 </template>
 
