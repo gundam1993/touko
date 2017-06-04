@@ -32,13 +32,13 @@
   font-family: sans-serif;
   .post {
     a {
-      color: #555;
+      color: #777;
       text-decoration: none;
       height: 1rem;
       line-height: 1rem;
       
       &:hover h2 {
-        color: #08c;
+        color: #555;
       }
 
       h2 {

@@ -69,7 +69,7 @@
         this.about.content = ''
       },
       getAboutInfo () {
-        this.$http.get(`/api/admin/about`).then((res) => {
+        this.$http.get(`/api/about`).then((res) => {
           if (res.data.success) {
             this.about = {content: res.data.content}
           }

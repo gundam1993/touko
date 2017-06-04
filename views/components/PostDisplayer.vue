@@ -1,6 +1,6 @@
 <template>
   <div id="post-displayer">
-    <div class="content" v-html="marked(content)"></div>
+    <section class="post-view" v-html="marked(content)"></section>
   </div>
 </template>
 
@@ -37,7 +37,5 @@
 </script>
 
 <style lang="scss" scoped>
-  #post-displayer {
-    width: 100%;
-  }
+  @import url('~assets/css/post.css');
 </style>
