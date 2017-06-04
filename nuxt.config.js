@@ -40,6 +40,11 @@ module.exports = {
     middleware: 'loginCheck',
     extendRoutes (routes) {
       routes.push({
+        name: 'homepagePostPage',
+        path: '/post/:postId',
+        component: resolve(__dirname, 'views/pages/post')
+      })
+      routes.push({
         name: 'editPostPage',
         path: '/admin/post/:postId/edit',
         component: resolve(__dirname, 'views/pages/admin/posts/edit')
