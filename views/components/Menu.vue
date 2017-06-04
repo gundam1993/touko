@@ -12,7 +12,7 @@
           <nuxt-link to="/photography">PHOTOGRAPHY</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/">ABOUT</nuxt-link>
+          <nuxt-link to="/about">ABOUT</nuxt-link>
         </li>
       </ul>
     </header>
