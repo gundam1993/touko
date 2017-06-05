@@ -10,6 +10,9 @@
 <script>
 import IndexMenu from '~components/Menu'
 export default {
+  head: () => ({
+    title: 'Tommy.H'
+  }),
   components: {
     IndexMenu
   }

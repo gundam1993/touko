@@ -12,9 +12,6 @@
   export default {
     name: 'Post',
     layout: 'homepage',
-    head: {
-      title: 'Tommy.H'
-    },
     components: {
       PostDisplayer
     },
@@ -31,6 +28,9 @@
           }}
         }
       })
+    },
+    mounted () {
+      document.title = `${this.post.title} — Tommy. H`
     },
     methods: {
       getDate (str) {
