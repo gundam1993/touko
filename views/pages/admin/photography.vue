@@ -57,7 +57,7 @@
 </template>
 
 <script>
-  import uploadDialog from '~components/uploadDialog'
+  import uploadDialog from '~components/UploadDialog'
   export default {
     name: 'Photography',
     layout: 'admin',
