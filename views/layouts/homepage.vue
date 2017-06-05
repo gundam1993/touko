@@ -4,11 +4,13 @@
     <div class="container">
       <nuxt class="nuxt_container" />
     </div>
+    <PageFooter></PageFooter>
   </main>
 </template>
 
 <script>
 import IndexMenu from '~components/Menu'
+import PageFooter from '~components/Footer'
 export default {
   head: () => ({
     title: 'Tommy.H',
@@ -19,7 +21,8 @@ export default {
     ]
   }),
   components: {
-    IndexMenu
+    IndexMenu,
+    PageFooter
   }
 }
 </script>
