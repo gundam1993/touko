@@ -1,12 +1,12 @@
 const config = require('config-lite')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 var User = require('../models/user')
 
 exports.createUser =  async (ctx, next) => {
   var now = Date.now()
-  var password = await bcrypt.hash(md5('021911'), config.bcrypt.saltRounds)
+  var password = await bcrypt.hashSync(md5('021911'), config.bcrypt.saltRounds)
   console.log(password)
   var admin = await User.create({
     username: 'admin',
@@ -27,7 +27,7 @@ exports.login = async (ctx, next) => {
         desc: '用户不存在'
       }
     } else {
-      const passwordCheck = await bcrypt.compare(ctx.request.body.password, user.password)
+      const passwordCheck = bcrypt.compareSync(ctx.request.body.password, user.password)
       let expires = Date.now() + (60 * 60 * 1000 * config.cookieExpires )
       if (passwordCheck) {
         var token = jwt.sign({
