@@ -9,7 +9,7 @@ const app = new Koa()
 app.keys = ['the suicidal mime']
 
 const isProduction = (app.env === 'production')
-
+console.log(isProduction)
 process.env.BASE_URL = server_config.baseUrl
 
 //connect database
