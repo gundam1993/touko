@@ -1,4 +1,5 @@
 const resolve = require('path').resolve
+const config = require('config-lite')
 
 module.exports = {
   /*
@@ -17,7 +18,7 @@ module.exports = {
     ]
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseUrl: config.baseUrl
   },
   /*
   ** Global CSS
