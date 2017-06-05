@@ -7,7 +7,7 @@ body {
   color: #ccc;
 }
 
-#photography .dialog:not(.dialog--fullscreen) {
+#preview-dialog .dialog:not(.dialog--fullscreen) {
     height: 100%;
 }
 

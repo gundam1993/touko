@@ -52,7 +52,12 @@ export default {
     }
   },
   head: () => ({
-    title: '登录'
+    title: '登录',
+    link: [
+      { hid: 'font-style', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
+      { hid: 'vuetify', rel: 'stylesheet', href: 'https://unpkg.com/vuetify@0.12.2/dist/vuetify.min.css' },
+      { hid: 'admin', rel: 'stylesheet', href: '/admin.css' }
+    ]
   }),
   methods: {
     login () {
