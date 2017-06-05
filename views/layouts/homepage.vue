@@ -14,7 +14,8 @@ export default {
     title: 'Tommy.H',
     link: [
       { hid: 'font-style', rel: 'stylesheet', href: '' },
-      { hid: 'vuetify', rel: 'stylesheet', href: '' }
+      { hid: 'vuetify', rel: 'stylesheet', href: '' },
+      { hid: 'admin', rel: 'stylesheet', href: '' }
     ]
   }),
   components: {

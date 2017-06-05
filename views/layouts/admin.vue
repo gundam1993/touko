@@ -28,7 +28,8 @@
       title: '管理后台',
       link: [
         { hid: 'font-style', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
-        { hid: 'vuetify', rel: 'stylesheet', href: 'https://unpkg.com/vuetify@0.12.2/dist/vuetify.min.css' }
+        { hid: 'vuetify', rel: 'stylesheet', href: 'https://unpkg.com/vuetify@0.12.2/dist/vuetify.min.css' },
+        { hid: 'admin', rel: 'stylesheet', href: '/admin.css' }
       ]
     }),
     data: () => ({
@@ -109,7 +110,6 @@
 </script>
 
 <style lang='scss' scoped>
-  @import url('~assets/css/admin.css');
   #admin-page {
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';

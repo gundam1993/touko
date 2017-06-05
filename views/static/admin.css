@@ -1,0 +1,16 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  color: #ccc;
+}
+
+#photography .dialog:not(.dialog--fullscreen) {
+    height: 100%;
+}
+
+#__nuxt {
+  height: 100%;
+}
