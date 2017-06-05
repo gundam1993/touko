@@ -24,6 +24,13 @@
       'side-bar': sidebar,
       'tool-bar': toolbar
     },
+    head: () => ({
+      title: '管理后台',
+      link: [
+        { hid: 'font-style', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
+        { hid: 'vuetify', rel: 'stylesheet', href: 'https://unpkg.com/vuetify@0.12.2/dist/vuetify.min.css' }
+      ]
+    }),
     data: () => ({
       sidebar_display: true,
       sidebar_item: [{
@@ -107,7 +114,6 @@
     height: 100%;
     font-family: 'Roboto', 'Source Han Sans';
     background-color: #eee;
-    @import url('~assets/css/vuetify.css');
     
     .main-container {
       overflow: auto;

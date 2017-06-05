@@ -11,7 +11,11 @@
 import IndexMenu from '~components/Menu'
 export default {
   head: () => ({
-    title: 'Tommy.H'
+    title: 'Tommy.H',
+    link: [
+      { hid: 'font-style', rel: 'stylesheet', href: '' },
+      { hid: 'vuetify', rel: 'stylesheet', href: '' }
+    ]
   }),
   components: {
     IndexMenu
