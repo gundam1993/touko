@@ -29,7 +29,6 @@
 
 <style lang='scss' >
 #post-list {
-  font-family: sans-serif;
   .post {
     a {
       color: #777;
