@@ -1,5 +1,4 @@
 export default function (context) {
-  console.log(context.route)
   let jwt = getTokenFromCookie(context)
   if (/^\/admin/.test(context.route.path)) {
     if (context.route.name !== 'admin-login' && !jwt) {
