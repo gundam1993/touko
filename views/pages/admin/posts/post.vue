@@ -4,15 +4,14 @@
       <v-card class="paper-block">
         <v-card-row>
           <div class="createdAt">
-            {{dateTransform(this.post.createdAt)}}
+            {{dateTransform(post.createdAt)}}
           </div>
         </v-card-row>
         <v-card-title>
-          <h3>{{this.post.title}}</h3>
+          <h3>{{post.title}}</h3>
         </v-card-title>
         <v-card-row>
-          <div class="main-content" v-html="mainContent">
-          </div>
+          <PostDisplayer :content="post.content"></PostDisplayer>
         </v-card-row>
       </v-card>
     </div>
@@ -23,6 +22,7 @@
   import axios from 'axios'
   import moment from 'moment'
   import marked from 'marked'
+  import PostDisplayer from '~components/PostDisplayer'
   export default {
     name: 'PostPreviewtPage',
     layout: 'admin',
@@ -30,6 +30,9 @@
       return {
         title: this.post.title
       }
+    },
+    components: {
+      PostDisplayer
     },
     asyncData: (context) => {
       return axios.get(`${context.env.baseUrl}/api/post/${context.route.params.postId}`).then((res) => {

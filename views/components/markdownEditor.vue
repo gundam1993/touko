@@ -11,7 +11,8 @@
                 :rows="rows" 
                 @input="handleInput"
                 @paste="handlePaste"></textarea>
-      <div class="preview-block" :class="column ? 'two-column' : ''" v-if="preview" v-html="mark(content)">
+      <div class="preview-block" :class="column ? 'two-column' : ''" v-if="preview">
+        <PostDisplayer :content="content"></PostDisplayer>
       </div>
     </div>
     <div class="buttom-block">
@@ -31,6 +32,7 @@
 
 <script>
   import marked from 'marked'
+  import PostDisplayer from '~components/PostDisplayer'
   export default {
     data: () => ({
       content: this.value || '',
@@ -39,6 +41,9 @@
       column: false,
       fullscreen: false
     }),
+    components: {
+      PostDisplayer
+    },
     props: {
       rows: {
         type: Number,

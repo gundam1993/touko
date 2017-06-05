@@ -23,6 +23,7 @@ body {
 .homepage-container {
  margin: 2rem auto 0 auto;
  width: 90%;
+ font-size: "Classic Grotesque W01", "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, "Hiragino Sans GB", "PingFang SC", "Heiti SC", "Microsoft YaHei UI", "Microsoft YaHei", "Source Han Sans", sans-serif;
 }
 @media only screen and (min-width: 720px) {
   .homepage-container {
