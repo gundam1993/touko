@@ -37,7 +37,6 @@ module.exports = {
     mode: 'out-in'
   },
   router: {
-    middleware: 'loginCheck',
     extendRoutes (routes) {
       routes.push({
         name: 'homepagePostPage',

@@ -1,7 +1,7 @@
 <template>
   <section id="post">
     <h1 class="post-title">{{post.title}}</h1>
-    <PostDisplayer :content="post.content"></PostDisplayer>
+    <PostDisplayer :content="post.html"></PostDisplayer>
     <div class="post-date">{{getDate(post.createdAt)}}</div>
   </section>
 </template>
@@ -24,7 +24,8 @@
           return { post: {
             id: '',
             context: '',
-            title: ''
+            title: '',
+            html: ''
           }}
         }
       })

@@ -1,6 +1,6 @@
 <template>
   <div id="about">
-    <PostDisplayer :content="about"></PostDisplayer>
+    <PostDisplayer :content="html"></PostDisplayer>
   </div>
 </template>
 
@@ -19,9 +19,9 @@
     asyncData: (context) => {
       return axios.get(`${context.env.baseUrl}/api/about`).then((res) => {
         if (res.data.success) {
-          return {about: res.data.content}
+          return {html: res.data.html}
         } else {
-          return {about: []}
+          return {html: []}
         }
       })
     }

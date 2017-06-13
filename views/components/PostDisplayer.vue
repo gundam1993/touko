@@ -1,11 +1,10 @@
 <template>
   <div id="post-displayer">
-    <article class="post-view" v-html="marked(content)"></article>
+    <article class="post-view" v-html="content"></article>
   </div>
 </template>
 
 <script>
-  import marked from 'marked'
   export default {
     name: 'PostDisplayer',
     data: () => ({
@@ -16,22 +15,6 @@
         type: String,
         default: ''
       }
-    },
-    created () {
-      this.marked = marked.setOptions({
-        renderer: new marked.Renderer(),
-        gfm: true,
-        tables: true,
-        breaks: false,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        langPrefix: 'hljs ',
-        highlight: function (code) {
-          return require('highlight.js').highlightAuto(code).value
-        }
-      })
     }
   }
 </script>

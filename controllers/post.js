@@ -3,6 +3,21 @@ const Post = require('../models/post')
 const axios = require('axios')
 const tools = require('upyun/tools')
 const utils = require('upyun/upyun/utils')
+const Marked = require('marked')
+const marked = Marked.setOptions({
+  renderer: new Marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  langPrefix: 'hljs ',
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value
+  }
+})
 
 // 按条件获取文章列表，需登录
 exports.getPosts = async (ctx, next) => {
@@ -40,7 +55,6 @@ exports.getPosts = async (ctx, next) => {
 exports.createPost = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const post = ctx.request.body
-  console.log(post.display)
   if (post.title && post.content) {
     let newPost = await Post.create({
       title: post.title,
@@ -66,7 +80,14 @@ exports.getPostById = async (ctx, next) => {
   let post = await Post.findOne({ where: {id: postId},
                                   attributes: {exclude: ['updatedAt'] }})
   post.update({pv: post.pv + 1})
-  ctx.response.body = {success: 1, post: post, msg: '查询成功'}
+  let html = marked(post.content)
+  ctx.response.body = {success: 1, msg: '查询成功', post: {
+    html: html,
+    content: post.content,
+    id: post.id,
+    title: post.title,
+    createdAt: post.createdAt
+  }}
 }
 // 修改文章
 exports.editPost = async (ctx, next) => {
