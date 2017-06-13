@@ -10,6 +10,6 @@ npm-debug.log
 # Nuxt generate
 dist
 
-config/default.js
+config
 
 .DS_Store
