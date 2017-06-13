@@ -31,7 +31,7 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/vuetify', '~plugins/ajaxWithToken'],
+  plugins: ['~plugins/ajaxWithToken'],
   transition: {
     name: 'fade',
     mode: 'out-in'
