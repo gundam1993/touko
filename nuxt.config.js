@@ -31,7 +31,7 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/ajaxWithToken'],
+  plugins: [],
   transition: {
     name: 'fade',
     mode: 'out-in'
@@ -46,7 +46,7 @@ module.exports = {
     }
   },
   build: {
-    vendor: ['axios', 'marked', 'highlight.js'],
+    vendor: ['axios'],
     /*
     ** Run ESLINT on save
     */

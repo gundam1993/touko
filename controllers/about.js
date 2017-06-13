@@ -19,7 +19,6 @@ const marked = Marked.setOptions({
 exports.getAboutInfo = async (ctx, next) => {
   try {
     let about = await Introduction.findOne({attributes: ['content']})
-    console.log(about.content)
     if (about) {
       ctx.response.body = { success: 1, content: about.content, html: marked(about.content)}
     } else {
@@ -34,7 +33,6 @@ exports.updateAboutInfo = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const content = ctx.request.body.content
   let about = await Introduction.findOne({ where: { userId: userId }})
-  console.log(about)
   if (about) {
     await Introduction.update({ content: content },
                      { where:{userId: userId }})
