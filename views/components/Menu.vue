@@ -2,7 +2,7 @@
   <div id="menu">
     <header class="large-screen hidden-sm-and-down">
       <div class="title">
-        <h1>\AEIOU\</h1>
+        <h1>\Tommy.H\</h1>
       </div>
       <ul class="menu-list">
         <li>
