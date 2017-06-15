@@ -38,6 +38,11 @@
   text-decoration: none;
 }
 
+#post-displayer .post-view li a {
+  color: #08c;
+  text-decoration: none;
+}
+
 #post-displayer .post-view blockquote {
   display: block;
   border-left: 4px solid #555;
