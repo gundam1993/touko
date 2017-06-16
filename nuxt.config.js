@@ -6,6 +6,10 @@ module.exports = {
   ** Headers of the page
   */
   srcDir: 'views/',
+  cache: {
+    max: 500,
+    maxAge: 900000
+  },
   head: {
     title: '',
     meta: [
