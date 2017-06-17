@@ -2,13 +2,13 @@
   <div id="Photography">
     <div class="photo-preview" @click="nextPhoto">
       <transition name="fade" v-on:after-leave="photoDisplay = true">
-        <img v-if="photoDisplay" :src="`http://touko-blog-photo.b0.upaiyun.com/${photos[photoIndex].name}!photography`">
+        <img v-if="photoDisplay" :src="`https://touko-blog-photo.b0.upaiyun.com/${photos[photoIndex].name}!photography`">
       </transition>
     </div>
     <div class="photo-list">
       <div class="photo-thumbnails" v-for="(photo, index) in photos" @click="photoChoose(index)">
         <div class="photo-mask" v-if="photoIndex !== index"></div>
-        <img :src="`http://touko-blog-photo.b0.upaiyun.com/${photo.name}!thumbnails`">
+        <img :src="`https://touko-blog-photo.b0.upaiyun.com/${photo.name}!thumbnails`">
       </div>
     </div>
   </div>
