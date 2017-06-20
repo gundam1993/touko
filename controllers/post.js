@@ -19,36 +19,13 @@ const marked = Marked.setOptions({
   }
 })
 
-// 按条件获取文章列表，需登录
-exports.getPosts = async (ctx, next) => {
-  let display = !(ctx.query.display === 'false')
-  let pageSize = ctx.query.pageSize
-  if (pageSize ==='All') pageSize = 999999
-  const page = parseInt(ctx.query.page)
-  const search = ctx.query.search || ''
+// 获取所有文章，需登录
+exports.getAllPosts = async (ctx, next) => {
   const userId = ctx.userInfo.userId
-  let posts
-  let total
-  if (search === '') {
-    [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId, display: display}}),
-      Post.findAll({ where: {userId: userId, display: display},
-                     attributes: {exclude: ['content', 'updatedAt'] },
-                     order: [['id', 'DESC']],
-                     limit: pageSize,
-                     offset: pageSize * page})
-    ])
-  } else {
-    [total, posts] =  await Promise.all([
-      Post.count({where: {userId: userId, display: display, title:{$like: `%${search}%`}}}),
-      Post.findAll({ where: {userId: userId, display: display, title:{$like: `%${search}%`}},
-                     attributes: {exclude: ['content', 'updatedAt'] },
-                     order: [['id', 'DESC']],
-                     limit: pageSize,
-                     offset: pageSize * page})
-    ])
-  }
-  ctx.response.body = {success: 1, total: total, posts: posts}
+  let posts =  await Post.findAll({ where: {userId: userId},
+                   attributes: {exclude: ['updatedAt'] },
+                   order: [['id', 'DESC']]})
+  ctx.response.body = {success: 1, posts: posts}
 }
 
 // 新建文章

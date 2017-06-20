@@ -10,9 +10,9 @@ router.post('/admin/login', UserController.login)
 
 router.get('/admin/logout', loginCheck, UserController.logout)
 // 获取所有文章
-router.get('/api/admin/posts', loginCheck, PostController.getPosts)
+router.get('/api/admin/posts', loginCheck, PostController.getAllPosts)
 // 获取草稿箱中的所有文章
-router.get('/api/admin/drafts', loginCheck, PostController.getPosts)
+router.get('/api/admin/drafts', loginCheck, PostController.getAllPosts)
 // 发布文章
 router.post('/api/admin/posts/new', loginCheck, PostController.createPost)
 // 删除文章
