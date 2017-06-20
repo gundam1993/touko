@@ -2,7 +2,7 @@ const config = require('config-lite')
 const Post = require('../models/post')
 const axios = require('axios')
 
-exports.getAllPosts = async (ctx, next) => {
+exports.getPostsList = async (ctx, next) => {
   try {
     let posts = await Post.findAll({where: {display: true},
                                     attributes: {exclude: ['content', 'updatedAt'] },

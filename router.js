@@ -40,5 +40,5 @@ router.get('/api/photo/list/:type', PhotoController.getImgList)
 //删除又拍云图片
 router.get('/api/photo/delete/:type/:image', loginCheck, PhotoController.deleteImg)
 // 获取所有文章(无需登录,仅标题)
-router.get('/api/posts', HomePageController.getAllPosts)
+router.get('/api/posts', HomePageController.getPostsList)
 module.exports = router
