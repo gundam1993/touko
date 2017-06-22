@@ -22,9 +22,16 @@ const marked = Marked.setOptions({
 // 获取所有文章，需登录
 exports.getAllPosts = async (ctx, next) => {
   const userId = ctx.userInfo.userId
-  let posts =  await Post.findAll({ where: {userId: userId},
+  const search = ctx.query.search || ''
+  if (search === '') {
+    let posts =  await Post.findAll({ where: {userId: userId}},
                    attributes: {exclude: ['updatedAt'] },
                    order: [['id', 'DESC']]})
+  } else {
+    let posts =  await Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
+                   attributes: {exclude: ['updatedAt'] },
+                   order: [['id', 'DESC']]})
+  }
   ctx.response.body = {success: 1, posts: posts}
 }
 
