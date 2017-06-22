@@ -23,12 +23,13 @@ const marked = Marked.setOptions({
 exports.getAllPosts = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const search = ctx.query.search || ''
+  let posts
   if (search === '') {
-    let posts =  await Post.findAll({ where: {userId: userId}},
+    posts =  await Post.findAll({ where: {userId: userId},
                    attributes: {exclude: ['updatedAt'] },
                    order: [['id', 'DESC']]})
   } else {
-    let posts =  await Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
+    posts =  await Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
                    attributes: {exclude: ['updatedAt'] },
                    order: [['id', 'DESC']]})
   }
