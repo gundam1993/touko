@@ -47,7 +47,7 @@ exports.createPost = async (ctx, next) => {
       display: post.display,
       userId: userId
     })
-    ctx.response.body = {success: 1, msg: '发布成功'}
+    ctx.response.body = {success: 1, msg: '发布成功'， post: newPost}
   } else {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   }
