@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import IndexMenu from '~components/Menu'
-import PageFooter from '~components/Footer'
+import IndexMenu from '../components/Menu'
+import PageFooter from '../components/Footer'
 export default {
   head: () => ({
     title: 'Tommy.H',

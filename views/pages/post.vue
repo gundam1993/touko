@@ -8,7 +8,7 @@
 
 <script>
   import axios from 'axios'
-  import PostDisplayer from '~components/PostDisplayer'
+  import PostDisplayer from '../components/PostDisplayer'
   export default {
     name: 'Post',
     layout: 'homepage',

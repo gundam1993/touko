@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import PostDisplayer from '~components/PostDisplayer'
+  import PostDisplayer from '../../components/PostDisplayer'
   import axios from 'axios'
   export default {
     name: 'About',

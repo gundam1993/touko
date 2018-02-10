@@ -1,3 +1,3 @@
 var app = require('./server')
 
-app.start()
+app()

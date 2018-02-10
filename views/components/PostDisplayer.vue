@@ -20,5 +20,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url('~assets/css/post.css');
+  @import url('../assets/css/post.css');
 </style>

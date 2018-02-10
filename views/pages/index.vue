@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import PostList from '~components/PostList'
+  import PostList from '../components/PostList'
   import axios from 'axios'
   export default {
     layout: 'homepage',

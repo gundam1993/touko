@@ -21,7 +21,7 @@
 
 <script>
   export default {
-    name: 'menu'
+    name: 'topMenu'
   }
 </script>
 

@@ -6,7 +6,7 @@
 
 <script>
   import axios from 'axios'
-  import Photography from '~components/Photography'
+  import Photography from '../../components/Photography'
   export default {
     layout: 'homepage',
     head: {
