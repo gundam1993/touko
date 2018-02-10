@@ -12,20 +12,20 @@ const isProduction = (app.env === 'production')
 console.log(isProduction)
 process.env.BASE_URL = server_config.baseUrl
 
-//connect database
+// connect database
 var sequlize = require('./models/database')
 
 app.use(async (ctx, next) => {
   console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
   await next();
 })
-//bodyparser
+// bodyparser
 app.use(koaBody({multipart: true}))
 // add router middleware:
 app.use(router.routes());
 
 // Start nuxt.js
-async function start () {
+exports.start = async () => {
   // Import and Set Nuxt.js options
   const nuxt_config = require('./nuxt.config.js')
   // Instanciate nuxt.js
@@ -41,14 +41,10 @@ async function start () {
   }
 
   app.use(async (ctx, next) => {
-  ctx.status = 200 // koa defaults to 404 when it sees that status is unset
+    ctx.status = 200 // koa defaults to 404 when it sees that status is unset
     await nuxt.render(ctx.req, ctx.res)
   })
 
   app.listen(server_config.port)
   console.log(`app started at port ${server_config.port}...`)
 }
-
-start()
-
-
