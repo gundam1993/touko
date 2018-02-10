@@ -4,11 +4,9 @@ const tools = require('upyun/tools')
 const utils = require('upyun/upyun/utils')
 const crypto = require('crypto')
 
-// 获取相册图片信息及TOKEN 
+// 获取相册图片信息及TOKEN
 exports.getImgToken = async (ctx, next) => {
   const type = ctx.params.type
-  const operator = config.upyun.operator
-  const password = config.upyun.password
   const secret = config.upyun[type].secret
   const saveKey = config.upyun[type].saveKey
   const bucket = config.upyun[type].bucket
@@ -29,10 +27,10 @@ exports.getSpaceUsage = async (ctx, next) => {
   let date = (new Date()).toGMTString()
   const req = axios.create({
     headers: {
-              'Authorization': getUpSign('GET', `/${bucket}/?usage`, date),
-              'Date': date
-             }
-  });
+      'Authorization': getUpSign('GET', `/${bucket}/?usage`, date),
+      'Date': date
+    }
+  })
   let res = await req.get(url)
   ctx.response.body = {success: 1, usage: res.data}
 }
@@ -44,10 +42,10 @@ exports.getImgList = async (ctx, next) => {
   let date = (new Date()).toGMTString()
   const req = axios.create({
     headers: {
-              'Authorization': getUpSign('GET', `/${bucket}/`, date),
-              'Date': date
-             }
-  });
+      'Authorization': getUpSign('GET', `/${bucket}/`, date),
+      'Date': date
+    }
+  })
   let res = await req.get(url)
   let fileList = []
   let fileListRaw = res.data
@@ -70,14 +68,15 @@ exports.deleteImg = async (ctx, next) => {
   const type = ctx.params.type
   const image = ctx.params.image
   const bucket = config.upyun[type].bucket
+  console.log(type)
   let url = `${config.upyun.requestUrl}/${bucket}/${image}`
   let date = (new Date()).toGMTString()
   const req = axios.create({
     headers: {
-              'Authorization': getUpSign('DELETE', `/${bucket}/${image}`, date),
-              'Date': date
-             }
-  });
+      'Authorization': getUpSign('DELETE', `/${bucket}/${image}`, date),
+      'Date': date
+    }
+  })
   let res = await req.delete(url)
   if (res.status === 200) {
     ctx.response.body = { success: 1 }
@@ -86,7 +85,7 @@ exports.deleteImg = async (ctx, next) => {
   }
 }
 
-function getUpSign(method, remotePath, date) {
+function getUpSign (method, remotePath, date) {
   const operator = config.upyun.operator
   const password = config.upyun.password
   let str = `${method}&${remotePath}&${date}`

@@ -1,8 +1,4 @@
-const config = require('config-lite')
 const Post = require('../models/post')
-const axios = require('axios')
-const tools = require('upyun/tools')
-const utils = require('upyun/upyun/utils')
 const Marked = require('marked')
 const marked = Marked.setOptions({
   renderer: new Marked.Renderer(),
@@ -25,13 +21,13 @@ exports.getAllPosts = async (ctx, next) => {
   const search = ctx.query.search || ''
   let posts
   if (search === '') {
-    posts =  await Post.findAll({ where: {userId: userId},
-                   attributes: {exclude: ['updatedAt'] },
-                   order: [['id', 'DESC']]})
+    posts = await Post.findAll({ where: {userId: userId},
+      attributes: { exclude: ['updatedAt'] },
+      order: [['id', 'DESC']] })
   } else {
-    posts =  await Post.findAll({ where: {userId: userId, title:{$like: `%${search}%`}},
-                   attributes: {exclude: ['updatedAt'] },
-                   order: [['id', 'DESC']]})
+    posts = await Post.findAll({ where: {userId: userId, title: {$like: `%${search}%`}},
+      attributes: { exclude: ['updatedAt'] },
+      order: [['id', 'DESC']]})
   }
   ctx.response.body = {success: 1, posts: posts}
 }
@@ -47,7 +43,7 @@ exports.createPost = async (ctx, next) => {
       display: post.display,
       userId: userId
     })
-    ctx.response.body = {success: 1, msg: '发布成功'， post: newPost}
+    ctx.response.body = {success: 1, msg: '发布成功', post: newPost}
   } else {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   }
@@ -56,23 +52,26 @@ exports.createPost = async (ctx, next) => {
 exports.deletePost = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const postId = ctx.params.postId
-  let res = await Post.destroy({ where: {userId: userId, id: postId}})
+  await Post.destroy({ where: {userId: userId, id: postId} })
   ctx.response.body = {success: 1, msg: '删除成功'}
 }
 // 按id获取文章详细信息
 exports.getPostById = async (ctx, next) => {
   const postId = ctx.params.postId
-  let post = await Post.findOne({ where: {id: postId},
-                                  attributes: {exclude: ['updatedAt'] }})
+  let post = await Post.findOne({ where: {id: postId}, attributes: { exclude: ['updatedAt'] } })
   post.update({pv: post.pv + 1})
   let html = marked(post.content)
-  ctx.response.body = {success: 1, msg: '查询成功', post: {
-    html: html,
-    content: post.content,
-    id: post.id,
-    title: post.title,
-    createdAt: post.createdAt
-  }}
+  ctx.response.body = {
+    success: 1,
+    msg: '查询成功',
+    post: {
+      html: html,
+      content: post.content,
+      id: post.id,
+      title: post.title,
+      createdAt: post.createdAt
+    }
+  }
 }
 // 修改文章
 exports.editPost = async (ctx, next) => {
@@ -82,9 +81,10 @@ exports.editPost = async (ctx, next) => {
   if (post.title === '') {
     ctx.response.body = {success: 0, msg: '请完成文章后再发布'}
   } else {
-    let  newPost = await Post.update({ title: post.title, content: post.content, display: post.display},
-                                     { where: {userId: userId, id: postId},
-                                       fields: ['title', 'content', 'display']})
+    await Post.update(
+      {title: post.title, content: post.content, display: post.display},
+      { where: {userId: userId, id: postId},
+        fields: ['title', 'content', 'display']})
     ctx.response.body = {success: 1, msg: '编辑成功'}
   }
 }
@@ -93,8 +93,7 @@ exports.editPost = async (ctx, next) => {
 exports.moveToDraft = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const postId = ctx.params.postId
-  await Post.update({ display: false },
-                    { where: { userId: userId, id: postId }})
+  await Post.update({display: false}, {where: {userId: userId, id: postId}})
   ctx.response.body = {success: 1, msg: '移动成功'}
 }
 
@@ -103,7 +102,7 @@ exports.publishPost = async (ctx, next) => {
   const userId = ctx.userInfo.userId
   const postId = ctx.params.postId
   await Post.update({ display: true },
-                    { where: { userId: userId, id: postId }})
+                    { where: { userId: userId, id: postId } })
   ctx.response.body = {success: 1, msg: '发布成功'}
 }
 
