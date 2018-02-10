@@ -1,6 +1,5 @@
 const config = require('config-lite')
 const bcrypt = require('bcryptjs')
-const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 var User = require('../models/user')
 
@@ -19,7 +18,7 @@ var User = require('../models/user')
 exports.login = async (ctx, next) => {
   try {
     const username = ctx.request.body.username
-    const user = await User.findOne({ where: {username: username}})
+    const user = await User.findOne({ where: {username: username} })
     if (user === null) {
       ctx.status = 200
       ctx.response.body = {
@@ -28,13 +27,13 @@ exports.login = async (ctx, next) => {
       }
     } else {
       const passwordCheck = bcrypt.compareSync(ctx.request.body.password, user.password)
-      let expires = Date.now() + (60 * 60 * 1000 * config.cookieExpires )
+      let expires = Date.now() + (60 * 60 * 1000 * config.cookieExpires)
       if (passwordCheck) {
         var token = jwt.sign({
-            iss: 'touko',
-            userId: user.id,
-            exp: expires
-          }, config.jwt.key)
+          iss: 'touko',
+          userId: user.id,
+          exp: expires
+        }, config.jwt.key)
         ctx.status = 200
         ctx.cookies.set('touko-blog-token', token, {expires: new Date(expires), signed: true, httpOnly: false})
         ctx.response.body = {
@@ -42,7 +41,7 @@ exports.login = async (ctx, next) => {
           desc: 'success',
           token: token
         }
-      }else {
+      } else {
         ctx.status = 200
         ctx.response.body = {
           success: 0,
@@ -50,8 +49,7 @@ exports.login = async (ctx, next) => {
         }
       }
     }
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
     ctx.status = 200
     ctx.response.body = {
