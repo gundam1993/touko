@@ -8,6 +8,8 @@ module.exports = {
     username: 'tianyao',
     password: '',
     host: 'localhost',
+    dialect: 'sqlite',
+    storage: './touko.db',
     port: 5432
   },
   bcrypt: {
