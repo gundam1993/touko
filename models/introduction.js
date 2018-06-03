@@ -1,26 +1,20 @@
-var sequelize = require('./database')
-const Sequelize = require('sequelize')
-const User = require('./user.js')
-
-var Introduction = sequelize.define('introductions', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  content: {
-    type: Sequelize.TEXT,
-    allowNull: true
-  },
-  userId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id'
+module.exports = app => {
+  const { TEXT, INTEGER } = app.Sequelize
+  const Introduction = app.model.define('introductions', {
+    id: {
+      type: INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    content: {
+      type: TEXT,
+      allowNull: true
+    },
+    userId: {
+      type: INTEGER
     }
-  }
-}, {
-  timestamp: true
-})
-
-module.exports = Introduction
+  }, {
+    timestamp: true
+  })
+  return Introduction
+}

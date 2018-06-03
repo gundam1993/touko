@@ -1,38 +1,35 @@
-var sequelize = require('./database')
-const Sequelize = require('sequelize')
-const User = require('./user.js')
-
-var Post = sequelize.define('post', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  title: {
-    type: Sequelize.STRING(100),
-    allowNull: false
-  },
-  content: {
-    type: Sequelize.TEXT,
-    allowNull: true
-  },
-  pv: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0
-  },
-  display: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: true
-  },
-  userId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id'
+module.exports = app => {
+  const { STRING, TEXT, BOOLEAN, INTEGER } = app.Sequelize
+  const Post = app.model.define('post', {
+    id: {
+      type: INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    title: {
+      type: STRING,
+      allowNull: false
+    },
+    content: {
+      type: TEXT,
+      allowNull: true
+    },
+    pv: {
+      type: INTEGER,
+      defaultValue: 0
+    },
+    display: {
+      type: BOOLEAN,
+      defaultValue: true
+    },
+    userId: {
+      type: INTEGER
     }
+  }, {
+    timestamp: true
+  })
+  Post.associate = function () {
+    app.model.Post.belongsTo(app.model.User)
   }
-}, {
-  timestamp: true
-})
-
-module.exports = Post
+  return Post
+}

@@ -1,23 +1,24 @@
-var sequelize = require('./database')
-const Sequelize = require('sequelize')
-const Post = require('./post.js')
-
-var User = sequelize.define('user', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  username: {
-    type: Sequelize.STRING(100),
-    allowNull: false
-  },
-  password: {
-    type: Sequelize.STRING(100),
-    allowNull: false
-  },
-}, {
-  timestamp: true
-})
-User.hasMany(Post, {as: 'Posts'})
-module.exports = User
+module.exports = app => {
+  const { STRING, INTEGER } = app.Sequelize
+  const User = app.model.define('user', {
+    id: {
+      type: INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
+      type: STRING,
+      allowNull: false
+    },
+    password: {
+      type: STRING,
+      allowNull: false
+    }
+  }, {
+    timestamp: true
+  })
+  User.associate = function () {
+    app.model.User.hasMany(app.model.Post, {as: 'Posts'})
+  }
+  return User
+}
