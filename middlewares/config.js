@@ -6,7 +6,6 @@ module.exports = (app, baseDir) => {
     config_basedir: baseDir,
     config_dir: 'config'
   })
-  console.log(config)
   // bind app.config
   Object.defineProperty(app, 'config', {
     value: config,
