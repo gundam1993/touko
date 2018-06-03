@@ -1,22 +1,29 @@
+const pkg = require('./package')
 const resolve = require('path').resolve
-const config = require('config-lite')
-
+const nodeExternals = require('webpack-node-externals')
+const config = require('config-lite')({
+  config_basedir: __dirname,
+  config_dir: 'config'
+})
 module.exports = {
+  mode: 'universal',
+  srcDir: 'views/',
   /*
   ** Headers of the page
   */
-  srcDir: 'views/',
   cache: {
     max: 500,
     maxAge: 900000
   },
   head: {
-    title: '',
+    title: '\\Tommy.H\\',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { name: 'viewport', content: 'width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes' },
+      { hid: 'description', name: 'description', content: pkg.description },
+      {metaname: 'x5-orientation', content: 'portrait'}
     ],
+    script: [],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -32,8 +39,9 @@ module.exports = {
   ** Customize the progress-bar color
   */
   loading: false,
-  /*
-  ** Build configuration
+
+ /*
+  ** Plugins to load before mounting the App
   */
   plugins: [],
   transition: {
@@ -49,19 +57,48 @@ module.exports = {
       })
     }
   },
+  /*
+  ** Nuxt.js modules
+  */
+  modules: [
+    // Doc: https://github.com/nuxt-community/axios-module#usage
+    '@nuxtjs/axios'
+  ],
+  /*
+  ** Axios module configuration
+  */
+  axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: config.baseURL
+  },
+  render: {
+    resourceHints: false
+  },
+  /*
+  ** Build configuration
+  */
   build: {
-    vendor: ['axios'],
     /*
-    ** Run ESLINT on save
+    ** You can extend webpack config here
     */
+    vendor: [],
+    analyze: false,
     extend (config, ctx) {
-      if (ctx.isClient) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+      }
+      if (ctx.isServer) {
+        config.externals = [
+          nodeExternals({
+            whitelist: [/^vuetify/]
+          })
+        ]
       }
     }
   }
