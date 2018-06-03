@@ -1,6 +1,8 @@
 module.exports = {
   host: '127.0.0.1',
   port: 3000,
+  production: false,
+  cookieKey: ['the suicidal mime'],
   db: {
     name: 'touko',
     username: 'tianyao',
