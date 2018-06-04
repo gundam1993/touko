@@ -23,10 +23,13 @@ module.exports = app => {
       defaultValue: true
     },
     userId: {
-      type: INTEGER
+      type: INTEGER,
+      field: 'user_id'
     }
   }, {
-    timestamp: true
+    timestamp: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   })
   Post.associate = function () {
     app.model.Post.belongsTo(app.model.User)
