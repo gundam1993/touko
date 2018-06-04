@@ -10,7 +10,7 @@ npm-debug.log
 # Nuxt generate
 dist
 
-config/production.js
+config
 touko.db
 .DS_Store
 npm-debug.log*
