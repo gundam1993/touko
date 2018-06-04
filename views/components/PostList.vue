@@ -1,9 +1,9 @@
 <template>
   <div id="post-list">
-    <div class="post" v-for="post in posts">
+    <div class="post" v-for="(post, index) in posts" :key="index">
       <nuxt-link :to="`/post/${post.id}`">
         <h2 class="post-title">{{post.title}}</h2>
-        <span class="post-date">{{getDate(post.createdAt)}}</span>
+        <span class="post-date">{{getDate(post.created_at)}}</span>
       </nuxt-link>
     </div>
   </div>
