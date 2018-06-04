@@ -37,6 +37,8 @@ exports.getSpaceUsage = async ({params, app, response}, next) => {
 exports.getImgList = async ({params, app, response}, next) => {
   const type = params.type
   const bucket = app.config.upyun[type].bucket
+  console.log(app.config.upyun[type])
+  console.log(bucket)
   let url = `${app.config.upyun.requestUrl}/${bucket}/`
   let date = (new Date()).toGMTString()
   const req = axios.create({
