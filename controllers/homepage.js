@@ -1,13 +1,8 @@
-const Post = require('../models/post')
-
-exports.getPostsList = async (ctx, next) => {
-  try {
-    let posts = await Post.findAll({where: {display: true},
-      attributes: { exclude: ['content', 'updatedAt'] },
-      order: [['createdAt', 'DESC']]})
-    ctx.response.body = { success: 1, posts: posts }
-  } catch (e) {
-    console.log(e)
-    ctx.response.body = {success: 0, msg: e}
-  }
+exports.getPostsList = async ({model, response}, next) => {
+  const posts = await model.Post.findAll({
+    where: {display: true},
+    attributes: { exclude: ['content', 'updatedAt'] },
+    order: [['created_at', 'DESC']]
+  })
+  response.body = { success: 1, posts: posts }
 }
