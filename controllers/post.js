@@ -34,16 +34,16 @@ exports.createPost = async ({request, response, model, userInfo}, next) => {
 }
 
 // 删除文章
-exports.deletePost = async ({response, userInfo, model, request}, next) => {
+exports.deletePost = async ({response, params, userInfo, model, request}, next) => {
   const userId = userInfo.userId
-  const {postId} = request.params
+  const {postId} = params
   await model.Post.destroy({ where: {userId: userId, id: postId} })
   response.body = {success: 1, msg: '删除成功'}
 }
 
 // 按id获取文章详细信息
-exports.getPostById = async ({response, userInfo, model, request}, next) => {
-  const {postId} = request.params
+exports.getPostById = async ({response, params, userInfo, model, request}, next) => {
+  const {postId} = params
   const post = await model.Post.findOne({
     where: {id: postId},
     attributes: {exclude: ['updatedAt']}
@@ -64,9 +64,9 @@ exports.getPostById = async ({response, userInfo, model, request}, next) => {
 }
 
 // 修改文章
-exports.editPost = async ({response, userInfo, model, request}, next) => {
+exports.editPost = async ({response, params, userInfo, model, request}, next) => {
   const userId = userInfo.userId
-  const {postId} = request.params
+  const {postId} = params
   const {title, content, display} = request.body
   if (!title || !content) throw new Error('请完成文章后再发布')
   await model.Post.update(
@@ -77,17 +77,17 @@ exports.editPost = async ({response, userInfo, model, request}, next) => {
 }
 
 // 将已发布的文章移到草稿箱
-exports.moveToDraft = async ({response, userInfo, model, request}, next) => {
+exports.moveToDraft = async ({response, params, userInfo, model, request}, next) => {
   const userId = userInfo.userId
-  const {postId} = request.params
+  const {postId} = params
   await model.Post.update({display: false}, {where: {userId: userId, id: postId}})
   response.body = {success: 1, msg: '移动成功'}
 }
 
 // 从草稿箱发布文章
-exports.publishPost = async ({response, userInfo, model, request}, next) => {
+exports.publishPost = async ({response, params, userInfo, model, request}, next) => {
   const userId = userInfo.userId
-  const {postId} = request.params
+  const {postId} = params
   await model.Post.update(
     { display: true },
     {where: { userId: userId, id: postId }})
