@@ -1,6 +1,6 @@
 module.exports = app => {
   const { TEXT, INTEGER } = app.Sequelize
-  const Introduction = app.model.define('introductions', {
+  const Introduction = app.model.define('introduction', {
     id: {
       type: INTEGER,
       primaryKey: true,
