@@ -13,8 +13,8 @@ exports.updateAboutInfo = async ({response, request, userInfo, model}, next) => 
   let userId = userInfo.userId
   const {content} = request.body
   const about = await model.Introduction.findOne({ where: { userId: userId } })
-  let info = (about
+  about
     ? await model.Introduction.update({ content: content }, { where: { userId: userId } })
-    : await model.Introduction.create({content: content, userId: userId}))
+    : await model.Introduction.create({content: content, userId: userId})
   response.body = { success: 1, msg: '更新成功' }
 }
