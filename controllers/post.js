@@ -24,7 +24,7 @@ exports.createPost = async ({request, response, model, userInfo}, next) => {
   const userId = userInfo.userId
   const { title, content, display } = request.body
   if (!title || !content) throw new Error('请完成文章后再发布')
-  const newPost = await Post.create({
+  const newPost = await model.Post.create({
     title: title,
     content: content,
     display: display,
