@@ -1,4 +1,3 @@
-const config = require('config-lite')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -8,12 +7,12 @@ exports.login = async (ctx, next) => {
   if (user === null) throw new Error('用户不存在')
   const passwordCheck = bcrypt.compareSync(ctx.request.body.password, user.password)
   if (!passwordCheck) throw new Error('密码错误')
-  const expires = Date.now() + (60 * 60 * 1000 * config.cookieExpires)
+  const expires = Date.now() + (60 * 60 * 1000 * ctx.app.config.cookieExpires)
   const token = jwt.sign({
     iss: 'touko',
     userId: user.id,
     exp: expires
-  }, config.jwt.key)
+  }, ctx.app.config.jwt.key)
   ctx.cookies.set('touko-blog-token', token, {expires: new Date(expires), signed: true, httpOnly: false})
   ctx.response.body = {
     success: 1,
