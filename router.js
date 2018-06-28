@@ -1,4 +1,11 @@
 const router = require('koa-router')()
+const fs = require('fs')
+const path = require('path')
+const config = require('config-lite')({
+  config_basedir: __dirname,
+  config_dir: 'config'
+})
+const PRD_ADMIN_HTML_FILE = path.join(__dirname, config.AdminDir.index)
 const loginCheck = require('./middlewares/loginCheck')
 const UserController = require('./controllers/user')
 const PostController = require('./controllers/post')
@@ -33,12 +40,19 @@ router.post('/api/admin/about', loginCheck, AboutController.updateAboutInfo)
 router.get('/api/post/:postId', PostController.getPostById)
 // 获取图片上传token
 router.get('/api/admin/get_img_token/:type', loginCheck, PhotoController.getImgToken)
-//获取又拍云空间使用情况
+// 获取又拍云空间使用情况
 router.get('/api/photo/spaceUsage/:type', loginCheck, PhotoController.getSpaceUsage)
-//获取又拍云文件列表
+// 获取又拍云文件列表
 router.get('/api/photo/list/:type', PhotoController.getImgList)
-//删除又拍云图片
+// 删除又拍云图片
 router.get('/api/photo/delete/:type/:image', loginCheck, PhotoController.deleteImg)
 // 获取所有文章(无需登录,仅标题)
 router.get('/api/posts', HomePageController.getPostsList)
+
+if (config.production) {
+  router.get('/admin', async(ctx, next) => {
+    ctx.type = 'html'
+    ctx.body = fs.createReadStream(PRD_ADMIN_HTML_FILE)
+  })
+}
 module.exports = router
