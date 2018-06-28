@@ -6,9 +6,6 @@
   "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
-    "@types/react": "^16.4.4",
-    "@types/react-dom": "^16.0.6",
-    "@types/react-router-dom": "^4.2.7",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "chalk": "^2.4.1",
@@ -35,16 +32,22 @@
     "ylru": "^1.2.0"
   },
   "scripts": {
-    "dev": "nodemon -w server.js -w router.js -w config -w controllers -w models -w nuxt.config.js app.js",
-    "dev:admin": "nodemon -w server.js -w router.js -w config -w controllers -w models -w nuxt.config.js app.js --target admin",
+    "dev": "nodemon -w server.ts -w router.js -w config -w controllers -w models -w nuxt.config.js -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts",
+    "dev:admin": "nodemon -w server.ts -w router.js -w config -w controllers -w models -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts  --target admin",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production node app.js",
     "build:admin": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
+    "build:server": "'ts-node --project tsconfig.server.json",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.30",
+    "@types/react": "^16.4.4",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-router-dom": "^4.2.7",
     "awesome-typescript-loader": "^5.2.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
@@ -70,6 +73,7 @@
     "sass-loader": "^7.0.3",
     "source-map-loader": "^0.2.3",
     "supertest": "^3.0.0",
+    "ts-node": "^7.0.0",
     "typescript": "^2.9.2",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.8"

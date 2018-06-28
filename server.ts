@@ -1,5 +1,5 @@
-const Koa = require('koa')
-const path = require('path')
+import * as Koa from "koa"
+import * as path from "path"
 const config = require('./middlewares/config')
 const router = require('./router')
 const koaBody = require('koa-body')
@@ -11,7 +11,9 @@ const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
 let nuxtConfig = require('./nuxt.config.js')
 nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
-const args = process.argv.splice(2)
+const args:Array<String> = process.argv.splice(2)
+
+
 
 async function start () {
   console.log(`Running on ${process.env.NODE_ENV || 'development'} mode`)
@@ -54,7 +56,7 @@ async function start () {
   } else {
     // add router middleware:
     app.use(router.routes())
-    app.use(async (ctx, next) => {
+    app.use(async (ctx: Koa.Context, next) => {
       await next()
       ctx.status = 200 // koa defaults to 404 when it sees that status is unset
       return new Promise((resolve, reject) => {

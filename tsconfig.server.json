@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2017",
+      "noImplicitAny": true,
+      "outDir": "./serverDist",
+      "sourceMap": true
+  },
+  "include": [
+      "./app.ts",
+      "./server.ts",
+      "./controllers/**/*",
+      "./models/**/*",
+      "./middlewares/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "adminApp",
+      "test",
+      "views"
+  ]
+}
