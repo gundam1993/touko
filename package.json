@@ -33,6 +33,7 @@
   },
   "scripts": {
     "dev": "nodemon -w server.js -w router.js -w config -w controllers -w models -w nuxt.config.js app.js",
+    "dev:admin": "nodemon -w server.js -w router.js -w config -w controllers -w models -w nuxt.config.js app.js --target admin",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production node app.js",
     "build:admin": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
