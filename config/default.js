@@ -2,7 +2,7 @@ module.exports = {
   host: '127.0.0.1',
   port: 3000,
   production: false,
-  cookieKey: [''],
+  cookieKey: ['the suicidal mime'],
   db: {
     name: 'touko',
     username: 'tianyao',
@@ -20,21 +20,26 @@ module.exports = {
   },
   cookieExpires: 7,
   baseUrl: 'http://localhost:3000',
+  AdminDir: {
+    dist: 'adminAppDist',
+    static: 'static',
+    index: 'adminAppDist/index.html'
+  },
   upyun: {
     requestUrl: 'http://v0.api.upyun.com',
-    operator: '',
-    password: '',
+    operator: 'gundam1993',
+    password: '211993007gundam',
     image: {
-      bucket: '',
-      url: '',
-      secret: '',
+      bucket: 'touko-blog-img',
+      url: 'touko-blog-img.b0.upaiyun.com',
+      secret: '+oZjgSf18qnc0PaP+qZFUM7D+aM=',
       saveKey: '/img_{random}{.suffix}'
     },
     photo: {
-      bucket: '',
-      url: '',
-      secret: '',
-      saveKey: ''
+      bucket: 'touko-blog-photo',
+      url: '  touko-blog-photo.b0.upaiyun.com',
+      secret: '34SO/SXtrPrMv00zYdk+KIOOd2Y=',
+      saveKey: '/photo_{random}{.suffix}'
     }
   }
 }
