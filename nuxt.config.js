@@ -1,6 +1,5 @@
 const pkg = require('./package')
 const resolve = require('path').resolve
-const nodeExternals = require('webpack-node-externals')
 const config = require('config-lite')({
   config_basedir: __dirname,
   config_dir: 'config'
@@ -83,9 +82,9 @@ module.exports = {
     */
     vendor: [],
     analyze: false,
-    extend (config, ctx) {
+    extend (config, {isDev, isServer}) {
       // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
+      if (isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -93,13 +92,7 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      if (ctx.isServer) {
-        config.externals = [
-          nodeExternals({
-            whitelist: [/^vuetify/]
-          })
-        ]
-      }
+      if (isServer) {}
     }
   }
 }
