@@ -9,6 +9,7 @@ npm-debug.log
 
 # Nuxt generate
 dist
+adminAppDist
 
 config
 touko.db
