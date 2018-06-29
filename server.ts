@@ -1,5 +1,6 @@
 import * as Koa from "koa"
 import * as path from "path"
+import * as Sequelize from 'sequelize'
 const config = require('./middlewares/config')
 const router = require('./router')
 const koaBody = require('koa-body')
@@ -16,7 +17,7 @@ nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 export default class ModifiedKoa extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
-  Sequelize: any
+  Sequelize: Sequelize.SequelizeStatic
   model: any
   config: any
 
