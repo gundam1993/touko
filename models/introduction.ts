@@ -1,6 +1,9 @@
-module.exports = app => {
+import ModifiedKoa from '../server'
+import * as Sequelize from '../middlewares/sequelize'
+
+module.exports = (app: ModifiedKoa):Sequelize.Models => {
   const { TEXT, INTEGER } = app.Sequelize
-  const Introduction = app.model.define('introduction', {
+  const Introduction: Sequelize.Models = app.model.define('introduction', {
     id: {
       type: INTEGER,
       primaryKey: true,

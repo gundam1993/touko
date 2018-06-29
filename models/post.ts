@@ -1,6 +1,9 @@
-module.exports = app => {
+import ModifiedKoa from '../server'
+import * as Sequelize from '../middlewares/sequelize'
+
+module.exports = (app:ModifiedKoa):Sequelize.Models => {
   const { STRING, TEXT, BOOLEAN, INTEGER } = app.Sequelize
-  const Post = app.model.define('post', {
+  const Post:Sequelize.Models = app.model.define('post', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -31,7 +34,7 @@ module.exports = app => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   })
-  Post.associate = function () {
+  Post.associate = function ():void {
     app.model.Post.belongsTo(app.model.User)
   }
   return Post
