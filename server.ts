@@ -13,7 +13,7 @@ let nuxtConfig = require('./nuxt.config.js')
 nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 
 
-class ModifiedKoa extends Koa {
+export default class ModifiedKoa extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
   Sequelize: any
@@ -92,9 +92,12 @@ class ModifiedKoa extends Koa {
     })
   }
 
-  start() {
+  start():void {
     this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
   }
 }
 
-export default ModifiedKoa
+export interface ModifiedContext extends Koa.Context {
+  userInfo: object|string
+  app: ModifiedKoa
+}
