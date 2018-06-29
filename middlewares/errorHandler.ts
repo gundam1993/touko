@@ -1,7 +1,10 @@
 /**
  * Created by Tommy Huang on 18/04/24.
  */
-const errorHandler = async (ctx, next) => {
+import * as Koa from 'koa'
+import ModifiedKoa from '../server'
+
+const errorHandler:Koa.Middleware = async (ctx: Koa.Context, next) => {
   try {
     await next()
   } catch (err) {
@@ -14,8 +17,9 @@ const errorHandler = async (ctx, next) => {
     ctx.app.emit('error', err, ctx)
   }
 }
-module.exports = app => {
-  app.on('error', function (err, ctx) {
+
+module.exports = (app:ModifiedKoa):Koa.Middleware => {
+  app.on('error', function (err:Error, ctx: Koa.Context) {
     // ctx.log.error(`[ERROR]: ${err.message}`)
     // ctx.log.error(`err`)
     console.error(`[ERROR]: ${err.stack}`)
