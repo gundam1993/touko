@@ -1,10 +1,13 @@
+
 /**
  * Created by Tommy Huang on 18/04/24.
  */
+import ModifiedKoa from '../server'
 const path = require('path')
 const fs = require('fs')
-const Sequelize = require('sequelize')
+import * as Sequelize from 'sequelize'
 const chalk = require('chalk')
+
 
 Sequelize.prototype.log = function () {
   if (this.options.logging === false) return
@@ -13,10 +16,19 @@ Sequelize.prototype.log = function () {
   this.options.logging('[model]', chalk.magenta(sql), `(${args[1]}ms)`)
 }
 
-module.exports = (app, config) => {
+interface DbConfig {
+  host: string
+  port: string
+  dialect: string
+  name?: string
+  username?: string
+  password?: string
+}
+
+module.exports = (app: ModifiedKoa, config: DbConfig) => {
   console.log(config)
   if (!config.host || !config.port || !config.dialect) throw new Error('[sequelize Error] need config to start')
-  const defalutConfig = {
+  const defalutConfig:object = {
     logging: console.log,
     operatorsAliases: false,
     benchmark: true,
@@ -25,7 +37,7 @@ module.exports = (app, config) => {
       underscored: true
     }
   }
-  const dbConfig = Object.assign(defalutConfig, config)
+  const dbConfig:object = Object.assign(defalutConfig, config)
   app.Sequelize = Sequelize
   const sequelize = new Sequelize(config.name, config.username, config.password, dbConfig)
 
@@ -44,12 +56,12 @@ module.exports = (app, config) => {
   app.model.authenticate()
 }
 
-function loadModel (app) {
-  const modelDir = path.join(app.BaseDir, 'models')
-  let fileNames = fs.readdirSync(modelDir).filter(item => (item.match(/\.js$/) && item !== 'index.js'))
+function loadModel (app: ModifiedKoa):void {
+  const modelDir:string = path.join(app.BaseDir, 'models')
+  let fileNames:string[] = fs.readdirSync(modelDir).filter((item:string) => (item.match(/\.js$/) && item !== 'index.js'))
   fileNames.forEach(fileName => {
     const model = require(path.join(modelDir, fileName))(app)
-    let modelName = model.name.replace(/[_-][a-z]/ig, s => s.substring(1).toUpperCase())
+    let modelName = model.name.replace(/[_-][a-z]/ig, (s:string) => s.substring(1).toUpperCase())
     modelName = modelName[0].toUpperCase() + modelName.substring(1)
     app.model[modelName] = model
   })
