@@ -6,7 +6,7 @@ const router = require('./router')
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
 const staticMiddleware = require('./middlewares/static')
-const sequlize = require('./middlewares/sequelize')
+import sequlize from './middlewares/sequelize'
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
