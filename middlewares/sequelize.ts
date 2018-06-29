@@ -25,7 +25,7 @@ interface DbConfig {
   password?: string
 }
 
-module.exports = (app: ModifiedKoa, config: DbConfig) => {
+export default (app: ModifiedKoa, config: DbConfig):void => {
   console.log(config)
   if (!config.host || !config.port || !config.dialect) throw new Error('[sequelize Error] need config to start')
   const defalutConfig:object = {
@@ -58,7 +58,7 @@ module.exports = (app: ModifiedKoa, config: DbConfig) => {
 
 function loadModel (app: ModifiedKoa):void {
   const modelDir:string = path.join(app.BaseDir, 'models')
-  let fileNames:string[] = fs.readdirSync(modelDir).filter((item:string) => (item.match(/\.js$/) && item !== 'index.js'))
+  let fileNames:string[] = fs.readdirSync(modelDir).filter((item:string) => (item.match(/\.t|js$/) && item !== 'index.js'))
   fileNames.forEach(fileName => {
     const model = require(path.join(modelDir, fileName))(app)
     let modelName = model.name.replace(/[_-][a-z]/ig, (s:string) => s.substring(1).toUpperCase())
@@ -72,4 +72,8 @@ function loadModel (app: ModifiedKoa):void {
       klass.associate()
     }
   }
+}
+
+export interface Models extends Sequelize.Model<any, any> {
+  associate: any
 }
