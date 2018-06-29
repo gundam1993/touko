@@ -1,8 +1,10 @@
 /**
  * Created by Tommy Huang on 18/04/24.
  */
-module.exports = (app, baseDir) => {
-  const config = require('config-lite')({
+import ModifiedKoa from '../server'
+
+module.exports = (app:ModifiedKoa, baseDir:string):void => {
+  const config:object = require('config-lite')({
     config_basedir: baseDir,
     config_dir: 'config'
   })
