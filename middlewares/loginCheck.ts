@@ -1,9 +1,8 @@
-/// <reference path="../modifiedKoa.d.ts" />
 import * as jwt from 'jsonwebtoken'
 import * as ModifiedKoa from '../server'
 import * as Koa from 'koa'
 
-var loginCheck:Koa.Middleware = async(ctx:ModifiedKoa.ModifiedContext, next) => {
+const loginCheck:Koa.Middleware = async(ctx:ModifiedKoa.ModifiedContext, next) => {
   let token:string = ctx.cookies.get('touko-blog-token') || ctx.request.headers['x-token']
   console.log(token)
   try {
@@ -17,4 +16,4 @@ var loginCheck:Koa.Middleware = async(ctx:ModifiedKoa.ModifiedContext, next) => 
   }
 }
 
-module.exports = loginCheck
+export default loginCheck
