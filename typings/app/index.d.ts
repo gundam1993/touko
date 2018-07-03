@@ -15,7 +15,6 @@ declare class ModifiedKoa extends Koa {
   start():void;
 }
 
-
 declare interface ModifiedContext extends Koa.Context {
   userInfo: object|string
   app: ModifiedKoa,
