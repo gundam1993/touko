@@ -1,17 +1,21 @@
-const router = require('koa-router')()
-const fs = require('fs')
-const path = require('path')
-const config = require('config-lite')({
+import * as Router from 'koa-router'
+import * as fs from 'fs'
+import * as path from 'path'
+import * as ModifiedKoa from './server'
+const router:Router = new Router()
+const config:any = require('config-lite')({
   config_basedir: __dirname,
   config_dir: 'config'
 })
-const PRD_ADMIN_HTML_FILE = path.join(__dirname, config.AdminDir.index)
-const loginCheck = require('./middlewares/loginCheck')
+
+const PRD_ADMIN_HTML_FILE:string = path.join(__dirname, config.AdminDir.index)
+import loginCheck from './middlewares/loginCheck'
 const UserController = require('./controllers/user')
 const PostController = require('./controllers/post')
 const PhotoController = require('./controllers/photo')
 const AboutController = require('./controllers/about')
-const HomePageController = require('./controllers/homepage')
+import * as HomePage from './controllers/homepage'
+import { ModifiedContext } from './typings/app';
 
 router.post('/admin/login', UserController.login)
 
@@ -47,10 +51,10 @@ router.get('/api/photo/list/:type', PhotoController.getImgList)
 // 删除又拍云图片
 router.get('/api/photo/delete/:type/:image', loginCheck, PhotoController.deleteImg)
 // 获取所有文章(无需登录,仅标题)
-router.get('/api/posts', HomePageController.getPostsList)
+router.get('/api/posts', HomePage.getPostsList)
 
 if (config.production) {
-  router.get('/admin', async(ctx, next) => {
+  router.get('/admin', async (ctx:ModifiedContext) => {
     ctx.type = 'html'
     ctx.body = fs.createReadStream(PRD_ADMIN_HTML_FILE)
   })
