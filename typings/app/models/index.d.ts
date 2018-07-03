@@ -5,7 +5,7 @@ declare namespace ModifiedModel {
     (app:ModifiedKoa): Sequelize.Model<string,object>
   }
 
-  interface Model {
+  interface ModelDictionary {
     [index:string]:Sequelize.Model<string,object>
   }
 }

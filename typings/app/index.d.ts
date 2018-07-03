@@ -6,7 +6,7 @@ declare class ModifiedKoa extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
   Sequelize: Sequelize.SequelizeStatic
-  model: ModifiedModel.Model
+  model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
   config: any
   constructor(BaseDir: string, NODE_ENV:string);
   runProduction():Promise<any>;
@@ -15,8 +15,9 @@ declare class ModifiedKoa extends Koa {
   start():void;
 }
 
+
 declare interface ModifiedContext extends Koa.Context {
   userInfo: object|string
   app: ModifiedKoa,
-  model: ModifiedModel.Model
+  model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
 }
