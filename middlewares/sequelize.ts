@@ -8,7 +8,6 @@ const fs = require('fs')
 import * as Sequelize from 'sequelize'
 const chalk = require('chalk')
 
-
 Sequelize.prototype.log = function () {
   if (this.options.logging === false) return
   const args = Array.prototype.slice.call(arguments)
@@ -16,16 +15,7 @@ Sequelize.prototype.log = function () {
   this.options.logging('[model]', chalk.magenta(sql), `(${args[1]}ms)`)
 }
 
-interface DbConfig {
-  host: string
-  port: string
-  dialect: string
-  name?: string
-  username?: string
-  password?: string
-}
-
-export default (app: ModifiedKoa, config: DbConfig):void => {
+export default (app: ModifiedKoa, config: Sequelize.Options):void => {
   console.log(config)
   if (!config.host || !config.port || !config.dialect) throw new Error('[sequelize Error] need config to start')
   const defalutConfig:object = {
@@ -37,9 +27,9 @@ export default (app: ModifiedKoa, config: DbConfig):void => {
       underscored: true
     }
   }
-  const dbConfig:object = Object.assign(defalutConfig, config)
+  const dbConfig:Sequelize.Options = Object.assign(defalutConfig, config)
   app.Sequelize = Sequelize
-  const sequelize = new Sequelize(config.name, config.username, config.password, dbConfig)
+  const sequelize = new Sequelize(config.database, config.username, config.password, dbConfig)
 
   // bind app.sequelize
   Object.defineProperty(app, 'model', {
@@ -72,8 +62,4 @@ function loadModel (app: ModifiedKoa):void {
       klass.associate()
     }
   }
-}
-
-export interface Models extends Sequelize.Model<any, any> {
-  associate: any
 }
