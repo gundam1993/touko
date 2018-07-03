@@ -2,7 +2,7 @@
  * Created by Tommy Huang on 18/04/24.
  */
 import * as Koa from 'koa'
-import ModifiedKoa from '../server'
+import { ModifiedKoa } from '../typings/app';
 
 const errorHandler:Koa.Middleware = async (ctx: Koa.Context, next) => {
   try {
