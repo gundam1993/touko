@@ -1,10 +1,10 @@
 module.exports = {
   host: '127.0.0.1',
-  port: 3000,
+  port: 3001,
   production: false,
   cookieKey: ['the suicidal mime'],
   db: {
-    name: 'touko',
+    database: 'touko',
     username: 'tianyao',
     password: '',
     host: 'localhost',
@@ -19,7 +19,7 @@ module.exports = {
     key: 'I am the Alpha and the Omega, the First and the Last, the Beginning and the End.'
   },
   cookieExpires: 7,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:3001',
   AdminDir: {
     dist: 'adminAppDist',
     static: 'static',
