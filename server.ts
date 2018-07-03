@@ -57,7 +57,7 @@ export default class ModifiedKoa extends Koa {
       return new Promise((resolve, reject) => {
         ctx.res.on('close', resolve)
         ctx.res.on('finish', resolve)
-        nuxt.render(ctx.req, ctx.res, (promise: any) => {
+        nuxt.render(ctx.req, ctx.res, (promise:Promise<any>) => {
           // nuxt.render passes a rejected promise into callback on error.
           promise.then(resolve).catch(reject)
         })
@@ -96,9 +96,4 @@ export default class ModifiedKoa extends Koa {
   start():void {
     this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
   }
-}
-
-export interface ModifiedContext extends Koa.Context {
-  userInfo: object|string
-  app: ModifiedKoa
 }
