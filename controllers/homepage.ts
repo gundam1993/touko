@@ -1,8 +1,7 @@
 import * as Koa from 'koa'
-import * as Sequelize from '../middlewares/sequelize'
 import { ModifiedContext } from '../typings/app';
 
-export const getPostsList= async ({model, response}:ModifiedContext) => {
+export const getPostsList:Koa.Middleware = async ({model, response}:ModifiedContext) => {
   const posts = await model.Post.findAll({
     where: {display: true},
     attributes: { exclude: ['content', 'updatedAt'] },
