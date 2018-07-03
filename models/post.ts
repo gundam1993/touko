@@ -1,9 +1,10 @@
 import ModifiedKoa from '../server'
-import * as Sequelize from '../middlewares/sequelize'
+import * as Sequelize from 'sequelize'
+import { ModifiedModel } from '../typings/app/models';
 
-module.exports = (app:ModifiedKoa):Sequelize.Models => {
+const post:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
   const { STRING, TEXT, BOOLEAN, INTEGER } = app.Sequelize
-  const Post:Sequelize.Models = app.model.define('post', {
+  const Post:Sequelize.Model<string,object> = app.model.define('post', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -39,3 +40,4 @@ module.exports = (app:ModifiedKoa):Sequelize.Models => {
   }
   return Post
 }
+module.exports = post
