@@ -32,8 +32,8 @@
     "ylru": "^1.2.0"
   },
   "scripts": {
-    "dev": "nodemon -w server.ts -w router.js -w config -w controllers -w models -w nuxt.config.js -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts",
-    "dev:admin": "nodemon -w server.ts -w router.js -w config -w controllers -w models -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts  --target admin",
+    "dev": "nodemon -w server.ts -w router.js -w typings -w config -w controllers -w models -w nuxt.config.js -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts",
+    "dev:admin": "nodemon -w server.ts -w router.js -w typings -w config -w controllers -w models -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts  --target admin",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production node app.js",
     "build:admin": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
