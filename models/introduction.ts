@@ -1,9 +1,10 @@
 import ModifiedKoa from '../server'
-import * as Sequelize from '../middlewares/sequelize'
+import * as Sequelize from 'sequelize'
+import { ModifiedModel } from '../typings/app/models';
 
-module.exports = (app: ModifiedKoa):Sequelize.Models => {
+const introduction:ModifiedModel.modelFunc = (app: ModifiedKoa) => {
   const { TEXT, INTEGER } = app.Sequelize
-  const Introduction: Sequelize.Models = app.model.define('introduction', {
+  const Introduction:Sequelize.Model<string, object> = app.model.define('introduction', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -21,3 +22,5 @@ module.exports = (app: ModifiedKoa):Sequelize.Models => {
   })
   return Introduction
 }
+
+module.exports = introduction
