@@ -1,10 +1,12 @@
-const axios = require('axios')
+import Axios from 'axios'
 const tools = require('upyun/tools')
 const utils = require('upyun/upyun/utils')
-const crypto = require('crypto')
+import * as crypto from 'crypto'
+import * as Koa from 'koa'
+import { ModifiedContext } from '../typings/app';
 
 // 获取相册图片信息及TOKEN
-exports.getImgToken = async ({params, app, response}, next) => {
+export const getImgToken:Koa.Middleware = async ({params, app, response}:ModifiedContext, next) => {
   const type = params.type
   const secret = app.config.upyun[type].secret
   const saveKey = app.config.upyun[type].saveKey
@@ -19,12 +21,12 @@ exports.getImgToken = async ({params, app, response}, next) => {
   response.body = {success: 1, token: token, policy: policy}
 }
 
-exports.getSpaceUsage = async ({params, app, response}, next) => {
+export const getSpaceUsage:Koa.Middleware = async ({params, app, response}:ModifiedContext, next) => {
   const type = params.type
   const bucket = app.config.upyun[type].bucket
   let url = `${app.config.upyun.requestUrl}/${bucket}/?usage`
-  let date = (new Date()).toGMTString()
-  const req = axios.create({
+  let date = (new Date()).toUTCString()
+  const req = Axios.create({
     headers: {
       'Authorization': getUpSign('GET', `/${bucket}/?usage`, date, app.config),
       'Date': date
@@ -34,14 +36,14 @@ exports.getSpaceUsage = async ({params, app, response}, next) => {
   response.body = {success: 1, usage: res.data}
 }
 
-exports.getImgList = async ({params, app, response}, next) => {
+export const getImgList:Koa.Middleware = async ({params, app, response}:ModifiedContext, next) => {
   const type = params.type
   const bucket = app.config.upyun[type].bucket
   console.log(app.config.upyun[type])
   console.log(bucket)
   let url = `${app.config.upyun.requestUrl}/${bucket}/`
-  let date = (new Date()).toGMTString()
-  const req = axios.create({
+  let date = (new Date()).toUTCString()
+  const req = Axios.create({
     headers: {
       'Authorization': getUpSign('GET', `/${bucket}/`, date, app.config),
       'Date': date
@@ -65,12 +67,12 @@ exports.getImgList = async ({params, app, response}, next) => {
   response.body = {success: 1, fileList: fileList}
 }
 
-exports.deleteImg = async ({params, app, response}, next) => {
+export const deleteImg:Koa.Middleware = async ({params, app, response}:ModifiedContext, next) => {
   const {type, image} = params
   const bucket = app.config.upyun[type].bucket
   let url = `${app.config.upyun.requestUrl}/${bucket}/${image}`
-  let date = (new Date()).toGMTString()
-  const req = axios.create({
+  let date = (new Date()).toUTCString()
+  const req = Axios.create({
     headers: {
       'Authorization': getUpSign('DELETE', `/${bucket}/${image}`, date, app.config),
       'Date': date
@@ -84,7 +86,8 @@ exports.deleteImg = async ({params, app, response}, next) => {
   }
 }
 
-function getUpSign (method, remotePath, date, config) {
+
+function getUpSign (method:string, remotePath:string, date:string, config:any):string {
   const operator = config.upyun.operator
   const password = config.upyun.password
   let str = `${method}&${remotePath}&${date}`
