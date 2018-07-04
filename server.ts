@@ -15,7 +15,7 @@ let nuxtConfig = require('./nuxt.config.js')
 nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 
 
-export default class ModifiedKoa extends Koa {
+export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   readonly BaseDir: string
   readonly isProduction: boolean
   Sequelize: Sequelize.SequelizeStatic
