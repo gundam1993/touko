@@ -7,6 +7,7 @@ const koaBody = require('koa-body')
 const logger = require('koa-logger')
 const staticMiddleware = require('./middlewares/static')
 import sequlize from './middlewares/sequelize'
+import { ModifiedModel } from "./typings/app/models";
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
@@ -18,7 +19,7 @@ export default class ModifiedKoa extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
   Sequelize: Sequelize.SequelizeStatic
-  model: any
+  model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
   config: any
 
   constructor(BaseDir: string, NODE_ENV:string) {
