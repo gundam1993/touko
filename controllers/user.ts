@@ -1,11 +1,18 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+import * as bcrypt from 'bcrypt'
+import * as jwt from 'jsonwebtoken'
+import * as Koa from 'koa'
+import { ModifiedContext } from '../typings/app';
 
-exports.login = async (ctx, next) => {
-  let username = ctx.request.body && ctx.request.body.username
+interface UserLoginSubmit {
+  username: string
+  password: string
+}
+
+export const login:Koa.Middleware = async (ctx:ModifiedContext) => {
+  const {username, password}:UserLoginSubmit = ctx.request.body
   let user = await ctx.model.User.findOne({ where: {username: username} })
   if (user === null) throw new Error('用户不存在')
-  const passwordCheck = bcrypt.compareSync(ctx.request.body.password, user.password)
+  const passwordCheck = bcrypt.compareSync(password, user.password)
   if (!passwordCheck) throw new Error('密码错误')
   const expires = Date.now() + (60 * 60 * 1000 * ctx.app.config.cookieExpires)
   const token = jwt.sign({
@@ -21,7 +28,7 @@ exports.login = async (ctx, next) => {
   }
 }
 
-exports.logout = async (ctx, next) => {
+export const logout:Koa.Middleware = async (ctx:ModifiedContext) => {
   ctx.cookies.set('touko-blog-token', null)
   ctx.response.body = {success: 1}
 }
