@@ -15,8 +15,13 @@ declare class ModifiedKoa extends Koa {
   start():void;
 }
 
+declare interface RequestWithBody extends Koa.Request {
+  body: object | any
+}
+
 declare interface ModifiedContext extends Koa.Context {
-  userInfo: object|string
+  userInfo: object | string
   app: ModifiedKoa,
   model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
+  request: RequestWithBody
 }
