@@ -44,9 +44,11 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
+    "@types/highlight.js": "^9.12.3",
     "@types/jsonwebtoken": "^7.2.7",
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.30",
+    "@types/marked": "^0.4.0",
     "@types/react": "^16.4.4",
     "@types/react-dom": "^16.0.6",
     "@types/react-router-dom": "^4.2.7",
