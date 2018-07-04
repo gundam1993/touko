@@ -1,5 +1,6 @@
-const Marked = require('marked')
-const marked = Marked.setOptions({
+import * as Marked from 'marked'
+import * as highLight from 'highlight.js'
+export const marked = Marked.setOptions({
   renderer: new Marked.Renderer(),
   gfm: true,
   tables: true,
@@ -10,8 +11,7 @@ const marked = Marked.setOptions({
   smartypants: false,
   langPrefix: 'hljs ',
   highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
+    return highLight.highlightAuto(code).value
   }
 })
 
-exports.marked = marked
