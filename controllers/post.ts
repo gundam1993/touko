@@ -1,10 +1,25 @@
-const marked = require('./helper').marked
+import { marked } from './helper'
+import * as Koa from 'koa'
+import { ModifiedContext } from '../typings/app';
+import { PostInstance, PostAttributes } from '../typings/app/models';
+import * as Sequelize from 'sequelize'
+
+interface PostQuery {
+  search?: string
+  postId?: number
+}
+
+interface PostBody {
+  title: string
+  content: string
+  display?: boolean
+}
 
 // 获取所有文章，需登录
-exports.getAllPosts = async ({request, response, model, userInfo, app}, next) => {
+export const getAllPosts:Koa.Middleware = async ({request, response, model, userInfo, app}:ModifiedContext) => {
   const userId = userInfo.userId
   const Op = app.Sequelize.Op
-  let {search} = request.query
+  let {search}:PostQuery = request.query
   search = search || ''
   const posts = await model.Post.findAll({
     where: {
@@ -20,9 +35,9 @@ exports.getAllPosts = async ({request, response, model, userInfo, app}, next) =>
 }
 
 // 新建文章
-exports.createPost = async ({request, response, model, userInfo}, next) => {
+export const createPost:Koa.Middleware = async ({request, response, model, userInfo}:ModifiedContext) => {
   const userId = userInfo.userId
-  const { title, content, display } = request.body
+  const { title, content, display }:PostBody = request.body
   if (!title || !content) throw new Error('请完成文章后再发布')
   const newPost = await model.Post.create({
     title: title,
@@ -34,21 +49,21 @@ exports.createPost = async ({request, response, model, userInfo}, next) => {
 }
 
 // 删除文章
-exports.deletePost = async ({response, params, userInfo, model, request}, next) => {
+export const deletePost:Koa.Middleware = async ({response, params, userInfo, model}:ModifiedContext) => {
   const userId = userInfo.userId
-  const {postId} = params
+  const {postId}:PostQuery = params
   await model.Post.destroy({ where: {userId: userId, id: postId} })
   response.body = {success: 1, msg: '删除成功'}
 }
 
 // 按id获取文章详细信息
-exports.getPostById = async ({response, params, userInfo, model, request}, next) => {
-  const {postId} = params
-  const post = await model.Post.findOne({
+export const getPostById:Koa.Middleware = async ({response, params, model}:ModifiedContext) => {
+  const {postId}:PostQuery = params
+  const post = await (<Sequelize.Model<PostInstance, PostAttributes>>model.Post).findOne({
     where: {id: postId},
-    attributes: {exclude: ['updatedAt']}
+    attributes: ['id', 'content', ['created_at', 'createdAt'], 'pv', 'title']
   })
-  await post.update({pv: post.pv + 1})
+  await post.update({pv: post.pv++ })
   const html = marked(post.content)
   response.body = {
     success: 1,
@@ -58,16 +73,16 @@ exports.getPostById = async ({response, params, userInfo, model, request}, next)
       content: post.content,
       id: post.id,
       title: post.title,
-      createdAt: post.created_at
+      createdAt: post.createdAt
     }
   }
 }
 
 // 修改文章
-exports.editPost = async ({response, params, userInfo, model, request}, next) => {
+export const editPost:Koa.Middleware = async ({response, params, userInfo, model, request}:ModifiedContext) => {
   const userId = userInfo.userId
-  const {postId} = params
-  const {title, content, display} = request.body
+  const {postId}:PostQuery = params
+  const {title, content, display}:PostBody = request.body
   if (!title || !content) throw new Error('请完成文章后再发布')
   await model.Post.update(
     {title: title, content: content, display: display},
@@ -77,17 +92,17 @@ exports.editPost = async ({response, params, userInfo, model, request}, next) =>
 }
 
 // 将已发布的文章移到草稿箱
-exports.moveToDraft = async ({response, params, userInfo, model, request}, next) => {
+export const moveToDraft:Koa.Middleware = async ({response, params, userInfo, model}:ModifiedContext) => {
   const userId = userInfo.userId
-  const {postId} = params
+  const {postId}:PostQuery = params
   await model.Post.update({display: false}, {where: {userId: userId, id: postId}})
   response.body = {success: 1, msg: '移动成功'}
 }
 
 // 从草稿箱发布文章
-exports.publishPost = async ({response, params, userInfo, model, request}, next) => {
+export const publishPost:Koa.Middleware = async ({response, params, userInfo, model}:ModifiedContext) => {
   const userId = userInfo.userId
-  const {postId} = params
+  const {postId}:PostQuery = params
   await model.Post.update(
     { display: true },
     {where: { userId: userId, id: postId }})
