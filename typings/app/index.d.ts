@@ -2,7 +2,7 @@ import * as Koa from "koa"
 import * as Sequelize from 'sequelize'
 import { ModifiedModel } from "./models";
 
-declare class ModifiedKoa extends Koa {
+declare interface ModifiedKoa extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
   Sequelize: Sequelize.SequelizeStatic
@@ -20,8 +20,12 @@ declare interface RequestWithBody extends Koa.Request {
 }
 
 declare interface ModifiedContext extends Koa.Context {
-  userInfo: object | string
+  userInfo: UserInfo
   app: ModifiedKoa,
   model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
   request: RequestWithBody
+}
+
+declare interface UserInfo {
+  userId: number
 }
