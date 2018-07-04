@@ -6,7 +6,9 @@ declare namespace ModifiedModel {
   }
 
   interface ModelDictionary {
-    [index:string]: Sequelize.Model<IntroductionInstance, IntroductionAttributes> & Sequelize.Model<PostInstance, PostAttributes>
+    [index:string]: Sequelize.Model<IntroductionInstance, IntroductionAttributes> & 
+                    Sequelize.Model<PostInstance, PostAttributes> &
+                    Sequelize.Model<UserInstance, UserAttributes>
   }
 }
 
@@ -32,3 +34,13 @@ declare interface PostAttributes {
 }
 
 type PostInstance = Sequelize.Instance<PostAttributes> & PostAttributes
+
+declare interface UserAttributes {
+  id?: number
+  username: string
+  password: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+type UserInstance = Sequelize.Instance<UserAttributes> & UserAttributes
