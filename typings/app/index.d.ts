@@ -8,7 +8,7 @@ declare interface ModifiedKoa extends Koa {
   Sequelize: Sequelize.SequelizeStatic
   model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
   config: any
-  constructor(BaseDir: string, NODE_ENV:string);
+  constructor(BaseDir: string, NODE_ENV:string):ModifiedKoa;
   runProduction():Promise<any>;
   runDevAdmin():void;
   unDev():Promise<any>;

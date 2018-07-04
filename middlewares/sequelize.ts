@@ -59,7 +59,7 @@ function loadModel (app: ModifiedKoa):void {
     const klass = app.model[name]
 
     if ('associate' in klass) {
-      klass.associate()
+      klass.associate(app.model)
     }
   }
 }

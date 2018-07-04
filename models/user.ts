@@ -21,8 +21,8 @@ const user:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
   }, {
     timestamps: true
   })
-  User.associate = function () {
-    app.model.User.hasMany(app.model.Post, {as: 'Posts'})
+  User.associate = function (models) {
+    models.User.hasMany(models.Post, {as: 'Posts'})
   }
   return User
 }

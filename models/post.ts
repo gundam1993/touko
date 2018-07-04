@@ -35,8 +35,8 @@ const post:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   })
-  Post.associate = function ():void {
-    app.model.Post.belongsTo(app.model.User)
+  Post.associate = function (models):void {
+    models.Post.belongsTo(models.User)
   }
   return Post
 }

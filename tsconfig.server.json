@@ -9,6 +9,7 @@
   "include": [
       "./app.ts",
       "./server.ts",
+      "./router.ts",
       "./controllers/**/*",
       "./models/**/*",
       "./middlewares/**/*"
