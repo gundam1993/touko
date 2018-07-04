@@ -28,4 +28,6 @@ declare interface ModifiedContext extends Koa.Context {
 
 declare interface UserInfo {
   userId: number
+  iss: string
+  exp: number
 }
