@@ -1,7 +1,6 @@
 import * as Router from 'koa-router'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as ModifiedKoa from './server'
 const router:Router = new Router()
 const config:any = require('config-lite')({
   config_basedir: __dirname,
@@ -10,11 +9,12 @@ const config:any = require('config-lite')({
 
 const PRD_ADMIN_HTML_FILE:string = path.join(__dirname, config.AdminDir.index)
 import loginCheck from './middlewares/loginCheck'
-const UserController = require('./controllers/user')
-const PostController = require('./controllers/post')
-const PhotoController = require('./controllers/photo')
-const AboutController = require('./controllers/about')
+import * as UserController from './controllers/user'
+import * as PostController from './controllers/post'
+import * as PhotoController from './controllers/photo'
+import * as AboutController from './controllers/about'
 import * as HomePage from './controllers/homepage'
+
 import { ModifiedContext } from './typings/app';
 
 router.post('/admin/login', UserController.login)
