@@ -1,10 +1,10 @@
 import ModifiedKoa from '../server'
 import * as Sequelize from 'sequelize'
-import { ModifiedModel } from '../typings/app/models';
+import { ModifiedModel, PostAttributes, PostInstance } from '../typings/app/models';
 
 const post:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
   const { STRING, TEXT, BOOLEAN, INTEGER } = app.Sequelize
-  const Post:Sequelize.Model<string,object> = app.model.define('post', {
+  const Post:Sequelize.Model<PostAttributes, PostInstance> = app.model.define('post', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -31,7 +31,7 @@ const post:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
       field: 'user_id'
     }
   }, {
-    timestamp: true,
+    timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   })

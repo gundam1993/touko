@@ -1,10 +1,10 @@
 import ModifiedKoa from '../server'
-import { ModifiedModel } from '../typings/app/models';
+import { ModifiedModel, UserAttributes, UserInstance } from '../typings/app/models';
 import * as Sequelize from 'sequelize'
 
 const user:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
   const { STRING, INTEGER } = app.Sequelize
-  const User:Sequelize.Model<string, object> = app.model.define('user', {
+  const User:Sequelize.Model<UserInstance, UserAttributes> = app.model.define('user', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -19,7 +19,7 @@ const user:ModifiedModel.modelFunc = (app:ModifiedKoa) => {
       allowNull: false
     }
   }, {
-    timestamp: true
+    timestamps: true
   })
   User.associate = function () {
     app.model.User.hasMany(app.model.Post, {as: 'Posts'})

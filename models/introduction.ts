@@ -1,10 +1,10 @@
 import ModifiedKoa from '../server'
 import * as Sequelize from 'sequelize'
-import { ModifiedModel } from '../typings/app/models';
+import { ModifiedModel, IntroductionAttributes, IntroductionInstance } from '../typings/app/models';
 
 const introduction:ModifiedModel.modelFunc = (app: ModifiedKoa) => {
   const { TEXT, INTEGER } = app.Sequelize
-  const Introduction:Sequelize.Model<string, object> = app.model.define('introduction', {
+  const Introduction = app.model.define<IntroductionInstance, IntroductionAttributes>('introduction', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -18,7 +18,7 @@ const introduction:ModifiedModel.modelFunc = (app: ModifiedKoa) => {
       type: INTEGER
     }
   }, {
-    timestamp: true
+    timestamps: true
   })
   return Introduction
 }
