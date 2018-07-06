@@ -14,8 +14,10 @@ import * as PostController from './controllers/post'
 import * as PhotoController from './controllers/photo'
 import * as AboutController from './controllers/about'
 import * as HomePage from './controllers/homepage'
+import { graphqlKoa, graphiqlKoa} from 'apollo-server-koa'
 
 import { ModifiedContext } from './typings/app';
+import {schema} from './schema'
 
 router.post('/admin/login', UserController.login)
 
@@ -52,6 +54,14 @@ router.get('/api/photo/list/:type', PhotoController.getImgList)
 router.get('/api/photo/delete/:type/:image', loginCheck, PhotoController.deleteImg)
 // 获取所有文章(无需登录,仅标题)
 router.get('/api/posts', HomePage.getPostsList)
+
+router.get('/graphql', graphqlKoa({schema}))
+
+router.post('/graphql', graphqlKoa({schema}))
+
+router.get('/api/graphiql', graphiqlKoa({endpointURL: '/graphql'}))
+
+
 
 if (config.production) {
   router.get('/admin', async (ctx:ModifiedContext) => {
