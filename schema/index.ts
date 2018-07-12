@@ -2,8 +2,10 @@ import { makeExecutableSchema } from 'graphql-tools'
 import { find, filter } from 'lodash'
 import * as DataLoader from 'dataloader'
 import * as sqlite3 from 'sqlite3'
+import * as path from "path"
 
-const db = new sqlite3.Database('../touko.db')
+const dbPath = path.join(__dirname, '../touko.db')
+const db = new sqlite3.Database(dbPath)
 
 const typeDefs = `
   type User {
@@ -34,7 +36,8 @@ const typeDefs = `
   #the schema allows the following query:
   type Query {
     posts: [Post]
-    user(id: Int!): User
+    user(id: Int!): [User]
+    master: [User]
   }
 
   #this schema allows the following mutation
@@ -78,15 +81,55 @@ interface QueryParams {
   postId?: number
 }
 
-const findBy = (field:string, value:any) => {
-  console.log(`finding user with ${field} === ${value}`)
-  return users.filter((user:User) => user[field] === value)
+// This `findBy` method simulates a database query.
+const findBy = (field:string, ...values:any[]) => {
+  console.log(`finding user with ${field} === ${values.join(', ')}`)
+  return Promise.resolve(
+    users.filter((user:User) => values.includes(user[field]))
+  )
 }
+const findByIdLoader = new DataLoader(ids => (findBy('id', ...ids)))
+
+// Parallelize all queries, but do not cache
+const queryLoader = new DataLoader(queries => new Promise<any[]>((resolve) => {
+  let waitingOn = queries.length
+  let results:any[] = []
+  db.parallelize(() => {
+    queries.forEach((query:any, index) => {
+      db.all.apply(db, query.concat((error:Error, result:any) => {
+        results[index] = error || result
+        if (--waitingOn === 0) {
+          resolve(results)
+        }
+      }))
+    })
+  })
+}), {cache: false})
+
+const postLoader = new DataLoader(ids => {
+  const params = ids.map(id => '?').join()
+  const query = `SELECT * FROM posts WHERE user_id IN (${params})`
+  return queryLoader.load([query, ids]).then(
+    (rows:any[]) => {
+      console.log(rows)
+      return ids.map(
+      id => {
+        console.log(id)
+        let result =  rows.filter((row:any) => {console.log(row); return row.user_id === id}) || new Error(`Row not found: ${id}`)
+        return result
+      }
+    )}
+  )
+})
 
 const resolvers = {
   Query: {
     posts: () => posts,
-    user: (_: any, {id}:QueryParams)  =>  find(users, {id: id})
+    user: (_: any, {id}:QueryParams)  =>  (findBy('id', id)),
+    master(root:any, _: any, context:any) {
+      return findBy('id', 1)
+    },
+
   },
   Mutation: {
     addPv: (_: any, {postId}:QueryParams) => {
@@ -99,10 +142,10 @@ const resolvers = {
     }
   },
   User: {
-    posts: (user:User) => filter(posts, {userId: user.id})
+    posts: (user:User) => postLoader.load(user.id)
   },
   Post: {
-    user: (post:Post) => find(users, {id: post.userId})
+    user: (post:Post) => findByIdLoader.load(post.userId)
   }
 }
 
