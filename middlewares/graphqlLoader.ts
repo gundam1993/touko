@@ -34,6 +34,5 @@ function loadDB(app:ModifiedKoa):void  {
 function loadTypeDef(app:ModifiedKoa):string {
   let dir = app.config.graphql || '../graphql/schema.graphql'
   dir = path.join(__dirname, dir)
-  console.log(dir)
   return readFileSync(dir).toString()
 }
