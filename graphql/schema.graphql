@@ -2,8 +2,9 @@ type User {
     id: Int!
     username: String
     password: String
+    token: String
     """
-    the list of Posts by this author
+    the list of Posts by this user
     """
     posts: [Post]
   }
@@ -25,14 +26,14 @@ type User {
 
   #the schema allows the following query:
   type Query {
-    posts: [Post]
-    user(id: Int!): [User]
-    login(username:String!, password:String!): User
+    posts(id: Int!): [Post]
+    user(username: String!): User
     
   }
 
   #this schema allows the following mutation
   type Mutation {
+    createToken(username: String!, password: String!): User 
     addPv (
       postId: Int!
     ): Post

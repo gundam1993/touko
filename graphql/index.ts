@@ -1,6 +1,8 @@
 import ModifiedKoa from '../server'
 import { find, filter } from 'lodash'
 import * as DataLoader from 'dataloader'
+import * as bcrypt from 'bcryptjs'
+import * as jwt from 'jsonwebtoken'
 import * as sqlite3 from 'sqlite3'
 import * as path from "path"
 
@@ -54,6 +56,7 @@ const findByIdLoader = new DataLoader(ids => (findBy('id', ...ids)))
 export default (app:ModifiedKoa) => {
   // Parallelize all queries, but do not cache
   const queryLoader = new DataLoader(queries => new Promise<any[]>((resolve) => {
+    console.log(queries)
     let waitingOn = queries.length
     let results:any[] = []
     app.db.parallelize(() => {
@@ -70,26 +73,58 @@ export default (app:ModifiedKoa) => {
 
   const postLoader = new DataLoader(ids => {
     const params = ids.map(id => '?').join()
-    const query = `SELECT * FROM posts WHERE user_id IN (${params})`
+    const query = `SELECT * FROM posts WHERE user_id IN (${params});`
     return queryLoader.load([query, ids]).then(
       (rows:any[]) => {
-        console.log(rows)
         return ids.map(
         id => {
-          console.log(id)
-          let result =  rows.filter((row:any) => {console.log(row); return row.user_id === id}) || new Error(`Row not found: ${id}`)
+          let result =  rows.filter((row:any) => {return row.user_id === id}) || new Error(`Row not found: ${id}`)
+          console.log(result)
           return result
         }
       )}
     )
   })
 
+  const userLoader = new DataLoader(usernames => {
+    const query = `SELECT * FROM users WHERE username = ?`
+    return queryLoader.load([query, usernames]).then(
+      (rows:any[]) => {
+        return usernames.map(
+          username => {
+          let result =  rows.filter((row:any) => {return row.username === username}) || new Error(`Row not found: ${username}`)
+          console.log(result)
+          return result
+        }
+      )}
+    )
+  })
+
+
+
   return {
     Query: {
-      posts: () => posts,
-      user: (_: any, {id}:QueryParams)  =>  (findBy('id', id))  
+      posts: (_: any, {id}:QueryParams) => postLoader.load(id),
+      user: async (_: any, {username}:User)  =>  {
+        const users = await userLoader.load(username)
+        return users[0]
+      }
     },
     Mutation: {
+      createToken: async (_: any, {username, password}:User) => {
+        const users = await userLoader.load(username)
+        const user:User = users[0]
+        const passwordCheck = bcrypt.compareSync(password, user.password)
+        if (!passwordCheck) throw new Error('密码错误')
+        const expires = Date.now() + (60 * 60 * 1000 * app.config.cookieExpires)
+        const token = jwt.sign({
+          iss: 'touko',
+          userId: user.id,
+          exp: expires
+        }, app.config.jwt.key)
+        user.token = token
+        return user
+      },
       addPv: (_: any, {postId}:QueryParams) => {
         const post = find(posts, {id: postId})
         if (!post) {
