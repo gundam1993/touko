@@ -71,19 +71,15 @@ export default (app:ModifiedKoa) => {
     })
   }), {cache: false})
 
-  const postLoader = new DataLoader(ids => {
+  const postLoader = new DataLoader( async (ids) => {
     const params = ids.map(id => '?').join()
     const query = `SELECT * FROM posts WHERE user_id IN (${params});`
-    return queryLoader.load([query, ids]).then(
-      (rows:any[]) => {
-        return ids.map(
-        id => {
-          let result =  rows.filter((row:any) => {return row.user_id === id}) || new Error(`Row not found: ${id}`)
-          console.log(result)
-          return result
-        }
-      )}
-    )
+    const rows = await queryLoader.load([query, ids])
+    return  ids.map(id => {
+      let result =  rows.filter((row:any) => {return row.user_id === id}) || new Error(`Row not found: ${id}`)
+      console.log(result)
+      return result
+    })
   })
 
   const userLoader = new DataLoader(usernames => {

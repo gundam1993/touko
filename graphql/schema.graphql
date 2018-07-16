@@ -16,6 +16,8 @@ type User {
     user: User
     display: Boolean
     pv: Int
+    created_at: String
+    updated_at: String
   }
 
   type Introduction {
