@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import * as Koa from 'koa'
+import * as md5 from 'md5'
 import { ModifiedContext } from '../typings/app';
 
 interface UserLoginSubmit {
@@ -12,7 +13,7 @@ export const login:Koa.Middleware = async (ctx:ModifiedContext) => {
   const {username, password}:UserLoginSubmit = ctx.request.body
   let user = await ctx.model.User.findOne({ where: {username: username} })
   if (user === null) throw new Error('用户不存在')
-  const passwordCheck = bcrypt.compareSync(password, user.password)
+  const passwordCheck = bcrypt.compareSync(<string>md5(password), user.password)
   if (!passwordCheck) throw new Error('密码错误')
   const expires = Date.now() + (60 * 60 * 1000 * ctx.app.config.cookieExpires)
   const token = jwt.sign({
