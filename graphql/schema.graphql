@@ -28,8 +28,10 @@ type User {
 
   #the schema allows the following query:
   type Query {
-    posts(id: Int!): [Post]
-    user(username: String!): User
+    posts(id: Int, display: Boolean): [Post]
+    post(id: Int): Post
+    user(username: String): User
+    introduction(id: Int!): Introduction
     
   }
 
