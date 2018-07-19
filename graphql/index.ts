@@ -5,6 +5,8 @@ import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import * as md5 from 'md5'
 import * as path from "path"
+import { UserAttributes, PostAttributes } from '../typings/app/models';
+import { FindOptions, WhereOptions } from '../node_modules/@types/sequelize';
 
 
 interface User {
@@ -13,12 +15,6 @@ interface User {
   password: string
   [index:string]: string | number
 }
-// example data
-const users:User[] = [
-  { id: 1, username: 'Tom', password: 'Coleman' },
-  { id: 2, username: 'Sashko', password: 'Stubailo' },
-  { id: 3, username: 'Mikhail', password: 'Novikov' },
-]
 
 interface Post {
   id: number
@@ -28,30 +24,10 @@ interface Post {
   pv: number
 }
 
-const posts:Post[] = [
-  { id: 1, userId: 1, title: 'Introduction to GraphQL', content: '', pv: 2 },
-  { id: 2, userId: 2, title: 'Welcome to Meteor', content: '', pv: 3 },
-  { id: 3, userId: 2, title: 'Advanced GraphQL', content: '', pv: 1 },
-  { id: 4, userId: 3, title: 'Launchpad is Cool', content: '', pv: 7 },
-]
-
 interface QueryParams {
   id?: number
   postId?: number
 }
-
-// This `findBy` method simulates a database query.
-const findBy = (field:string, ...values:any[]) => {
-  console.log(`finding user with ${field} === ${values.join(', ')}`)
-  return Promise.resolve(
-    users.filter((user:User) => values.includes(user[field]))
-  )
-}
-const findByIdLoader = new DataLoader(ids => (findBy('id', ...ids)))
-
-
-
-
 
 export default (app:ModifiedKoa) => {
   // Parallelize all queries, but do not cache
@@ -100,10 +76,23 @@ export default (app:ModifiedKoa) => {
 
   return {
     Query: {
-      posts: (_: any, {id}:QueryParams) => postLoader.load(id),
-      user: async (_: any, {username}:User)  =>  {
-        const users = await userLoader.load(username)
-        return users[0]
+      posts: (_: any, {id}:QueryParams) => {
+        let where:WhereOptions<PostAttributes> = {}
+        if (id) where.id = id
+        return app.model.Post.findAll({where: where})
+      },
+      post: (_: any, {id}:QueryParams) => {
+        let where:WhereOptions<PostAttributes> = {}
+        if (id) where.id = id
+        return  app.model.Post.findOne({where: where})
+      },
+      user: (_: any, query:User) => {
+        let find:FindOptions<UserAttributes> = {}
+        find.where = query || {}
+        return app.model.User.findOne(find)
+      },
+      introduction : (_:any, {id}:QueryParams) => {
+        return app.model.Introduction.findOne({ where: { userId: id } })
       }
     },
     Mutation: {
@@ -122,19 +111,19 @@ export default (app:ModifiedKoa) => {
         return user
       },
       addPv: (_: any, {postId}:QueryParams) => {
-        const post = find(posts, {id: postId})
-        if (!post) {
-          throw new Error(`Couldn't find post with id ${postId}`)
-        }
-        (<Post>post).pv += 1
-        return post
+        // const post = find(posts, {id: postId})
+        // if (!post) {
+        //   throw new Error(`Couldn't find post with id ${postId}`)
+        // }
+        // (<Post>post).pv += 1
+        // return post
       }
     },
     User: {
       posts: (user:User) => postLoader.load(user.id)
     },
     Post: {
-      user: (post:Post) => findByIdLoader.load(post.userId)
+      // user: (post:Post) => findByIdLoader.load(post.userId)
     }
   }
 }
