@@ -44,7 +44,7 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     // bodyparser
     this.use(koaBody({ multipart: true }))
     // connect database
-    // sequlize(this, this.config.db)
+    sequlize(this, this.config.db)
     // connect graphql
     graphql(this)
     const ADMIN_DIST_DIR:string = path.join(__dirname, this.config.AdminDir.dist)
