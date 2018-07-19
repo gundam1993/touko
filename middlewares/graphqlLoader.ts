@@ -6,7 +6,7 @@ import { makeExecutableSchema } from 'graphql-tools'
 import resolversMaker from '../graphql'
 
 export default (app:ModifiedKoa) => {
-  loadDB(app)
+  // loadDB(app)
   const typeDefs = loadTypeDef(app)
   const resolvers = resolversMaker(app)
   const schema = makeExecutableSchema({
