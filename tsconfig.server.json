@@ -8,12 +8,7 @@
       "sourceMap": true
   },
   "include": [
-      "./app.ts",
-      "./server.ts",
-      "./router.ts",
-      "./controllers/**/*",
-      "./models/**/*",
-      "./middlewares/**/*"
+      "./server",
   ],
   "exclude": [
       "node_modules",

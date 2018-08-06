@@ -6,7 +6,7 @@ import * as jwt from 'jsonwebtoken'
 import * as md5 from 'md5'
 import * as path from "path"
 import { UserAttributes, PostAttributes, PostInstance } from '../typings/app/models';
-import { FindOptions, WhereOptions } from '../node_modules/@types/sequelize';
+import { FindOptions, WhereOptions } from 'sequelize';
 
 
 interface User {

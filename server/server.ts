@@ -9,11 +9,11 @@ import sequlize from './middlewares/sequelize'
 import { ModifiedModel } from "./typings/app/models";
 import graphql from './middlewares/graphqlLoader'
 import * as sqlite3 from 'sqlite3'
-import { GraphQLSchema } from "./node_modules/@types/graphql";
+import { GraphQLSchema } from "../node_modules/@types/graphql";
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
-let nuxtConfig = require('./nuxt.config.js')
+let nuxtConfig = require('../nuxt.config.js')
 nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 
 

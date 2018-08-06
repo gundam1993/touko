@@ -37,12 +37,9 @@
     "ylru": "^1.2.0"
   },
   "scripts": {
-    "dev": "nodemon -w server.ts -w router.js -w graphql -w typings -w config -w controllers -w models -w nuxt.config.js -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts",
-    "dev:admin": "nodemon -w server.ts -w router.js -w graphql -w typings -w config -w controllers -w models -w middlewares -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./app.ts  --target admin",
+    "dev": "nodemon -w server -e ts,tsx --exec 'ts-node --project tsconfig.server.json' ./server/app.ts",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production tsc --project tsconfig.server.json && node ./serverDist/app.js",
-    "build:admin": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
-    "build:server": "tsc --project tsconfig.server.json",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
