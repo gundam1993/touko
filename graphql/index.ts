@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import * as md5 from 'md5'
 import * as path from "path"
-import { UserAttributes, PostAttributes } from '../typings/app/models';
+import { UserAttributes, PostAttributes, PostInstance } from '../typings/app/models';
 import { FindOptions, WhereOptions } from '../node_modules/@types/sequelize';
 
 
@@ -79,7 +79,8 @@ export default (app:ModifiedKoa) => {
       posts: (_: any, {id}:QueryParams) => {
         let where:WhereOptions<PostAttributes> = {}
         if (id) where.id = id
-        return app.model.Post.findAll({where: where})
+        const posts = app.model.Post.findAll({where: where})
+        return posts
       },
       post: (_: any, {id}:QueryParams) => {
         let where:WhereOptions<PostAttributes> = {}
@@ -110,14 +111,11 @@ export default (app:ModifiedKoa) => {
         user.token = token
         return user
       },
-      addPv: (_: any, {postId}:QueryParams) => {
-        // const post = find(posts, {id: postId})
-        // if (!post) {
-        //   throw new Error(`Couldn't find post with id ${postId}`)
-        // }
-        // (<Post>post).pv += 1
-        // return post
-      }
+      addPv: async (_: any, {postId}:QueryParams) => {
+        const [update, query] = await app.model.query(`UPDATE posts SET pv = pv + 1 WHERE id = ? `, {replacements: [postId]})
+        return app.model.Post.findOne({where: {id: postId}})
+      },
+    
     },
     User: {
       posts: (user:User) => postLoader.load(user.id)
