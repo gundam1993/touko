@@ -4,6 +4,7 @@
       "target": "es2017",
       "noImplicitAny": true,
       "outDir": "./serverDist",
+      "skipLibCheck": true,
       "sourceMap": true
   },
   "include": [
