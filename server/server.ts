@@ -66,14 +66,6 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     })
   }
 
-  runDevAdmin():void {
-    console.log('Dev Admin')
-    // 开发模式下使用 koa-webpack 热更新页面
-    this.use(router(this).routes())
-    const webpackMiddleware = require('./middlewares/webpackMiddleware')
-    webpackMiddleware(this)
-  }
-
   async runDev():Promise<any> {
     const nuxt = new Nuxt(nuxtConfig)
     // Build in development
