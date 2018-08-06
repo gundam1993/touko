@@ -5,7 +5,6 @@ const config = require('./middlewares/config')
 import router from './router'
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
-const staticMiddleware = require('./middlewares/static')
 import sequlize from './middlewares/sequelize'
 import { ModifiedModel } from "./typings/app/models";
 import graphql from './middlewares/graphqlLoader'
@@ -47,12 +46,6 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     sequlize(this, this.config.db)
     // connect graphql
     graphql(this)
-    const ADMIN_DIST_DIR:string = path.join(__dirname, this.config.AdminDir.dist)
-    const STATIC_DIR:string = path.join(__dirname, this.config.AdminDir.static)
-    this.use(staticMiddleware({
-      dir: [ADMIN_DIST_DIR, STATIC_DIR],
-      prefix: '/admin'
-    }, this))
   }
 
   async runProduction():Promise<any> {
