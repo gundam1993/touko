@@ -24,11 +24,11 @@ type IntroductionInstance = Sequelize.Instance<IntroductionAttributes> & Introdu
 
 declare interface PostAttributes {
   id?: number
-  title: string
-  content: string
+  title?: string
+  content?: string
   pv?: number
   display?: boolean
-  userId: number
+  userId?: number
   createdAt?: string
   updatedAt?: string
 }
