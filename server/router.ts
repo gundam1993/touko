@@ -6,7 +6,6 @@ const config:any = require('config-lite')({
   config_dir: 'config'
 })
 
-const PRD_ADMIN_HTML_FILE:string = path.join(__dirname, config.AdminDir.index)
 import loginCheck from './middlewares/loginCheck'
 import * as UserController from './controllers/user'
 import * as PostController from './controllers/post'
@@ -62,13 +61,5 @@ export default (app:ModifiedKoa):Router => {
 
   router.get('/api/graphiql', graphiqlKoa({endpointURL: '/graphql'}))
 
-
-
-  if (config.production) {
-    router.get('/admin', async (ctx:ModifiedContext) => {
-      ctx.type = 'html'
-      ctx.body = fs.createReadStream(PRD_ADMIN_HTML_FILE)
-    })
-  }
   return router
 }
