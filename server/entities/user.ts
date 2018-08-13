@@ -34,17 +34,17 @@ import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
 
   @Column('varchar', {length: 255})
-  username: string
+  username: string = ''
 
   @Column('text')
-  password: string
+  password: string = ''
 
   @Column('text')
-  created_at: string
+  created_at?: string
 
   @Column('text')
-  updated_at: string
+  updated_at?: string
 }

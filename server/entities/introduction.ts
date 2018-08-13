@@ -30,18 +30,18 @@ import { Entity, Column, PrimaryGeneratedColumn } from "../../node_modules/typeo
 @Entity('introductions')
 export class Introduction {
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
 
   @Column('text')
-  content: string
+  content: string = ''
 
   @Column('integer')
-  userId: number
+  userId: number = 0
 
   @Column('text')
-  created_at: string
+  created_at?: string
 
   @Column('text')
-  updated_at: string
+  updated_at?: string
   
 }

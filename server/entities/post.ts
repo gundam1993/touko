@@ -47,28 +47,28 @@ import { Entity, PrimaryGeneratedColumn, Column } from "../../node_modules/typeo
 @Entity('posts')
 export class Post {
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
 
   @Column('varchar', {length: 255})
-  title:string
+  title:string = ''
 
   @Column('text')
-  content: string
+  content: string  = ''
 
   @Column('integer')
-  pv: number
+  pv: number = 0
 
   @Column('boolean')
-  display: boolean
+  display: boolean = true
 
   @Column('integer')
-  user_id: number
+  user_id: number = 0
 
   @Column('text')
-  created_at: string
+  created_at?: string
 
   @Column('text')
-  updated_at: string
+  updated_at?: string
 
 
 }
