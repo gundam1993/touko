@@ -23,10 +23,11 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
     "sourceMap": true
   },
   "include": [
-    "./server",
+    "./server/**/*",
   ],
   "exclude": [
     "node_modules",
