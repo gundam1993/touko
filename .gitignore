@@ -12,7 +12,7 @@ dist
 adminAppDist
 serverDist
 
-config
+server/config/production.js
 touko.db
 .DS_Store
 npm-debug.log*
