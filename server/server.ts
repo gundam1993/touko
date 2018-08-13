@@ -43,7 +43,6 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     // bodyparser
     this.use(koaBody({ multipart: true }))
     // connect database
-    createConnection(this.config.db).then(() => {}).catch(err => console.log(err))
     // sequlize(this, this.config.db)
     // connect graphql
     // graphql(this)
@@ -88,6 +87,8 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   }
 
   start():void {
-    this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
+    createConnection(this.config.db).then(() => {
+      this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
+    }).catch(err => console.log(err))
   }
 }
