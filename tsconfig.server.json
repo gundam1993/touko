@@ -5,7 +5,9 @@
       "noImplicitAny": true,
       "outDir": "./serverDist",
       "skipLibCheck": true,
-      "sourceMap": true
+      "sourceMap": true,
+      "experimentalDecorators": true,
+      "declaration": true
   },
   "include": [
       "./server",

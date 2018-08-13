@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken'
 import * as Koa from 'koa'
-import { ModifiedContext, UserInfo } from '../typings/app';
+import { ModifiedContext, UserInfo } from '../../types/app';
 
 const loginCheck:Koa.Middleware = async(ctx:ModifiedContext, next) => {
   let token:string = ctx.cookies.get('touko-blog-token') || ctx.request.headers['x-token']

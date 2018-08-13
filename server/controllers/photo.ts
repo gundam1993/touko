@@ -3,7 +3,7 @@ const tools = require('upyun/tools')
 const utils = require('upyun/upyun/utils')
 import * as crypto from 'crypto'
 import * as Koa from 'koa'
-import { ModifiedContext } from '../typings/app';
+import { ModifiedContext } from '../../types/app';
 
 // 获取相册图片信息及TOKEN
 export const getImgToken:Koa.Middleware = async ({params, app, response}:ModifiedContext, next) => {

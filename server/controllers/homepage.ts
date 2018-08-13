@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import { ModifiedContext } from '../typings/app';
+import { ModifiedContext } from '../../types/app';
 
 export const getPostsList:Koa.Middleware = async ({model, response}:ModifiedContext) => {
   const posts = await model.Post.findAll({
