@@ -9,6 +9,7 @@ const logger = require('koa-logger')
 // import graphql from './middlewares/graphqlLoader'
 import * as sqlite3 from 'sqlite3'
 import { GraphQLSchema } from "../node_modules/@types/graphql";
+import { createConnection } from "typeorm";
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
@@ -42,6 +43,7 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     // bodyparser
     this.use(koaBody({ multipart: true }))
     // connect database
+    createConnection(this.config.db).then(() => {}).catch(err => console.log(err))
     // sequlize(this, this.config.db)
     // connect graphql
     // graphql(this)
