@@ -1,8 +1,8 @@
 /// <reference path="../types/schema.d.ts" />
 
-import { IResolvers } from "../../node_modules/graphql-tools";
+import { ResolverMap } from "../types/graphql-utils";
 
-export const resolvers: IResolvers = {
+export const resolvers: ResolverMap = {
   Query: {
     post: (_, {id}: GQL.IPostOnQueryArguments) => {
       return {
@@ -17,7 +17,7 @@ export const resolvers: IResolvers = {
     }
   },
   Mutation: {
-    addPv: (_, {postId}: GQL.IAddPvOnMutationArguments) => {
+    addPv: async (_, {postId}: GQL.IAddPvOnMutationArguments) => {
       return {
         id: postId,
         title: `test-${postId}`,
