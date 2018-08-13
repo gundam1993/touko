@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize'
-import ModifiedKoa from '../../../server';
+import {ModifiedKoa} from '../index';
 declare namespace ModifiedModel {
   interface modelFunc {
     (app:ModifiedKoa): any
