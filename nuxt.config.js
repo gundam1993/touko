@@ -1,8 +1,9 @@
 const pkg = require('./package')
 const resolve = require('path').resolve
+console.log(__dirname)
 const config = require('config-lite')({
   config_basedir: __dirname,
-  config_dir: 'config'
+  config_dir: 'server/config'
 })
 module.exports = {
   mode: 'universal',
