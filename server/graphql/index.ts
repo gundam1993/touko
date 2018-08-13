@@ -2,6 +2,7 @@
 import { importSchema } from 'graphql-import'
 import { makeExecutableSchema } from 'graphql-tools'
 import {resolvers} from './resolvers'
+import * as path from "path"
 // import ModifiedKoa from '../server'
 // import { find, filter } from 'lodash'
 // import * as DataLoader from 'dataloader'
@@ -131,5 +132,5 @@ import {resolvers} from './resolvers'
 //   }
 // }
 
-const typeDefs = importSchema('./server/graphql/schema.graphql')
+const typeDefs = importSchema(path.join(__dirname, './schema.graphql'))
 export const schema = makeExecutableSchema({ typeDefs, resolvers })
