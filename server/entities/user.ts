@@ -29,10 +29,10 @@
 
 // module.exports = user
 
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity} from 'typeorm'
 
 @Entity("users")
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
@@ -42,9 +42,9 @@ export class User {
   @Column('text')
   password: string = ''
 
-  @Column('text')
+  @CreateDateColumn ({type: "text"})
   created_at?: string
 
-  @Column('text')
+  @UpdateDateColumn({type: "text"})
   updated_at?: string
 }

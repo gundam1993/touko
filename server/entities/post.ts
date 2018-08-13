@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "../../node_modules/typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn } from "../../node_modules/typeorm";
 
 // import ModifiedKoa from '../server'
 // import * as Sequelize from 'sequelize'
@@ -45,7 +45,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "../../node_modules/typeo
 // module.exports = post
 
 @Entity('posts')
-export class Post {
+export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
@@ -64,10 +64,10 @@ export class Post {
   @Column('integer')
   user_id: number = 0
 
-  @Column('text')
+  @CreateDateColumn ({type: "text"})
   created_at?: string
 
-  @Column('text')
+  @UpdateDateColumn({type: "text"})
   updated_at?: string
 
 

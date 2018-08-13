@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "../../node_modules/typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, UpdateDateColumn } from "../../node_modules/typeorm";
 
 // import ModifiedKoa from '../server'
 // import * as Sequelize from 'sequelize'
@@ -28,7 +28,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from "../../node_modules/typeo
 // module.exports = introduction
 
 @Entity('introductions')
-export class Introduction {
+export class Introduction extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
@@ -38,10 +38,10 @@ export class Introduction {
   @Column('integer')
   userId: number = 0
 
-  @Column('text')
+  @CreateDateColumn ({type: "text"})
   created_at?: string
 
-  @Column('text')
+  @UpdateDateColumn({type: "text"})
   updated_at?: string
   
 }
