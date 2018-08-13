@@ -11,6 +11,7 @@ module.exports = {
     dialect: 'sqlite',
     type: 'sqlite',
     storage: './touko.db',
+    logging: true,
     port: 5432,
     synchronize: false
   },
