@@ -1,14 +1,14 @@
 import * as Koa from "koa"
-import * as Sequelize from 'sequelize'
 const config = require('./middlewares/config')
 import router from './router'
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
 // import sequlize from './middlewares/sequelize'
 // import graphql from './middlewares/graphqlLoader'
-import * as sqlite3 from 'sqlite3'
-import { GraphQLSchema } from "../node_modules/@types/graphql";
 import { createConnection } from "typeorm";
+import { Post } from "./entities/post";
+import { User } from "./entities/user";
+import { Introduction } from "./entities/introduction";
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
@@ -20,8 +20,8 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   readonly isProduction: boolean
   // Sequelize: Sequelize.SequelizeStatic
   // model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
-  db: sqlite3.Database
-  schema: GraphQLSchema
+  // db: sqlite3.Database
+  // schema: GraphQLSchema
   config: any
 
   constructor(BaseDir: string, NODE_ENV:string | undefined) {
@@ -85,8 +85,14 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   }
 
   start():void {
-    createConnection(this.config.db).then(() => {
+    createConnection(Object.assign({
+      entities: [
+        Post,
+        User,
+        Introduction
+      ]
+    }, this.config.db)).then(() => {
       this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
-    }).catch(err => console.log(err))
+    }).catch((err:Error) => console.log(err))
   }
 }
