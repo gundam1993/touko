@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import * as Koa from 'koa'
 import * as md5 from 'md5'
-import { ModifiedContext } from '../typings/app';
+import { ModifiedContext } from '../../types/app';
 
 interface UserLoginSubmit {
   username: string

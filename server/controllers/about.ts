@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import { ModifiedContext } from '../typings/app';
+import { ModifiedContext } from '../../types/app';
 import { marked } from './helper'
 
 export const getAboutInfo:Koa.Middleware = async ({response, model}:ModifiedContext) => {

@@ -1,7 +1,7 @@
 import { marked } from './helper'
 import * as Koa from 'koa'
-import { ModifiedContext } from '../typings/app';
-import { PostInstance, PostAttributes } from '../typings/app/models';
+import { ModifiedContext } from '../../types/app';
+import { PostInstance, PostAttributes } from '../../types/app/models';
 import * as Sequelize from 'sequelize'
 
 interface PostQuery {

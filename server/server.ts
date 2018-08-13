@@ -4,11 +4,11 @@ const config = require('./middlewares/config')
 import router from './router'
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
-import sequlize from './middlewares/sequelize'
-import { ModifiedModel } from "./typings/app/models";
-import graphql from './middlewares/graphqlLoader'
+// import sequlize from './middlewares/sequelize'
+// import graphql from './middlewares/graphqlLoader'
 import * as sqlite3 from 'sqlite3'
 import { GraphQLSchema } from "../node_modules/@types/graphql";
+import { createConnection } from "typeorm";
 const errorHandler = require('./middlewares/errorHandler')
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
@@ -20,8 +20,8 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   readonly isProduction: boolean
   // Sequelize: Sequelize.SequelizeStatic
   // model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
-  // db: sqlite3.Database
-  // schema: GraphQLSchema
+  db: sqlite3.Database
+  schema: GraphQLSchema
   config: any
 
   constructor(BaseDir: string, NODE_ENV:string | undefined) {
@@ -41,15 +41,15 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     // bodyparser
     this.use(koaBody({ multipart: true }))
     // connect database
-    sequlize(this, this.config.db)
+    // sequlize(this, this.config.db)
     // connect graphql
-    graphql(this)
+    // graphql(this)
   }
 
   async runProduction():Promise<any> {
     const nuxt = new Nuxt(nuxtConfig)
     // add router middleware:
-    this.use(router(this).routes())
+    this.use(router().routes())
     this.use(async (ctx: Koa.Context, next) => {
       await next()
       ctx.status = 200 // koa defaults to 404 when it sees that status is unset
@@ -69,7 +69,7 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     // Build in development
     const builder = new Builder(nuxt)
     await builder.build()
-    this.use(router(this).routes())
+    this.use(router().routes())
     this.use(async (ctx: Koa.Context, next) => {
       await next()
       ctx.status = 200 // koa defaults to 404 when it sees that status is unset
@@ -85,6 +85,8 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   }
 
   start():void {
-    this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
+    createConnection(this.config.db).then(() => {
+      this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
+    }).catch(err => console.log(err))
   }
 }
