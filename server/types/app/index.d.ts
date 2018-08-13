@@ -1,8 +1,8 @@
 import * as Koa from "koa"
 import * as Sequelize from 'sequelize'
 import { ModifiedModel } from "./models";
-import * as sqlite3  from "../../node_modules/@types/sqlite3"
-import { GraphQLSchema } from "../../node_modules/@types/graphql"
+import * as sqlite3  from "../../../node_modules/@types/sqlite3"
+import { GraphQLSchema } from "../../../node_modules/@types/graphql"
 
 declare interface ModifiedKoa extends Koa {
   readonly BaseDir: string
