@@ -4,13 +4,14 @@
       "target": "es2017",
       "noImplicitAny": true,
       "outDir": "./serverDist",
+      "typeRoots" : ["./server/types/**/*"],
       "skipLibCheck": true,
       "sourceMap": true,
       "experimentalDecorators": true,
       "declaration": true
   },
   "include": [
-      "./server",
+      "./server/**/*",
   ],
   "exclude": [
       "node_modules",
