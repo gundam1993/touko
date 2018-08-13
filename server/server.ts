@@ -1,5 +1,4 @@
 import * as Koa from "koa"
-import * as path from "path"
 import * as Sequelize from 'sequelize'
 const config = require('./middlewares/config')
 import router from './router'
@@ -16,17 +15,16 @@ const { Nuxt, Builder } = require('nuxt-edge')
 let nuxtConfig = require('../nuxt.config.js')
 nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 
-
 export default class ModifiedKoa extends Koa implements ModifiedKoa  {
   readonly BaseDir: string
   readonly isProduction: boolean
-  Sequelize: Sequelize.SequelizeStatic
-  model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
-  db: sqlite3.Database
-  schema: GraphQLSchema
+  // Sequelize: Sequelize.SequelizeStatic
+  // model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
+  // db: sqlite3.Database
+  // schema: GraphQLSchema
   config: any
 
-  constructor(BaseDir: string, NODE_ENV:string) {
+  constructor(BaseDir: string, NODE_ENV:string | undefined) {
     console.log(`Running on ${NODE_ENV || 'development'} mode`)
     super()
     this.BaseDir = BaseDir
