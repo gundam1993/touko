@@ -14,6 +14,7 @@
     "dataloader": "^1.4.0",
     "form-data": "^2.1.4",
     "graphql": "^0.13.2",
+    "graphql-import": "^0.6.0",
     "graphql-tools": "^3.0.4",
     "highlight.js": "^9.9.0",
     "jsonwebtoken": "^8.3.0",
@@ -31,8 +32,10 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
+    "reflect-metadata": "^0.1.12",
     "sequelize": "^4.37.10",
     "sqlite3": "^4.0.0",
+    "typeorm": "^0.2.7",
     "upyun": "^2.0.4",
     "ylru": "^1.2.0"
   },
@@ -42,7 +45,8 @@
     "start": "cross-env NODE_ENV=production tsc --project tsconfig.server.json && node ./serverDist/app.js",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "gen-schema-types": "gql2ts server/graphql/schema.graphql -o server/types/schema.d.ts"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -76,6 +80,7 @@
     "eslint-plugin-html": "^2.0.0",
     "eslint-plugin-promise": "^3.4.1",
     "eslint-plugin-standard": "^2.0.1",
+    "gql2ts": "^1.8.2",
     "html-webpack-plugin": "^3.2.0",
     "koa-webpack": "^5.0.2",
     "koa2-connect-history-api-fallback": "0.0.6",
