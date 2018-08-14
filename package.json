@@ -37,13 +37,14 @@
     "ylru": "^1.2.0"
   },
   "scripts": {
-    "dev": "nodemon -w server -e ts,tsx --exec ts-node ./server/app.ts",
+    "dev": "NODE_ENV=development nodemon -w server -e ts,tsx --exec ts-node ./server/app.ts",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production tsc && node ./serverDist/app.js",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "test": "jest",
+    "test-server": "NODE_ENV=test ts-node ./server/app.ts",
     "gen-schema-types": "gql2ts server/graphql/schema.graphql -o server/types/schema.d.ts"
   },
   "jest": {
@@ -51,6 +52,7 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "roots": ["<rootDir>/server/tests"],
     "moduleFileExtensions": [
       "ts",
       "tsx",
