@@ -1,0 +1,9 @@
+# import Error from "../shared.graphql"
+# import User from "../others/schema.graphql"
+type Query {
+  user(username: String): User
+}
+
+type Mutation {
+  register(username: String!, password: String!): User
+}

@@ -37,7 +37,6 @@ type User {
 
   #this schema allows the following mutation
   type Mutation {
-    register(username: String!, password: String!): User
     createToken(username: String!, password: String!): User 
     addPv (
       postId: Int!

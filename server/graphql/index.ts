@@ -1,8 +1,9 @@
 
 import { importSchema } from 'graphql-import'
-import { makeExecutableSchema } from 'graphql-tools'
-import {resolvers} from './resolvers'
+import { makeExecutableSchema, mergeSchemas } from 'graphql-tools'
 import * as path from "path"
+import * as fs from 'fs'
+import { GraphQLSchema } from 'graphql';
 // import ModifiedKoa from '../server'
 // import { find, filter } from 'lodash'
 // import * as DataLoader from 'dataloader'
@@ -132,5 +133,15 @@ import * as path from "path"
 //   }
 // }
 
-const typeDefs = importSchema(path.join(__dirname, './schema.graphql'))
-export const schema = makeExecutableSchema({ typeDefs, resolvers })
+const schemas:GraphQLSchema[] = []
+const folders = fs.readdirSync(path.join(__dirname, './'))
+folders.forEach((folder) => {
+  if (/\./.test(folder)) {
+    return
+  }
+  const {resolvers} = require(`./${folder}/resolvers`)
+  const typeDefs = importSchema(path.join(__dirname, `./${folder}/schema.graphql`))
+  schemas.push(makeExecutableSchema({ typeDefs, resolvers }))
+})
+
+export const schema = mergeSchemas({schemas})
