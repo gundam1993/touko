@@ -36,7 +36,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('varchar', {length: 255})
+  @Column('varchar', { length: 255 })
   username: string = ''
 
   @Column('text')
