@@ -1,8 +1,11 @@
 /// <reference path="../types/schema.d.ts" />
 
-import { IResolvers } from "../../node_modules/graphql-tools";
+import { ResolverMap } from "../types/graphql-utils";
+import * as bcrypt from "bcryptjs"
+import * as md5 from "md5"
+import { User } from "../entities/user";
 
-export const resolvers: IResolvers = {
+export const resolvers: ResolverMap = {
   Query: {
     post: (_, {id}: GQL.IPostOnQueryArguments) => {
       return {
@@ -17,7 +20,16 @@ export const resolvers: IResolvers = {
     }
   },
   Mutation: {
-    addPv: (_, {postId}: GQL.IAddPvOnMutationArguments) => {
+    register: async (_, {username, password}: GQL.IRegisterOnMutationArguments) => {
+      const hashedPassword = await bcrypt.hash(md5(password), 10)
+      const user = User.create({
+        username,
+        password: hashedPassword
+      })
+      await user.save()
+      return user
+    },
+    addPv: async (_, {postId}: GQL.IAddPvOnMutationArguments) => {
       return {
         id: postId,
         title: `test-${postId}`,

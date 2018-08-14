@@ -1,17 +1,38 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es2017",
-        "lib": ["es6", "dom", "esnext.asynciterable"],     
-        "jsx": "react"
-    },
-    "include": [
-        "./adminApp/**/*"
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2017",
+      "esnext.asynciterable"
     ],
-    "exclude": [
-        "node_modules",
-    ]
+    "target": "es2017",
+    "noImplicitAny": true,
+    "outDir": "./serverDist",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "removeComments": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "include": [
+    "./server/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "adminApp",
+    "test",
+    "views"
+  ]
 }

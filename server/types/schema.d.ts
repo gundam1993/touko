@@ -79,8 +79,14 @@ declare namespace GQL {
 
   interface IMutation {
     __typename: 'Mutation';
+    register: IUser | null;
     createToken: IUser | null;
     addPv: IPost | null;
+  }
+
+  interface IRegisterOnMutationArguments {
+    username: string;
+    password: string;
   }
 
   interface ICreateTokenOnMutationArguments {
