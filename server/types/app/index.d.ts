@@ -4,17 +4,17 @@ import { ModifiedModel } from "./models";
 import * as sqlite3  from "../../node_modules/@types/sqlite3"
 import { GraphQLSchema } from "../../node_modules/@types/graphql"
 
-declare interface ModifiedKoa extends Koa {
+declare interface ModifiedApp extends Koa {
   readonly BaseDir: string
   readonly isProduction: boolean
-  Sequelize: Sequelize.SequelizeStatic
-  model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
-  db: sqlite3.Database
-  schema: GraphQLSchema
+  // Sequelize: Sequelize.SequelizeStatic
+  // model: ModifiedModel.ModelDictionary & Sequelize.Sequelize
+  // db: sqlite3.Database
+  // schema: GraphQLSchema
   config: any
   constructor(BaseDir: string, NODE_ENV:string):ModifiedKoa;
   runProduction():Promise<any>;
-  runDevAdmin():void;
+  // runDevAdmin():void;
   runDev():Promise<any>;
   start():void;
 }
