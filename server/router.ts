@@ -55,9 +55,9 @@ export default ():Router => {
   // // 获取所有文章(无需登录,仅标题)
   // router.get('/api/posts', HomePage.getPostsList)
 
-  router.get('/graphql', graphqlKoa({schema: schema}))
+  router.get('/graphql', graphqlKoa({schema}))
 
-  router.post('/graphql', graphqlKoa({schema: schema}))
+  router.post('/graphql', graphqlKoa({schema}))
 
   router.get('/api/graphiql', graphiqlKoa({endpointURL: '/graphql'}))
 

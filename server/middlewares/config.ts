@@ -3,7 +3,7 @@
  */
 import ModifiedKoa from '../server'
 
-module.exports = (app:ModifiedKoa, baseDir:string):void => {
+export default (app:ModifiedKoa, baseDir:string):void => {
   const config:object = require('config-lite')({
     config_basedir: baseDir,
     config_dir: 'config'

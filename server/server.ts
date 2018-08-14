@@ -1,15 +1,15 @@
 import * as Koa from "koa"
-const config = require('./middlewares/config')
-import router from './router'
-const koaBody = require('koa-body')
-const logger = require('koa-logger')
+import config from "./middlewares/config"
+import router from "./router"
+import * as bodyParser from "koa-bodyparser"
+import * as logger from "koa-logger"
 // import sequlize from './middlewares/sequelize'
 // import graphql from './middlewares/graphqlLoader'
 import { createConnection } from "typeorm";
 import { Post } from "./entities/post";
 import { User } from "./entities/user";
 import { Introduction } from "./entities/introduction";
-const errorHandler = require('./middlewares/errorHandler')
+import errorHandler from "./middlewares/errorHandler"
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
@@ -29,17 +29,17 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     super()
     this.BaseDir = BaseDir
     this.isProduction = (NODE_ENV === 'production')
-    process.env.BASE_URL = config.baseUrl
     // load config
     config(this, this.BaseDir)
+    process.env.BASE_URL = this.config.baseUrl
     // set cookie key
     this.keys = this.config.cookieKey
     // logger
     this.use(logger())
     // error handler
-    this.use(errorHandler(this))
+    this.use(errorHandler())
     // bodyparser
-    this.use(koaBody({ multipart: true }))
+    this.use(bodyParser())
     // connect database
     // sequlize(this, this.config.db)
     // connect graphql
@@ -84,15 +84,20 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     })
   }
 
-  start():void {
-    createConnection(Object.assign({
-      entities: [
-        Post,
-        User,
-        Introduction
-      ]
-    }, this.config.db)).then(() => {
-      this.listen(this.config.port, () => console.log(`app listening on port ${this.config.port}!`))
-    }).catch((err:Error) => console.log(err))
+  async start():Promise<void> {
+    try {
+      await createConnection({
+        entities: [
+          Post,
+          User,
+          Introduction
+        ],
+        ...this.config.db
+      })
+      await this.listen(this.config.port)
+      console.log(`app listening on port ${this.config.port}!`)
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
