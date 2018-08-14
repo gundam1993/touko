@@ -1,20 +1,19 @@
 module.exports = {
   host: '127.0.0.1',
-  port: 3002,
+  port: 3001,
   production: false,
   cookieKey: ['the suicidal mime'],
   db: {
-    database: 'touko-test.db',
+    database: 'touko.db',
     username: 'tianyao',
     password: '',
     host: 'localhost',
     dialect: 'sqlite',
     type: 'sqlite',
-    storage: './touko-test.db',
-    logging: false,
-    dropSchema: true,
+    storage: './touko.db',
+    logging: true,
     port: 5432,
-    synchronize: true
+    synchronize: false
   },
   bcrypt: {
     saltRounds: 10
