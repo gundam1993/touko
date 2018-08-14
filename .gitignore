@@ -14,6 +14,7 @@ serverDist
 
 server/config/production.js
 touko.db
+touko-test.db
 .DS_Store
 npm-debug.log*
 yarn-debug.log*
