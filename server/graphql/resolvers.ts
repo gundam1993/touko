@@ -9,7 +9,7 @@ export const resolvers: ResolverMap = {
   Query: {
     post: (_, {id}: GQL.IPostOnQueryArguments) => {
       return {
-        id: id,
+        id,
         title: `test-${id}`,
         content: 'test',
         pv: 0,
