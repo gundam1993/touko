@@ -21,44 +21,51 @@ mutation {
   }
 }
 `
-test('Register user', async () => {
-  // make sure we can register a user
-  const response = await request(host, mutation(username, password))
-  expect(response).toEqual({"register": null})
-  const users = await User.find({ where: {username}})
-  expect(users).toHaveLength(1);
-  const user = users[0]
-  expect(user.username).toEqual(username)
-  expect(user.password).not.toEqual(password)
 
-  // test for duplicate usernames
-  const response2: any = await request(host, mutation(username, password))
-  expect(response2.register).toHaveLength(1)
-  expect(response2.register[0].path).toEqual('username')
-  expect(response2.register[0].message).toEqual(duplicateUsername)
+describe('register mutation test', () => {
+  test('make sure we can register a user', async () => {
+    const response = await request(host, mutation(username, password))
+    expect(response).toEqual({"register": null})
+    const users = await User.find({ where: {username}})
+    expect(users).toHaveLength(1);
+    const user = users[0]
+    expect(user.username).toEqual(username)
+    expect(user.password).not.toEqual(password)
 
+  })
 
-  // catch bad usernames
-  const response3: any = await request(host, mutation('a', password))
-  expect(response3).toEqual({register: [{
-    path: "username",
-    message: tooShortUsername
-  }]})
+  test('test for duplicate usernames', async () => {
+    const response: any = await request(host, mutation(username, password))
+    expect(response.register).toHaveLength(1)
+    expect(response.register[0].path).toEqual('username')
+    expect(response.register[0].message).toEqual(duplicateUsername)
+  })
 
-  // catch bad password
-  const response4: any = await request(host, mutation(username, '123'))
-  expect(response4).toEqual({register: [{
-    path: "password",
-    message: tooShortPassword
-  }]})
+  test('catch bad usernames', async () => {
+    const response: any = await request(host, mutation('a', password))
+    expect(response).toEqual({register: [{
+      path: "username",
+      message: tooShortUsername
+    }]})
+  })
 
-  // catch bad usernames and bad password
-  const response5: any = await request(host, mutation('a', '123'))
-  expect(response5).toEqual({register: [{
-    path: "username",
-    message: tooShortUsername
-  }, {
-    path: "password",
-    message: tooShortPassword
-  }]})
+  test('catch bad password', async () => {
+    const response: any = await request(host, mutation(username, '123'))
+    expect(response).toEqual({register: [{
+      path: "password",
+      message: tooShortPassword
+    }]})
+  })
+
+  test('catch bad usernames and bad password', async () => {
+    const response: any = await request(host, mutation('a', '123'))
+    expect(response).toEqual({register: [{
+      path: "username",
+      message: tooShortUsername
+    }, {
+      path: "password",
+      message: tooShortPassword
+    }]})
+  })
 })
+
