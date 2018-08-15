@@ -1,21 +1,6 @@
 import { request } from "graphql-request"
 import { User } from '../entities/user';
-import ModifiedKoa from '../server'
 import { duplicateUsername, tooShortUsername, tooShortPassword } from "../graphql/register/errorMessages";
-import { Server } from "http";
-const app = new ModifiedKoa(__dirname, process.env.NODE_ENV )
-let server:Server|undefined
-
-beforeAll(async () => {
-  await app.runProduction()
-  server = await app.start()
-})
-
-afterAll(() => {
-  if (server) {
-    server.close()
-  }
-})
 
 const username = 'testUsername'
 const password = '123456'

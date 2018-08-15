@@ -48,6 +48,7 @@
     "gen-schema-types": "gql2ts server/graphql/schema.graphql -o server/types/schema.d.ts"
   },
   "jest": {
+    "globalSetup": "./server/testSetup/callSetup.js",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
