@@ -1,10 +1,13 @@
 import { request } from "graphql-request"
-import { User } from '../entities/user';
-import { duplicateUsername, tooShortUsername, tooShortPassword } from "../graphql/register/errorMessages";
+import { User } from '../entities/user'
+import { duplicateUsername, tooShortUsername, tooShortPassword } from "../graphql/register/errorMessages"
+import { createConnection } from "typeorm"
+const config:any = require('../config/test')
+
 
 const username = 'testUsername'
 const password = '123456'
-const host = `http://localhost:${app.config.port}/graphql`
+const host = `${process.env.TEST_HOST as String}/graphql`
 
 const mutation = (u: string, p: string) => `
 mutation {
@@ -14,6 +17,14 @@ mutation {
   }
 }
 `
+beforeAll(async() => {
+  await createConnection({
+    entities: [
+      User
+    ],
+    ...config.db
+  })
+})
 
 describe('register mutation test', () => {
   test('check for duplicate usernames', async () => {

@@ -49,6 +49,7 @@
   },
   "jest": {
     "globalSetup": "./server/testSetup/callSetup.js",
+    "globalTeardown": "./server/testSetup/callTeardown.js",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
