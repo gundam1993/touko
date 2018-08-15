@@ -2,11 +2,19 @@ import { request } from "graphql-request"
 import { User } from '../entities/user';
 import ModifiedKoa from '../server'
 import { duplicateUsername, tooShortUsername, tooShortPassword } from "../graphql/register/errorMessages";
+import { Server } from "http";
 const app = new ModifiedKoa(__dirname, process.env.NODE_ENV )
+let server:Server|undefined
 
 beforeAll(async () => {
   await app.runProduction()
-  await app.start()
+  server = await app.start()
+})
+
+afterAll(() => {
+  if (server) {
+    server.close()
+  }
 })
 
 const username = 'testUsername'
@@ -27,7 +35,7 @@ describe('register mutation test', () => {
     const response = await request(host, mutation(username, password))
     expect(response).toEqual({"register": null})
     const users = await User.find({ where: {username}})
-    expect(users).toHaveLength(1);
+    expect(users).toHaveLength(1)
     const user = users[0]
     expect(user.username).toEqual(username)
     expect(user.password).not.toEqual(password)
