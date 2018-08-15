@@ -23,7 +23,7 @@ mutation {
 `
 
 describe('register mutation test', () => {
-  test('make sure we can register a user', async () => {
+  test('check for duplicate usernames', async () => {
     const response = await request(host, mutation(username, password))
     expect(response).toEqual({"register": null})
     const users = await User.find({ where: {username}})
@@ -32,13 +32,10 @@ describe('register mutation test', () => {
     expect(user.username).toEqual(username)
     expect(user.password).not.toEqual(password)
 
-  })
-
-  test('test for duplicate usernames', async () => {
-    const response: any = await request(host, mutation(username, password))
-    expect(response.register).toHaveLength(1)
-    expect(response.register[0].path).toEqual('username')
-    expect(response.register[0].message).toEqual(duplicateUsername)
+    const response1: any = await request(host, mutation(username, password))
+    expect(response1.register).toHaveLength(1)
+    expect(response1.register[0].path).toEqual('username')
+    expect(response1.register[0].message).toEqual(duplicateUsername)
   })
 
   test('catch bad usernames', async () => {
