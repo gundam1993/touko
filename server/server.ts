@@ -10,6 +10,7 @@ import { Post } from "./entities/post";
 import { User } from "./entities/user";
 import { Introduction } from "./entities/introduction";
 import errorHandler from "./middlewares/errorHandler"
+import { Server } from "http";
 const { Nuxt, Builder } = require('nuxt-edge')
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
@@ -84,7 +85,7 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
     })
   }
 
-  async start():Promise<void> {
+  async start():Promise<Server | undefined> {
     try {
       await createConnection({
         entities: [
@@ -94,10 +95,11 @@ export default class ModifiedKoa extends Koa implements ModifiedKoa  {
         ],
         ...this.config.db
       })
-      await this.listen(this.config.port)
       console.log(`app listening on port ${this.config.port}!`)
+      return this.listen(this.config.port)
     } catch (e) {
       console.log(e)
+      return undefined
     }
   }
 }
