@@ -4,7 +4,6 @@ import { duplicateUsername, tooShortUsername, tooShortPassword } from "../graphq
 import { createConnection } from "typeorm"
 const config:any = require('../config/test')
 
-
 const username = 'testUsername'
 const password = '123456'
 const host = `${process.env.TEST_HOST as String}/graphql`
