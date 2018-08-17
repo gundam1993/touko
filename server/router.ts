@@ -12,13 +12,13 @@ import * as Router from 'koa-router'
 // import * as PhotoController from './controllers/photo'
 // import * as AboutController from './controllers/about'
 // import * as HomePage from './controllers/homepage'
-import { graphqlKoa, graphiqlKoa} from 'apollo-server-koa'
-import {schema} from './graphql'
+import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa'
+import { generateSchema } from './utils/generateSchema';
 
 // import ModifiedKoa from './server';
 
-export default ():Router => {
-  const router:Router = new Router()
+export default (): Router => {
+  const router: Router = new Router()
   // router.post('/admin/login', UserController.login)
 
   // router.get('/admin/logout', loginCheck, UserController.logout)
@@ -55,11 +55,11 @@ export default ():Router => {
   // // 获取所有文章(无需登录,仅标题)
   // router.get('/api/posts', HomePage.getPostsList)
 
-  router.get('/graphql', graphqlKoa({schema}))
+  router.get('/graphql', graphqlKoa({ schema: generateSchema() }))
 
-  router.post('/graphql', graphqlKoa({schema}))
+  router.post('/graphql', graphqlKoa({ schema: generateSchema() }))
 
-  router.get('/api/graphiql', graphiqlKoa({endpointURL: '/graphql'}))
+  router.get('/api/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 
   return router
 }
