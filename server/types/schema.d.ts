@@ -22,10 +22,14 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: 'Query';
+    user: IUser | null;
     posts: Array<IPost> | null;
     post: IPost | null;
-    user: IUser | null;
     introduction: IIntroduction | null;
+  }
+
+  interface IUserOnQueryArguments {
+    username?: string | null;
   }
 
   interface IPostsOnQueryArguments {
@@ -37,24 +41,8 @@ declare namespace GQL {
     id?: number | null;
   }
 
-  interface IUserOnQueryArguments {
-    username?: string | null;
-  }
-
   interface IIntroductionOnQueryArguments {
     id: number;
-  }
-
-  interface IPost {
-    __typename: 'Post';
-    id: number;
-    title: string | null;
-    content: string | null;
-    user: IUser | null;
-    display: boolean | null;
-    pv: number | null;
-    created_at: string | null;
-    updated_at: string | null;
   }
 
   interface IUser {
@@ -70,6 +58,18 @@ declare namespace GQL {
     posts: Array<IPost> | null;
   }
 
+  interface IPost {
+    __typename: 'Post';
+    id: number;
+    title: string | null;
+    content: string | null;
+    user: IUser | null;
+    display: boolean | null;
+    pv: number | null;
+    created_at: string | null;
+    updated_at: string | null;
+  }
+
   interface IIntroduction {
     __typename: 'Introduction';
     id: number;
@@ -79,9 +79,15 @@ declare namespace GQL {
 
   interface IMutation {
     __typename: 'Mutation';
+    login: IUser | null;
     createToken: IUser | null;
     addPv: IPost | null;
     register: Array<IError>;
+  }
+
+  interface ILoginOnMutationArguments {
+    username: string;
+    password: string;
   }
 
   interface ICreateTokenOnMutationArguments {
