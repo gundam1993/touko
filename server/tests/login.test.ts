@@ -28,12 +28,12 @@ mutation {
 
 const badLogin = async (u:string, p:string) => {
   const response = await request(host, loginMutation(u, p))
-    expect(response).toEqual({
-      login: [{
-        path: 'username',
-        message: invalidLogin
-      }]
-    })
+  expect(response).toEqual({
+    login: [{
+      path: 'username',
+      message: invalidLogin
+    }]
+  })
 }
 
 describe('login', () => {
@@ -44,5 +44,13 @@ describe('login', () => {
   test('bad password', async () => {
     await request(host, registerMutation("aaasssddd", "123456"))
     await badLogin("aaasssddd", "654321")
+  })
+
+  test('could login with right username and password', async () => {
+    await request(host, registerMutation("successLogin", "123456"))
+    const response = await request(host, loginMutation("successLogin", "123456"))
+    expect(response).toEqual({
+      login: null
+    })
   })
 }) 
