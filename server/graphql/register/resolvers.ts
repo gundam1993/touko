@@ -1,5 +1,3 @@
-/// <reference path="../../types/schema.d.ts" />
-
 import { ResolverMap } from "../../types/graphql-utils";
 import * as bcrypt from "bcryptjs"
 import * as md5 from "md5"
